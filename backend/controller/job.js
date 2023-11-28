@@ -198,7 +198,70 @@ const getJobList = async (req, res) => {
     });
 };
 
+const getJobId = async (req, res) => {
+  Job.findOne({ _id: req.params.id })
+    .then((job) => {
+      if (job == null) {
+        res.status(400).json({
+          message: "Job does not exist",
+        });
+        return;
+      }
+      res.json(job);
+    })
+    .catch((err) => {
+      res.status(400).json(job);
+    });
+};
+
+const updateJobDetails = async (req, res) => {
+  const user = req.user;
+  if (user.type != "recruiter") {
+    res.status(401).json({
+      message: "You don't have permissions to change the job details",
+    });
+    return;
+  }
+  Job.findOne({
+    _id: req.params.id,
+    userId: user.id,
+  })
+    .then((job) => {
+      if (job == null) {
+        res.status(404).json({
+          message: "Job does not exist",
+        });
+        return;
+      }
+      const data = req.body;
+      if (data.maxApplicants) {
+        job.maxApplicants = data.maxApplicants;
+      }
+      if (data.maxPositions) {
+        job.maxPositions = data.maxPositions;
+      }
+      if (data.deadline) {
+        job.deadline = data.deadline;
+      }
+      job
+        .save()
+        .then(() => {
+          res.json({
+            message: "Job details updated successfully",
+          });
+        })
+        .catch((err) => {
+          res.status(400).json(err);
+        });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+
 module.exports = {
   addJob,
   getJobList,
+  getJobId,
+  updateJobDetails,
 };
