@@ -1,81 +1,79 @@
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const authKeys = require("../middleware/authKeys");
+
 const User = require("../model/user");
+const Recruiter = require("../model/recruiter");
+const JobApplicant = require("../model/jobApplicant"); // Add this line if not already imported
 
 const SignUp = async (req, res) => {
-  const data = req.body;
-  let user = new User({
-    email: data.email,
-    password: data.password,
-    type: data.type,
-  });
-
-  user
-    .save()
-    .then(() => {
-      const userDetails =
-        user.type == "recruiter"
-          ? new Recruiter({
-              userId: user._id,
-              name: data.name,
-              contactNumber: data.contactNumber,
-              bio: data.bio,
-            })
-          : new JobApplicant({
-              userId: user._id,
-              name: data.name,
-              education: data.education,
-              skills: data.skills,
-              rating: data.rating,
-              resume: data.resume,
-              profile: data.profile,
-            });
-
-      userDetails
-        .save()
-        .then(() => {
-          // Token
-          const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
-          res.json({
-            token: token,
-            type: user.type,
-          });
-        })
-        .catch((err) => {
-          user
-            .delete()
-            .then(() => {
-              res.status(400).json(err);
-            })
-            .catch((err) => {
-              res.json({ error: err });
-            });
-          err;
-        });
-    })
-    .catch((err) => {
-      res.status(400).json(err);
+  try {
+    const data = req.body;
+    let user = new User({
+      email: data.email,
+      password: data.password,
+      type: data.type,
     });
+
+    await user.save();
+
+    const userDetails =
+      user.type == "recruiter"
+        ? new Recruiter({
+            userId: user._id,
+            name: data.name,
+            contactNumber: data.contactNumber,
+            bio: data.bio,
+          })
+        : new JobApplicant({
+            userId: user._id,
+            name: data.name,
+            education: data.education,
+            skills: data.skills,
+            rating: data.rating,
+            resume: data.resume,
+            profile: data.profile,
+          });
+
+    await userDetails.save();
+
+    // Token
+    const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
+    res.json({
+      token: token,
+      type: user.type,
+    });
+  } catch (err) {
+    // Handle errors during user creation or user details creation
+    res.status(400).json({ error: err.message });
+  }
 };
 
-const Login = async (req, res, next) => {
-  passport.authenticate(
-    "local",
-    { session: false },
-    function (err, user, info) {
-      if (err) {
-        return next(err);
+const Login = (req, res, next) => {
+  return new Promise((resolve, reject) => {
+    passport.authenticate(
+      "local",
+      { session: false },
+      function (err, user, info) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        if (!user) {
+          res.status(401).json(info);
+          reject(info);
+          return;
+        }
+        // Token
+        const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
+        res.json({
+          token: token,
+          type: user.type,
+        });
+        resolve();
       }
-      if (!user) {
-        res.status(401).json(info);
-        return;
-      }
-      // Token
-      const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
-      res.json({
-        token: token,
-        type: user.type,
-      });
-    }
-  )(req, res, next);
+    )(req, res, next);
+  });
 };
 
 module.exports = {

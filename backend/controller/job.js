@@ -10,7 +10,7 @@ const addJob = async (req, res) => {
     return;
   }
 
-  const data = req.data;
+  const data = req.body;
 
   let job = new Job({
     userId: user._id,
@@ -25,6 +25,7 @@ const addJob = async (req, res) => {
     salary: data.salary,
     rating: data.rating,
   });
+  console.log(data);
 
   job
     .save()
