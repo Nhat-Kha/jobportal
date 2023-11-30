@@ -11,5 +11,7 @@ router.get("/", jwtAuth, jobCtrl.getJobList);
 router.post("/", jwtAuth, jobCtrl.addJob);
 router.get("/:id", jwtAuth, jobCtrl.getJobId);
 router.put("/", jwtAuth, jobCtrl.updateJobDetails);
+router.post("/:id/applications", jwtAuth, jobCtrl.applyJob);
+router.get("/:id/applications", jwtAuth, jobCtrl.getApplications);
 
 module.exports = router;

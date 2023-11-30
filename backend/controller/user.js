@@ -1,5 +1,6 @@
 const User = require("../model/user");
 
+// get user's personal details
 const getUser = async (req, res) => {
   const user = req.user;
   if (user.type === "recruiter") {
@@ -33,6 +34,7 @@ const getUser = async (req, res) => {
   }
 };
 
+// get user details from id
 const getUserId = async (req, res) => {
   User.findOne({ _id: req.params.id })
     .then((userData) => {
@@ -78,6 +80,7 @@ const getUserId = async (req, res) => {
     });
 };
 
+// update user details
 const updateUser = async (req, res) => {
   const user = req.user;
   const data = req.body;
