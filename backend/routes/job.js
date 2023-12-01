@@ -3,6 +3,7 @@ const jobCtrl = require("../controller/job");
 
 // Middleware xác thực JWT (JSON Web Token)
 const jwtAuth = require("../middleware/jwtAuth");
+
 // Tạo đối tượng router từ Express
 const router = express.Router();
 

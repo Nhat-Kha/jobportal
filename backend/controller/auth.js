@@ -4,19 +4,24 @@ const authKeys = require("../middleware/authKeys");
 
 const User = require("../model/user");
 const Recruiter = require("../model/recruiter");
-const JobApplicant = require("../model/jobApplicant"); // Add this line if not already imported
+const JobApplicant = require("../model/jobApplicant");
 
 const SignUp = async (req, res) => {
   try {
+    // Extract data from the request body
     const data = req.body;
+
+    // create a new user
     let user = new User({
       email: data.email,
       password: data.password,
       type: data.type,
     });
 
+    // save the user to the database
     await user.save();
 
+    // Create user details based on user type
     const userDetails =
       user.type == "recruiter"
         ? new Recruiter({
@@ -35,10 +40,12 @@ const SignUp = async (req, res) => {
             profile: data.profile,
           });
 
+    // Save user details to the database
     await userDetails.save();
 
     // Token
     const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
+    // Response with the token and user type
     res.json({
       token: token,
       type: user.type,
@@ -49,8 +56,10 @@ const SignUp = async (req, res) => {
   }
 };
 
+// Define a function for user Login
 const Login = (req, res, next) => {
   return new Promise((resolve, reject) => {
+    // Use passport for authentication
     passport.authenticate(
       "local",
       { session: false },
@@ -59,13 +68,17 @@ const Login = (req, res, next) => {
           reject(err);
           return;
         }
+
+        // If authentication fails, Response with an unauthorized status
         if (!user) {
           res.status(401).json(info);
           reject(info);
           return;
         }
+
         // Token
         const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
+        // Response with the token and user type
         res.json({
           token: token,
           type: user.type,
