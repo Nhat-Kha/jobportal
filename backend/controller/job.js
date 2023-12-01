@@ -1,18 +1,22 @@
 const Job = require("../model/job");
 const Application = require("../model/applications");
 
+// Function to add a new job
 const addJob = async (req, res) => {
   const user = req.user;
 
-  if (user.type != "recruiter") {
+  // Check if the user is a recruiter
+  if (user.type !== "recruiter") {
     res.status(401).json({
       message: "You don't have permissions to add jobs",
     });
     return;
   }
 
+  // Extract job data from the request body
   const data = req.body;
 
+  // Create a new job instance
   let job = new Job({
     userId: user._id,
     title: data.title,
@@ -28,6 +32,7 @@ const addJob = async (req, res) => {
   });
   console.log(data);
 
+  // Save the job to the database
   job
     .save()
     .then(() => {
@@ -38,6 +43,7 @@ const addJob = async (req, res) => {
     });
 };
 
+//
 const getJobList = async (req, res) => {
   let user = req.user;
 
