@@ -43,13 +43,15 @@ const addJob = async (req, res) => {
     });
 };
 
-//
+// Function to get list job
 const getJobList = async (req, res) => {
   let user = req.user;
 
+  // Define filters and sorting parameters based on query parameters
   let findParams = {};
   let sortParams = {};
 
+  // Filter jobs for recruiters if 'myjobs' query parameter is present
   if (user.type === "recruiter" && req.query.myjobs) {
     findParams = {
       ...findParams,
@@ -57,6 +59,7 @@ const getJobList = async (req, res) => {
     };
   }
 
+  // Filter jobs based on title using 'q' query parameter
   if (req.query.q) {
     findParams = {
       ...findParams,
@@ -66,6 +69,7 @@ const getJobList = async (req, res) => {
     };
   }
 
+  // Filter jobs based on job type using 'jobType' query parameter
   if (req.query.jobType) {
     let jobTypes = [];
     if (Array.isArray(req.query.jobType)) {
@@ -82,6 +86,7 @@ const getJobList = async (req, res) => {
     };
   }
 
+  // Filter jobs based on salary range using 'salaryMin' and 'salaryMax' query parameters
   if (req.query.salaryMin && req.query.salaryMax) {
     findParams = {
       ...findParams,
@@ -114,6 +119,7 @@ const getJobList = async (req, res) => {
     };
   }
 
+  // Filter jobs based on duration using 'duration' query parameter
   if (req.query.duration) {
     findParams = {
       ...findParams,
@@ -123,6 +129,7 @@ const getJobList = async (req, res) => {
     };
   }
 
+  // Define sorting parameters based on 'asc' and 'desc' query parameters
   if (req.query.asc) {
     if (Array.isArray(req.query.asc)) {
       req.query.asc.map((key) => {
@@ -137,6 +144,8 @@ const getJobList = async (req, res) => {
         [req.query.asc]: 1,
       };
     }
+
+    // sortParams = parseSortParameters(req.query.asc, 1);
   }
 
   if (req.query.desc) {
@@ -153,11 +162,14 @@ const getJobList = async (req, res) => {
         [req.query.desc]: -1,
       };
     }
+
+    // sortParams = parseSortParameters(req.query.desc, 1);
   }
 
   console.log(findParams);
   console.log(sortParams);
 
+  // Aggregate pipeline for querying jobs
   let arr = [
     {
       $lookup: {
@@ -171,6 +183,7 @@ const getJobList = async (req, res) => {
     { $match: findParams },
   ];
 
+  // Add sorting stage to the pipeline if sorting parameters are present
   if (Object.keys(sortParams).length > 0) {
     arr = [
       {
@@ -191,6 +204,7 @@ const getJobList = async (req, res) => {
 
   console.log(arr);
 
+  // Execute the aggregation query
   Job.aggregate(arr)
     .then((posts) => {
       if (posts == null) {
@@ -206,6 +220,7 @@ const getJobList = async (req, res) => {
     });
 };
 
+// Function to get details of a specific job by ID
 const getJobId = async (req, res) => {
   Job.findOne({ _id: req.params.id })
     .then((job) => {
@@ -222,14 +237,19 @@ const getJobId = async (req, res) => {
     });
 };
 
+// Function to update details of a specific job by ID
 const updateJobDetails = async (req, res) => {
   const user = req.user;
+
+  // Check if the user is a recruiter
   if (user.type != "recruiter") {
     res.status(401).json({
       message: "You don't have permissions to change the job details",
     });
     return;
   }
+
+  // Find the job by ID and user ID
   Job.findOne({
     _id: req.params.id,
     userId: user.id,
@@ -241,7 +261,10 @@ const updateJobDetails = async (req, res) => {
         });
         return;
       }
+
+      // Extract update data from the request body
       const data = req.body;
+      // Update job detail if new values are provided
       if (data.maxApplicants) {
         job.maxApplicants = data.maxApplicants;
       }
@@ -251,6 +274,8 @@ const updateJobDetails = async (req, res) => {
       if (data.deadline) {
         job.deadline = data.deadline;
       }
+
+      // Save the update job to the database
       job
         .save()
         .then(() => {
@@ -267,10 +292,11 @@ const updateJobDetails = async (req, res) => {
     });
 };
 
-// apply for a job
+// Function to allow an applicant to apply for a job
 const applyJob = async (req, res) => {
   const user = req.user;
 
+  // Check if the user is an applicant
   if (user.type != "applicant") {
     res.status(401).json({
       message: "You don't have permissions to apply for a job",
@@ -280,6 +306,7 @@ const applyJob = async (req, res) => {
   const data = req.body;
   const jobId = req.params.id;
 
+  // Check if the user has already applied for the job
   Application.findOne({
     userId: user._id,
     jobId: jobId,
@@ -295,6 +322,8 @@ const applyJob = async (req, res) => {
         });
         return;
       }
+
+      // Check if the job exists
       Job.findOne({ _id: jobId })
         .then((job) => {
           if (job === null) {
@@ -303,6 +332,8 @@ const applyJob = async (req, res) => {
             });
             return;
           }
+
+          // Count the number active applications for the job
           Application.countDocuments({
             jobId: jobId,
             status: {
@@ -310,7 +341,9 @@ const applyJob = async (req, res) => {
             },
           })
             .then((activeApplicationCount) => {
+              // Check if the maxium number of appilcant for the job
               if (activeApplicationCount < job.maxApplicants) {
+                // Count the number of active applications for the applicant
                 Application.countDocuments({
                   userId: user._id,
                   status: {
@@ -318,12 +351,16 @@ const applyJob = async (req, res) => {
                   },
                 })
                   .then((myActiveApplicationCount) => {
+                    // Check if the applicant has not reached the maximum number of active applications
                     if (myActiveApplicationCount < 10) {
+                      // Count the number of accepted jobs for the applicant
                       Application.countDocuments({
                         userId: user._id,
                         status: "accepted",
                       }).then((acceptedJobs) => {
+                        // Check if the applicant has no accepted jobs
                         if (acceptedJobs === 0) {
+                          // Create a new applicant instance
                           const application = new Application({
                             userId: user._id,
                             recruiterId: job.userId,
@@ -331,6 +368,8 @@ const applyJob = async (req, res) => {
                             status: "applied",
                             sop: data.sop,
                           });
+
+                          // Save the applicant to the database
                           application
                             .save()
                             .then(() => {
@@ -380,6 +419,8 @@ const applyJob = async (req, res) => {
 // recruiter gets applications for a particular job
 const getApplications = async (req, res) => {
   const user = req.user;
+
+  // Check if the user is a recruiter
   if (user.type != "recruiter") {
     res.status(401).json({
       message: "You don't have permissions to view job applications",
@@ -392,6 +433,7 @@ const getApplications = async (req, res) => {
   // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
   // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
 
+  // Define filtering parameters based on query parameters
   let findParams = {
     jobId: jobId,
     recruiterId: user._id,
@@ -399,12 +441,15 @@ const getApplications = async (req, res) => {
 
   let sortParams = {};
 
+  // Filter applications based on status using 'status' query parameter
   if (req.query.status) {
     findParams = {
       ...findParams,
       status: req.query.status,
     };
   }
+
+  // Retrieve applications from the database
   Application.find(findParams)
     .collation({ locale: "en" })
     .sort(sortParams)

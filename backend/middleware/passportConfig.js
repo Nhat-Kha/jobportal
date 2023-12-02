@@ -8,6 +8,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const User = require("../model/user");
 const authKeys = require("./authKeys");
 
+// Helper function to filter unwanted keys from a JSON object
 const filterJson = (obj, unwantedKeys) => {
   const filteredObj = {};
   Object.keys(obj).forEach((key) => {

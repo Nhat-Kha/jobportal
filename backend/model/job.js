@@ -1,23 +1,29 @@
 const mongoose = require("mongoose");
 
+// Define a Schema for the "jobs" collections
 let schema = new mongoose.Schema(
   {
+    // userID associanted with the jobs
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
+    // title of the job
     title: {
       type: String,
       required: true,
     },
+    // Maxium number of applicant allowed for the job
     maxApplicants: {
       type: Number,
       validate: [
         {
+          // Validator to check if the value is an integer
           validator: Number.isInteger,
           msg: "maxApplicants should be an integer",
         },
         {
+          // Validator to check if the value is greater than 0
           validator: function (value) {
             return value > 0;
           },
@@ -25,14 +31,17 @@ let schema = new mongoose.Schema(
         },
       ],
     },
+    // Maximum number of positions available for the job
     maxPositions: {
       type: Number,
       validate: [
         {
+          // Validator to check if the value is an integer
           validator: Number.isInteger,
           msg: "maxPostions should be an integer",
         },
         {
+          // Validator to check if the value is greater than 0
           validator: function (value) {
             return value > 0;
           },
@@ -40,15 +49,18 @@ let schema = new mongoose.Schema(
         },
       ],
     },
+    // Number of active applications for the job (default is 0)
     activeApplications: {
       type: Number,
       default: 0,
       validate: [
         {
+          // Validator to check if the value is an integer
           validator: Number.isInteger,
           msg: "activeApplications should be an integer",
         },
         {
+          // Validator to check if the value is greater than 0
           validator: function (value) {
             return value >= 0;
           },
