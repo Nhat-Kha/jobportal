@@ -3,6 +3,10 @@ const userRouter = require("./user");
 const jobRouter = require("./job");
 const applicationRouter = require("./applications");
 
+/**
+ * 
+ * @param {*} app 
+ */
 const initRouter = (app) => {
   app.use("/api/auth", authRouter);
   app.use("/api/user", userRouter);
