@@ -58,35 +58,54 @@ const SignUp = async (req, res) => {
 
 // Define a function for user Login
 const Login = (req, res, next) => {
-  return new Promise((resolve, reject) => {
-    // Use passport for authentication
-    passport.authenticate(
-      "local",
-      { session: false },
-      function (err, user, info) {
-        if (err) {
-          reject(err);
-          return;
-        }
+  // // return new Promise((resolve, reject) => {
+  //   // Use passport for authentication
+  //   passport.authenticate(
+  //     "local",
+  //     { session: false },
+  //     function (err, user, info) {
+  //       if (err) {
+  //         // reject(err);
+  //         return next(err);
+  //       }
 
-        // If authentication fails, Response with an unauthorized status
-        if (!user) {
-          res.status(401).json(info);
-          reject(info);
-          return;
-        }
+  //       // If authentication fails, Response with an unauthorized status
+  //       if (!user) {
+  //         res.status(401).json(info);
+  //         reject(info);
+  //         return;
+  //       }
 
-        // Token
-        const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
-        // Response with the token and user type
-        res.json({
-          token: token,
-          type: user.type,
-        });
-        resolve();
+  //       // Token
+  //       const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
+  //       // Response with the token and user type
+  //       res.json({
+  //         token: token,
+  //         type: user.type,
+  //       });
+  //       resolve();
+  //     }
+  //   )(req, res, next);
+  // // });
+  passport.authenticate(
+    "local",
+    { session: false },
+    function (err, user, info) {
+      if (err) {
+        return next(err);
       }
-    )(req, res, next);
-  });
+      if (!user) {
+        res.status(401).json(info);
+        return;
+      }
+      // Token
+      const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
+      res.json({
+        token: token,
+        type: user.type,
+      });
+    }
+  )(req, res, next);
 };
 
 module.exports = {

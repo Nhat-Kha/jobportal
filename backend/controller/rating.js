@@ -343,8 +343,22 @@ const addRating = async (req, res) => {
   }
 };
 
-const getPersonalRating = async (req, res) => {};
+const getPersonalRating = async (req, res) => {
+  const user = req.user;
+  Rating.findOne({
+    senderId: user._id,
+    receiverId: req.query.id,
+    category: user.type === "recruiter" ? "applicant" : "job",
+  }).then((rating) => {
+    if (rating === null) {
+      res.json({ rating: -1 });
+      return;
+    }
+    res.json({ rating: rating.rating });
+  });
+};
 
 module.exports = {
   addRating,
+  getPersonalRating,
 };
