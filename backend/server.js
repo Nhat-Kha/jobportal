@@ -3,15 +3,13 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passportConfig = require("./middleware/passportConfig");
 const cors = require("cors");
-const fs = require("fs");
 
 const initRouter = require("./routes");
 
 // Connect to MongoDB
-mongoose
-  .connect("mongodb://127.0.0.1:27017/job-portal")
-  .then((res) => console.log("Connected to DB"))
-  .catch((err) => console.log(err));
+mongoose.connect("mongodb://127.0.0.1:27017/job-portal")
+  .then(() => console.log("Connected to DB"))
+  .catch((err) => console.error(err));
 
 // Create an Express application, set port for server
 const app = express();
@@ -20,22 +18,25 @@ const port = 4444;
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// CORS
 app.use(cors());
 app.use(express.json());
-
-// Initialize Passport.js for authentication
-app.use(passportConfig.initialize());
+app.use(passportConfig.initialize()); // Initialize Passport.js for authentication
 
 // Initialize routes
 initRouter(app);
 
-// app.get("/", (req, res) => {
-//   res.send({ route: "Welcome to my server" });
-// });
-// app.use("/upload", require("./routes/"));
-// app.use("/host", require("./routes/downloadRoutes"));
+// Uncomment the following block if you want to handle a default route
+/*
+app.get("/", (req, res) => {
+  res.send({ route: "Welcome to my server" });
+});
+*/
+
+// Uncomment the following blocks if you want to include additional routes
+/*
+app.use("/upload", require("./routes/"));
+app.use("/host", require("./routes/downloadRoutes"));
+*/
 
 // Start server 
 app.listen(port, () => {
