@@ -7,7 +7,8 @@ const cors = require("cors");
 const initRouter = require("./routes");
 
 // Connect to MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/job-portal")
+mongoose
+  .connect("mongodb://127.0.0.1:27017/job-portal")
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.error(err));
 
@@ -38,7 +39,7 @@ app.use("/upload", require("./routes/"));
 app.use("/host", require("./routes/downloadRoutes"));
 */
 
-// Start server 
+// Start server
 app.listen(port, () => {
   console.log(`Server started on port ${port}!`);
 });

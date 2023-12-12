@@ -1,36 +1,43 @@
 const User = require("../model/user");
+const Recruiter = require("../model/recruiter");
+const JobApplicant = require("../model/jobApplicant");
 
 // get user's personal details
-const getUser = async (req, res) => {
-  const user = req.user;
-  if (user.type === "recruiter") {
-    Recruiter.findOne({ userId: user._id })
-      .then((recruiter) => {
-        if (recruiter == null) {
-          res.status(404).json({
-            message: "User does not exist",
-          });
-          return;
-        }
-        res.json(recruiter);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  } else {
-    JobApplicant.findOne({ userId: user._id })
-      .then((jobApplicant) => {
-        if (jobApplicant == null) {
-          res.status(404).json({
-            message: "User does not exist",
-          });
-          return;
-        }
-        res.json(jobApplicant);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
+const getUser = (req, res) => {
+  try {
+    const user = req.user;
+    if (user.type === "recruiter") {
+      Recruiter.findOne({ userId: user._id })
+        .then((recruiter) => {
+          if (recruiter == null) {
+            res.status(404).json({
+              message: "User does not exist",
+            });
+            return;
+          }
+          res.json(recruiter);
+        })
+        .catch((err) => {
+          res.status(400).json(err);
+        });
+    } else {
+      JobApplicant.findOne({ userId: user._id })
+        .then((jobApplicant) => {
+          if (jobApplicant == null) {
+            res.status(404).json({
+              message: "User does not exist",
+            });
+            return;
+          }
+          res.json(jobApplicant);
+        })
+        .catch((err) => {
+          res.status(400).json(err);
+        });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
   }
 };
 
