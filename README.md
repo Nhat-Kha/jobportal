@@ -3,7 +3,6 @@
 
 ## Directory structure of the web app is as follows:
 
-`
 - Backend/
   - Routes/
   - middleware/
@@ -17,8 +16,7 @@
   - utils/
   - lib/
 - README.md
-`
- 
+
 ## Features
 
 ## Usage, Installation
