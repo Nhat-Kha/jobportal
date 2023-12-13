@@ -52,6 +52,7 @@ const SignUp = async (req, res) => {
     });
   } catch (err) {
     // Handle errors during user creation or user details creation
+    console.log(err.message);
     res.status(400).json({ error: err.message });
   }
 };

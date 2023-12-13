@@ -225,7 +225,8 @@ const updateStatusApplication = async (req, res) => {
     }
   } catch (err) {
     // Handle errors during application status update
-    return res.status(400).json(err);
+    console.log(err.message);
+    return res.status(400).json(err.message);
   }
 };
 

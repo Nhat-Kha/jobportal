@@ -39,7 +39,7 @@ const addJob = async (req, res) => {
       res.json({ message: "Job added successfully to the database" });
     })
     .catch((err) => {
-      res.status(400).json(err);
+      res.status(400).json(err.message);
     });
 };
 
