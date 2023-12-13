@@ -9,6 +9,7 @@
   - middleware/
   - Controller/
   - model/
+  - server.js
 - Frontend/
   - components/
   - images/
