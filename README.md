@@ -3,12 +3,12 @@
 
 ## Directory structure of the web app is as follows:
 
-`
 - Backend/
   - Routes/
   - middleware/
   - Controller/
   - model/
+  - server.js
 - Frontend/
   - components/
   - images/
@@ -16,13 +16,14 @@
   - utils/
   - lib/
 - README.md
-`
- 
+
 ## Features
 
 ## Usage, Installation
 
 #Frontend
+
+`React, Material-UI`
 
 ```
  $ cd frontend
@@ -34,6 +35,8 @@
 ```
 
 #Backend
+
+`Node.JS, Express.JS, Mongoose, Passport, multer, uuid, cors`
 
 ```
  $ cd backend
