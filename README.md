@@ -34,6 +34,8 @@
 
 #Backend
 
+`Node.JS, Express.JS, Mongoose, Passport, multer, uuid, cors`
+
 ```
  $ cd backend
 ```
