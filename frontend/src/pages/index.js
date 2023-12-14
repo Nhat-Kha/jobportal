@@ -1,6 +1,6 @@
-export { default as home } from "./home";
-export { default as contact } from "./contact";
-export { default as profile } from "./profile";
-export { default as upload } from "./upload";
-export { default as about } from "./about";
-export { default as job } from "./job";
+export { default as home } from "./Home/home";
+export { default as contact } from "./Contact/contact";
+export { default as profile } from "./profile/profile";
+export { default as upload } from "./upload/upload";
+export { default as about } from "./About/about";
+export { default as job } from "./job/job";
