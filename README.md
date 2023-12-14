@@ -47,6 +47,9 @@
  $ npm start
 ```
 
+#API
+`Fetch Api = Postman`
+
 # Bugs, issues, and contributing
 
 Found a 🐛? Have a feature request? Feel free to open an [issue](https://github.com/Nhat-Kha/jobportal/issues) or [contributing](https://github.com/Nhat-Kha/jobportal)
