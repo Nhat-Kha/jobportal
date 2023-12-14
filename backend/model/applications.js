@@ -53,4 +53,4 @@ let schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.Schema("/applications", schema);
+module.exports = mongoose.model("applications", schema);

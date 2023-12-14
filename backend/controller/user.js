@@ -2,6 +2,19 @@ const User = require("../model/user");
 const Recruiter = require("../model/recruiter");
 const JobApplicant = require("../model/jobApplicant");
 
+const getAllUser = async (req, res) => {
+  try {
+    const allUser = await User.find();
+
+    // const allUsers = [...allRecruiter, ...allJobApplicant];
+
+    res.status(200).json({ allUser, message: "show all user successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // get user's personal details
 const getUser = (req, res) => {
   try {
@@ -167,6 +180,7 @@ const updateUser = async (req, res) => {
 
 module.exports = {
   getUser,
+  getAllUser,
   getUserId,
   updateUser,
 };
