@@ -60,7 +60,7 @@ const getUserId = async (req, res) => {
     .then((userData) => {
       if (userData === null) {
         res.status(404).json({
-          message: "User does not exist",
+          message: "User data does not exist",
         });
         return;
       }
@@ -70,7 +70,7 @@ const getUserId = async (req, res) => {
           .then((recruiter) => {
             if (recruiter === null) {
               res.status(404).json({
-                message: "User does not exist",
+                message: "User recruiter does not exist",
               });
               return;
             }
@@ -84,7 +84,7 @@ const getUserId = async (req, res) => {
           .then((jobApplicant) => {
             if (jobApplicant === null) {
               res.status(404).json({
-                message: "User does not exist",
+                message: "User job applicant does not exist",
               });
               return;
             }

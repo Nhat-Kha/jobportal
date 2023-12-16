@@ -52,7 +52,7 @@ const getAllApplications = async (req, res) => {
     ]);
 
     // Response with the fetched applications
-    res.json(applications);
+    res.json({ applications, message: "show all successfully" });
   } catch (err) {
     // Handle errors durings applications retrieval
     res.status(400).json(err);
