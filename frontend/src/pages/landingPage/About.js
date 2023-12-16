@@ -1,11 +1,8 @@
 import { useEffect } from "react";
-import icon from "assets/icon.jpg";
-import img1 from "assets/images/2.png";
 
 function About() {
   return (
     <div className="bg-primary">
-      <img src={img1} />
       <div className="md:py-44 py-16 max-w-4xl mx-auto px-3 text-center">
         <h1 className="mx-auto md:text-7xl text-4xl font-bold text-gray-900 pb-4">
           About Greet
