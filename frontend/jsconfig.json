@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src/",
+    "sourceMap": false,
+    "paths": {
+      "components/*": ["src/components/*"],
+      "assets/*": ["src/assets/*"],
+      "hooks/*": ["src/hooks/*"],
+      "pages/*": ["src/pages/*"],
+      "stores/*": ["src/stores/*"],
+      "utils/*": ["src/utils/*"]
+    },
+    "strict": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

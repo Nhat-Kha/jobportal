@@ -1,0 +1,37 @@
+h1 {
+    font-weight: 500;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  h2 {
+    font-weight: 300;
+    font-size: 1.75rem;
+    line-height: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    list-style-type: decimal;
+    margin-left: 16px;
+  }
+  
+  ul {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    list-style-type: disc;
+    margin-left: 16px;
+  }
+  
+  .ql-editor {
+    min-height: 150px;
+    background-color: white;
+  }
+  
+  .ql-toolbar {
+    background-color: white;
+  }
+  
