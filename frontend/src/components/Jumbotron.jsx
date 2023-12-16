@@ -59,7 +59,7 @@ export default function Jumbotron() {
               onClick={() => openModal()}
               className="transform ease-in duration-100 hover:-translate-y-1 hover:shadow-lg md:mx-0  text-primary shadow font-semibold rounded-xl items-center justify-center py-3 border border-transparent text-base  bg-black md:py-4 md:text-lg px-8"
             >
-              Refer a friend
+              Search for a favorite job
             </button>
 
             <Link
