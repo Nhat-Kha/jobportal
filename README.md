@@ -11,10 +11,14 @@
   - server.js
 - Frontend/
   - components/
-  - images/
+  - assets/
   - pages/
+    - admin/
+    - home/
+    - landingPage/
   - utils/
-  - lib/
+  - libs/
+  - hooks/
 - README.md
 
 ## Features
