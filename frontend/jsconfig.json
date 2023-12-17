@@ -8,7 +8,8 @@
       "hooks/*": ["src/hooks/*"],
       "pages/*": ["src/pages/*"],
       "stores/*": ["src/stores/*"],
-      "utils/*": ["src/utils/*"]
+      "utils/*": ["src/utils/*"],
+      "libs/*": ["src/libs/*"]
     },
     "strict": true
   },

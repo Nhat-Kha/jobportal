@@ -26,7 +26,7 @@ export default function Jumbotron() {
 
   return (
     <>
-      <main className="bg-primary">
+      <main className="bg-[#f8e5d4]">
         <div className="text-center lg:w-7/12 w-12/12 ld:pt-52 md:pt-40 pt-32 pb-52 mx-auto h-2/3">
           <div className="relative w-full bg-light h-2/3 md:block hidden ">
             <img
@@ -57,14 +57,14 @@ export default function Jumbotron() {
           <div className="mt-8 sm:mt-12 mx-auto flex gap-3 justify-center">
             <button
               onClick={() => openModal()}
-              className="transform ease-in duration-100 hover:-translate-y-1 hover:shadow-lg md:mx-0  text-primary shadow font-semibold rounded-xl items-center justify-center py-3 border border-transparent text-base  bg-black md:py-4 md:text-lg px-8"
+              className="transform ease-in duration-100 hover:-translate-y-1 hover:shadow-lg md:mx-0  text-white shadow font-semibold rounded-full items-center justify-center py-3 border border-transparent text-base  bg-[#F2994A] md:py-4 md:text-lg px-8"
             >
               Search for a favorite job
             </button>
 
             <Link
               to="/sign-up"
-              className="transform ease-in duration-100 md:mx-0 text-black  font-semibold rounded-xl items-center justify-center py-3 border-2 border-black hover:bg-black hover:text-primary  text-base  bg-primary md:py-4 md:text-lg px-8"
+              className="transform ease-in duration-100 md:mx-0 text-black  font-semibold rounded-full items-center justify-center py-3 border-2 border-black hover:bg-black hover:text-primary  text-base  bg-primary md:py-4 md:text-lg px-8"
             >
               Sign up for free
             </Link>

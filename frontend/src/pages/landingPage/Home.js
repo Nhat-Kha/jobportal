@@ -1,4 +1,4 @@
-import Jumbotron from "components/Jumbotron";
+import Content from "components/content";
 import HowItWorks from "components/HowItWorks";
 // import Banner from "components/Banner";
 // import { SocialMedia } from "src/components/SocialMedia";
@@ -9,7 +9,7 @@ import Trusted from "components/Trusted";
 function Home() {
   return (
     <div>
-      <Jumbotron />
+      <Content />
       <Trusted />
       <HowItWorks />
       <JobBoard title={true} />

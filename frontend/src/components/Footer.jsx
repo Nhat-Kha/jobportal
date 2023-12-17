@@ -3,7 +3,7 @@ import logo from "assets/images/logo.png";
 
 export default function Footer() {
   return (
-    <div className="bg-primary text-whblackite text-left">
+    <div className="bg-[#FFF5EC] text-whblackite text-left">
       <div className="w-10/12 mx-auto pt-20 pb-8 flex flex-col sm:flex-row space-y-2 justify-start">
         <div className="w-full sm:w-2/5 pr-6 flex flex-col space-y-2 pb-6">
           <Link className="flex pt-1" to="/">
