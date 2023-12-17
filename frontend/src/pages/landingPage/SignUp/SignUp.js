@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 
+import apiList from "libs/apiList";
+import isAuth from "libs/isAuth";
+
 export default function SignUp() {
   return (
     <div class="md:py-44 py-12 text-center bg-[#f8e5d4]">

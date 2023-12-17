@@ -9,7 +9,8 @@
       "pages/*": ["src/pages/*"],
       "stores/*": ["src/stores/*"],
       "utils/*": ["src/utils/*"],
-      "libs/*": ["src/libs/*"]
+      "libs/*": ["src/libs/*"],
+      "App": ["src/App.js"]
     },
     "strict": true
   },

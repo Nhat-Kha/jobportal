@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "pages/landingPage/About";
 import Home from "pages/landingPage/Home";
-import React from "react";
+import { React, createContext, useState } from "react";
 import PrivacyPolicy from "pages/landingPage/PrivacyPolicy";
 import Navbar from "components/Navbar";
 import InfoBar from "components/InfoBar";
@@ -16,34 +16,44 @@ import Jobs from "pages/landingPage/Jobs";
 import ForRecruiter from "pages/landingPage/For/ForRecruiter";
 import ForApplicant from "pages/landingPage/For/ForApplicant";
 
+export const SetPopupContext = createContext();
+
 export default function App() {
+  const [popup, setPopup] = useState({
+    open: false,
+    severity: "",
+    message: "",
+  });
+
   return (
     <Router>
-      <ScrollToTop />
-      <InfoBar />
-      <Navbar />
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route exact path="/companies" element={<Companies />} />
-        <Route exact path="/about" element={<About />} />
-        <Route exact path="/sign-in" element={<SignIn />} />
-        <Route exact path="/sign-up" element={<SignUp />} />
-        <Route
-          exact
-          path="/sign-up/new-applicant"
-          element={<SignUpApplicant />}
-        />
-        <Route
-          exact
-          path="/sign-up/new-recruiter"
-          element={<SignUpRecruiter />}
-        />
-        <Route exact path="/jobs" element={<Jobs />} />
-        <Route exact path="/for-recruiter" element={<ForRecruiter />} />
-        <Route exact path="/for-applicant" element={<ForApplicant />} />
-      </Routes>
-      <Footer />
+      <SetPopupContext.Provider value={setPopup}>
+        <ScrollToTop />
+        <InfoBar />
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route exact path="/companies" element={<Companies />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/sign-in" element={<SignIn />} />
+          <Route exact path="/sign-up" element={<SignUp />} />
+          <Route
+            exact
+            path="/sign-up/new-applicant"
+            element={<SignUpApplicant />}
+          />
+          <Route
+            exact
+            path="/sign-up/new-recruiter"
+            element={<SignUpRecruiter />}
+          />
+          <Route exact path="/jobs" element={<Jobs />} />
+          <Route exact path="/for-recruiter" element={<ForRecruiter />} />
+          <Route exact path="/for-applicant" element={<ForApplicant />} />
+        </Routes>
+        <Footer />
+      </SetPopupContext.Provider>
     </Router>
   );
 }

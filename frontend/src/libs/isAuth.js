@@ -2,8 +2,8 @@ const isAuth = () => {
   return localStorage.getItem("token");
 };
 
-const userType = () => {
+export const userType = () => {
   return localStorage.getItem("type");
 };
 
-export default { isAuth, userType };
+export default isAuth;
