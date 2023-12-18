@@ -17,6 +17,7 @@ import ForRecruiter from "pages/landingPage/For/ForRecruiter";
 import ForApplicant from "pages/landingPage/For/ForApplicant";
 import useRole from "hooks/useRole";
 import Leaderboard from "pages/home/Leaderboard";
+import ResetPassword from "pages/landingPage/SignIn/ResetPassword";
 
 export const SetPopupContext = createContext();
 
@@ -56,6 +57,11 @@ export default function App() {
           <Route exact path="/for-recruiter" element={<ForRecruiter />} />
           <Route exact path="/for-applicant" element={<ForApplicant />} />
           <Route exact path="/leaderboard" element={<Leaderboard />} />
+          <Route
+            exact
+            path="/sign-in/reset-password"
+            element={<ResetPassword />}
+          />
         </Routes>
         <Footer />
       </SetPopupContext.Provider>
