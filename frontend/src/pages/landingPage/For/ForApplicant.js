@@ -77,13 +77,12 @@ export default function ForApplicant() {
         <div className="grid lg:grid-cols-12 md:gap-6 gap-24 grid-cols-1 md:mt-20 mt-0 mx-auto">
           <div className="md:col-span-6 col-span-1 mt-0 md:text-left text-center">
             <h1 className="mx-auto md:text-left text-center md:text-6xl text-4xl font-bold text-gray-900">
-              We help you help your friends
+              We will help you find the job you want
             </h1>
             <p className="text-xl mx-auto md:text-left text-center pt-4 md:pr-16 pr-0 mb-12">
-              You do not have to create a Greeter account to refer your friends
-              but it makes the referral process smoother. Become a part of our
-              Greeter community to keep track of your referrals and to get
-              exclusive updates when new jobs are posted.
+              You need to create an account to apply for jobs. Become part of
+              our Job Portal community to keep track of new and exciting job
+              opportunities.
             </p>
 
             <Link

@@ -26,19 +26,6 @@ app.use(passportConfig.initialize()); // Initialize Passport.js for authenticati
 // Initialize routes
 initRouter(app);
 
-// Uncomment the following block if you want to handle a default route
-/*
-app.get("/", (req, res) => {
-  res.send({ route: "Welcome to my server" });
-});
-*/
-
-// Uncomment the following blocks if you want to include additional routes
-/*
-app.use("/upload", require("./routes/"));
-app.use("/host", require("./routes/downloadRoutes"));
-*/
-
 // Start server
 app.listen(port, () => {
   console.log(`Server started on port ${port}!`);

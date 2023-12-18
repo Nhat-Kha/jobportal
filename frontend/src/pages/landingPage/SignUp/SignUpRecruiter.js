@@ -16,6 +16,8 @@ export default function SignUpRecruiter({ sendEmail }) {
     email.length > 0 &&
     phone.length > 0;
 
+  
+
   return (
     <div className="bg-[#f8e5d4] md:py-24 pt-12">
       <canvas id="my-canvas" className="absolute z-0 "></canvas>

@@ -1,6 +1,6 @@
 import Content from "components/content";
 import HowItWorks from "components/HowItWorks";
-// import Banner from "components/Banner";
+import Banner from "components/Banner";
 // import { SocialMedia } from "src/components/SocialMedia";
 // import { CompanyBanner } from "src/components/CompanyBanner";
 import JobBoard from "components/JobBoard";
@@ -15,11 +15,11 @@ function Home() {
       <JobBoard title={true} />
       {/* <CompanyBanner /> */}
       {/* <SocialMedia /> */}
-      {/* <Banner
+      <Banner
         title="Ready to refer someone?"
         button="Explore the job board"
         link="/jobs"
-      /> */}
+      />
     </div>
   );
 }

@@ -47,12 +47,11 @@ export default function Jumbotron() {
             />
           </div>
           <h1 className="text-black text-6xl md:w-11/12 w-12/12 mx-auto sm:mt-5 font-bold md:mt-5 px-5">
-            Earn up to 25 000 SEK to refer your friend to their dream job
+            The best tools for your job application journey
           </h1>
           <p className="mt-3 text-2xl text-black sm:mt-5 md:mt-5 w-10/12 mx-auto">
-            Your friend's dream job is waiting. Greet let's you refer them in
-            under 2 minutes. As a reward, you get paid if they get interviewed
-            or hired.
+            Assert yourself through a "quality" profile with valuable tools and
+            knowledge from the Job Portal.
           </p>
           <div className="mt-8 sm:mt-12 mx-auto flex gap-3 justify-center">
             <button
@@ -106,12 +105,8 @@ export default function Jumbotron() {
             >
               <div className="inline-block w-full max-w-lg md:p-6 p-3 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <h1 className="text-center text-3xl font-semibold">
-                  Refer a friend
+                  Search for a favorite job
                 </h1>
-                <p className="text-center text-lg">
-                  Refer your friend to a specific job or to the talent pool.
-                </p>
-
                 <div className="relative bg-white p-2 mt-6">
                   <Link
                     to="/jobs"

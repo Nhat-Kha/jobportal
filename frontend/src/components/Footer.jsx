@@ -13,7 +13,7 @@ export default function Footer() {
             </h1>
           </Link>
           <p className="md:w-80 w-full text-lg font-medium -mt-2 ">
-            Get paid to refer your friends to their dream job in tech.
+            Quality over quantity.
           </p>
 
           <a
@@ -87,7 +87,7 @@ export default function Footer() {
         </div>
 
         <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6">
-          <h1 className="text-2xl font-semibold">Greet</h1>
+          <h1 className="text-2xl font-semibold">JobPortal</h1>
 
           <Link
             className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"

@@ -32,7 +32,7 @@ export default function SignUp() {
           </p>
 
           <Link
-            to="new-company"
+            to="new-recruiter"
             className="bg-yellow-100 text-yellow-800 border-yellow-100 font-semibold cursor-pointer px-4 py-3 rounded-lg text-sm"
           >
             Get started
