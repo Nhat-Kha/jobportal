@@ -15,10 +15,14 @@ import SignUpRecruiter from "pages/landingPage/SignUp/SignUpRecruiter";
 import Jobs from "pages/landingPage/Jobs";
 import ForRecruiter from "pages/landingPage/For/ForRecruiter";
 import ForApplicant from "pages/landingPage/For/ForApplicant";
+import useRole from "hooks/useRole";
+import Leaderboard from "pages/home/Leaderboard";
 
 export const SetPopupContext = createContext();
 
 export default function App() {
+  const role = useRole();
+  console.log("role:" + role);
   const [popup, setPopup] = useState({
     open: false,
     severity: "",
@@ -51,6 +55,7 @@ export default function App() {
           <Route exact path="/jobs" element={<Jobs />} />
           <Route exact path="/for-recruiter" element={<ForRecruiter />} />
           <Route exact path="/for-applicant" element={<ForApplicant />} />
+          <Route exact path="/leaderboard" element={<Leaderboard />} />
         </Routes>
         <Footer />
       </SetPopupContext.Provider>
