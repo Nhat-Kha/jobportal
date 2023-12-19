@@ -9,16 +9,16 @@ export default function PrivacyPolicy() {
         </h1>
 
         <p className="text-xl font-medium mb-10">
-          Last updated: 10 november, 2021
+          Last updated: 18 December, 2023
         </p>
         <p>
-          Greet is responsible for the personal information about you that is
-          processed on our website (www.joingreet.com). The following policy
-          applies when you use our website. We are constantly working on
-          improving our services therefore this policy can be changed in the
-          future. The purpose of this policy is to let our users know how we
-          handle their personal information, what we use it for, who gets access
-          to it and what rights our users have in regards to personal data.
+          JobPortal is responsible for the personal information about you that
+          is processed on our website ( ). The following policy applies when you
+          use our website. We are constantly working on improving our services
+          therefore this policy can be changed in the future. The purpose of
+          this policy is to let our users know how we handle their personal
+          information, what we use it for, who gets access to it and what rights
+          our users have in regards to personal data.
         </p>
 
         <h2 className="text-3xl mb-4 mt-10">
@@ -35,7 +35,7 @@ export default function PrivacyPolicy() {
           or contact us. When you send information we will store your IP address
           and information about the device you use. We also collect data when
           you use our services through Cookies. See our cookies policy for more
-          information (available on www.joingreet.com).
+          information ().
         </p>
 
         <h3 className="text-2xl mb-2 mt-3">From third parties</h3>
@@ -67,7 +67,7 @@ export default function PrivacyPolicy() {
         <h2 className="text-3xl mb-4 mt-10">
           With whom do we share personal data?
         </h2>
-        <p>
+        {/* <p>
           The company that someone got referred to will get access to the data
           if the person who referred someone and the one who got referred if
           both accept it. In other words, if the person who got referred accepts
@@ -102,7 +102,7 @@ export default function PrivacyPolicy() {
             firebase.google.com
           </a>
           <br /> <br />
-        </p>
+        </p> */}
 
         <h2 className="text-3xl mb-4 mt-10">Your rights</h2>
         <p>
@@ -128,7 +128,7 @@ export default function PrivacyPolicy() {
         <h2 className="text-3xl mb-4 mt-10">Contact information</h2>
         <p>
           If you have any questions or wish to exercise any of your rights
-          mentioned above. Please contact Johan at johan@joingreet.com
+          mentioned above. Please contact Nhật Kha at nhatkha06299@gmail.com
         </p>
       </div>
     </div>

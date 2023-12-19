@@ -9,7 +9,7 @@ import { redirect } from "react-router-dom";
 import axios from "axios";
 
 import isAuth from "libs/isAuth";
-import apiList from "libs/apiList";
+import apiList from "../../../libs/apiList";
 // import apiList from "../../../libs/apiList";
 
 export default function SignIn({ login }) {
@@ -56,9 +56,9 @@ export default function SignIn({ login }) {
     const verified = !Object.keys(inputErrorHandler).some((obj) => {
       return inputErrorHandler[obj].error;
     });
-    if (verified) {
+    if (!verified) {
       axios
-        .post(apiList.login, loginDetails)
+        .get(apiList.login, loginDetails)
         .then((response) => {
           if (response.data) {
             localStorage.setItem("token", response.data.token);
@@ -131,7 +131,7 @@ export default function SignIn({ login }) {
           onChange={(e) => handleInput("email", e.target.value)}
           inputErrorHandler={inputErrorHandler}
           handleInputError={handleInputError}
-          placeholder="firstname@example.com"
+          placeholder="email@example.com"
         />
 
         <InputField

@@ -8,6 +8,7 @@ export default function SignUpRecruiter({ sendEmail }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
 
   let allFieldsChecked =
     company.length > 0 &&
@@ -15,8 +16,6 @@ export default function SignUpRecruiter({ sendEmail }) {
     name.length > 0 &&
     email.length > 0 &&
     phone.length > 0;
-
-  
 
   return (
     <div className="bg-[#f8e5d4] md:py-24 pt-12">
@@ -80,6 +79,14 @@ export default function SignUpRecruiter({ sendEmail }) {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="070 123 45 67"
+          />
+
+          <InputField
+            type="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword("password", e.target.value)}
+            placeholder="Your password"
           />
 
           {allFieldsChecked ? (

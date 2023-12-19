@@ -9,7 +9,7 @@ export default function Footer() {
           <Link className="flex pt-1" to="/">
             <img className="h-12 pb-2 " src={logo} alt="logo" />
             <h1 className="md:pl-2 pl-2 text-4xl text-black font-medium hover:opacity-60">
-              IJTP
+              JobPortal
             </h1>
           </Link>
           <p className="md:w-80 w-full text-lg font-medium -mt-2 ">
@@ -18,16 +18,16 @@ export default function Footer() {
 
           <a
             className="w-44 text-lg font-medium border-b-2 border-black hover:opacity-60"
-            href="mailto:johan@joingreet.com"
+            href="mailto:nhatkha06299@gmail.com"
           >
             nhatkha06299@gmail.com
           </a>
         </div>
         <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6">
-          <h1 className="text-2xl font-semibold">Greeters</h1>
+          <h1 className="text-2xl font-semibold">Welcome</h1>
           <Link
             className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
-            to="/for-greeters"
+            to="/for-applicant"
           >
             How it works
           </Link>
@@ -55,7 +55,7 @@ export default function Footer() {
 
           <Link
             className="w-40 opacity-60 hover:opacity-100 font-semibold text-lg"
-            to="/sign-up/new-greeter"
+            to="/sign-up/new-applicant"
           >
             Sign up
           </Link>
@@ -66,7 +66,7 @@ export default function Footer() {
 
           <Link
             className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
-            to="/for-companies"
+            to="/for-recruiter"
           >
             How it works
           </Link>
@@ -80,7 +80,7 @@ export default function Footer() {
 
           <Link
             className="w-40 opacity-60 hover:opacity-100 font-semibold text-lg"
-            to="/sign-up/new-company"
+            to="/sign-up/new-recruiter"
           >
             Sign up
           </Link>
@@ -115,7 +115,7 @@ export default function Footer() {
           <h1 className="text-2xl font-semibold">Follow us</h1>
           <a
             className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
-            href="https://www.instagram.com/joingreet/"
+            href="https://www.instagram.com/kha_martin/"
             target="_blank"
             rel="noreferrer"
           >
@@ -123,11 +123,11 @@ export default function Footer() {
           </a>
           <a
             className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
-            href="https://www.linkedin.com/company/joingreet/"
+            href="https://github.com/Nhat-Kha"
             target="_blank"
             rel="noreferrer"
           >
-            LinkedIn
+            GitHub
           </a>
         </div>
       </div>

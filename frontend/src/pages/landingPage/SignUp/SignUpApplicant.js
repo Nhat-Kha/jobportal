@@ -3,7 +3,7 @@ import InputField from "components/InputField";
 import { SetPopupContext } from "App";
 import axios from "axios";
 import isAuth from "libs/isAuth";
-import apiList from "libs/apiList";
+import apiList from "../../../libs/apiList";
 
 export default function SignUpApplicant() {
   const setPopup = useContext(SetPopupContext);
@@ -106,7 +106,7 @@ export default function SignUpApplicant() {
       return tmpErrorHandler[obj].error;
     });
 
-    if (verified) {
+    if (!verified) {
       axios
         .post(apiList.signup, updatedDetails)
         .then((response) => {

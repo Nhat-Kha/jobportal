@@ -42,7 +42,7 @@ export default function HowItWorks() {
           <h1 className="text-3xl text-gray-900 pb-3  font-semibold">
             Apply for job
           </h1>
-          <p className="text-xl font-light">apply for a job you love.</p>
+          <p className="text-xl font-light">Apply for a job you love.</p>
         </div>
 
         <div>
@@ -55,10 +55,10 @@ export default function HowItWorks() {
             Step 3:
           </div>
           <h1 className="text-3xl  text-gray-900 pb-3 font-semibold">
-            await approval
+            Await approval
           </h1>
           <p className="text-xl font-light">
-            waiting for your job application to be approved by the employer.
+            Waiting for your job application to be approved by the employer.
           </p>
         </div>
       </div>

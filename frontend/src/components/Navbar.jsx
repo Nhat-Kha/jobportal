@@ -47,7 +47,7 @@ export default function Navbar({ user, type, role }) {
             </div>
 
             <div className="flex">
-              {/* <MobileMenu /> */}
+              <MobileMenu />
               {user ? (
                 <>
                   {type === "Recruiter" ? (

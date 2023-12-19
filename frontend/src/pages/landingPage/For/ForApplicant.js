@@ -2,7 +2,8 @@ import FAQ from "components/FAQ";
 import Banner from "components/Banner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import greeters from "assets/images/greeters.png";
+// import greeters from "assets/images/greeters.png";
+import icon from "assets/icon.jpg";
 
 import {
   faHandPeace,
@@ -47,12 +48,9 @@ export default function ForApplicant() {
               Step 2:
             </div>
             <h1 className="text-3xl text-gray-900 pb-3  font-semibold">
-              Refer someone
+              Apply for job
             </h1>
-            <p className="text-xl font-light">
-              Refer a friend that fits the job description and who is looking
-              for new challenges.
-            </p>
+            <p className="text-xl font-light">Apply for a job you love.</p>
           </div>
           <div>
             <FontAwesomeIcon
@@ -64,10 +62,10 @@ export default function ForApplicant() {
               Step 3:
             </div>
             <h1 className="text-3xl  text-gray-900 pb-3 font-semibold">
-              Get paid
+              Await approval
             </h1>
             <p className="text-xl font-light">
-              Get paid if the friend you referred gets interviewed or hired.
+              Waiting for your job application to be approved by the employer.
             </p>
           </div>
         </div>
@@ -86,7 +84,7 @@ export default function ForApplicant() {
             </p>
 
             <Link
-              to="new-applicant"
+              to="/sign-up/new-applicant"
               className="mx-auto w-46 hover:opacity-80 cursor-pointer items-center font-semibold text-md justify-center px-8 py-4 bg-primary rounded-xl text-black"
             >
               Sign up
@@ -94,8 +92,8 @@ export default function ForApplicant() {
           </div>
           <img
             alt="pricing example chart"
-            className="md:col-span-6 col-span-1"
-            src={greeters}
+            className="md:col-span-6 col-span-1 rounded-xl"
+            src={icon}
           />
         </div>
       </div>
