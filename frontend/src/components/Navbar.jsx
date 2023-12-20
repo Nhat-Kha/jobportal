@@ -15,7 +15,7 @@ export default function Navbar({ user, type, role }) {
           <div className="flex justify-between h-24 py-6 md:w-10/12 w-11/12 mx-auto">
             <div className="flex">
               <Link className="flex pt-1" to="/">
-                <img className="h-10 mb-1" src={logo} alt="logo" />
+                <img className="md:pl-5 pl-2" src={logo} alt="logo" />
                 <h1 className="md:pl-2 pl-2 text-3xl text-[#F2994A] font-medium hover:opacity-60">
                   JobPortal
                 </h1>

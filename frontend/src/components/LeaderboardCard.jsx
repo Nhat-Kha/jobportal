@@ -41,11 +41,11 @@ export default function LeaderboardCard({ home }) {
           <div className="flex items-center text-left">
             <h1 className="text-4xl font-bold mt-2">{generateIcon(id + 1)}</h1>
             <div className="ml-5">
-              <div class="text-lg font-medium text-gray-900">
+              <div className="text-lg font-medium text-gray-900">
                 {greeter?.name}
               </div>
 
-              <div class="text-sm text-gray-500">
+              <div className="text-sm text-gray-500">
                 {greeter?.referrals?.length} referrals
               </div>
             </div>

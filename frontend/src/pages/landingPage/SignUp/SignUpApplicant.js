@@ -20,6 +20,7 @@ export default function SignUpApplicant() {
         endYear: "",
       },
     ],
+    skills: [],
     news: false,
   });
 
@@ -48,6 +49,7 @@ export default function SignUpApplicant() {
     signupDetails.name.length > 0 &&
     signupDetails.email.length > 0 &&
     signupDetails.password.length > 0 &&
+    signupDetails.skill.some((item) => item.trim() !== "") &&
     signupDetails.education.some(
       (item) => item.institutionName.trim() !== ""
     ) &&
@@ -218,6 +220,14 @@ export default function SignUpApplicant() {
             />
           </div>
         ))}
+        <InputField
+          label="Skill"
+          helperText="Please enter to add skills"
+          value={signupDetails.skills}
+          onChange={(chips) =>
+            setSignupDetails({ ...signupDetails, skills: chips })
+          }
+        />
 
         <label className="block text-black text-sm font-medium mt-8 focus:outline-none outline-none">
           <input

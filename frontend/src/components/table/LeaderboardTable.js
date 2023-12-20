@@ -59,13 +59,13 @@ export default function LeaderboardTable({ home }) {
                   <strong>{generateIcon(id + 1)}</strong>
                 </td>
 
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="">
-                      <div class="text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center">
+                    <div className="">
+                      <div className="text-sm font-medium text-gray-900">
                         {greeter.name}
                       </div>
-                      <div class="text-sm text-gray-500">{greeter.title} </div>
+                      <div className="text-sm text-gray-500">{greeter.title} </div>
                     </div>
                   </div>
                 </td>

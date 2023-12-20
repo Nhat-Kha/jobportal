@@ -9,15 +9,68 @@ import {
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Loader from "./Loader";
 import React from "react";
+import { Chip } from "@material-tailwind/react";
 
-export default function JobBoard({ title }) {
+export default function JobBoard({ Title }) {
   const [jobs, setJobs] = useState([]);
+  const [title, setTitle] = useState(false);
 
-  if (jobs.length === 0) {
-    return <Loader />;
-  }
+  const Jobs = [
+    {
+      name: "Software engineer",
+      salary: 1000,
+      address: "Quận tân phú, quận tân quý",
+    },
+    {
+      name: "Software developer",
+      salary: 1200,
+      address: "Quận tân phú, quận tân quý",
+    },
+    {
+      name: " IT technician",
+      salary: 2000,
+      address: "Quận tân phú, quận tân quý",
+    },
+    {
+      name: "Full-stack developer",
+      salary: 800,
+      address: "Quận tân phú, quận tân quý",
+    },
+    {
+      name: "Support specialist",
+      salary: 3000,
+      address: "Quận tân phú, quận tân quý",
+    },
+  ];
+
+  // const [all, setAll] = useState(Jobs[0].name);
+
+  const skills = [
+    { value: "react, Vue, Angular " },
+    { value: "Javascript, TypeScript" },
+    { value: "react" },
+    { value: "HTML,CSS,Javascript" },
+    { value: "react " },
+  ];
+  // const [skill, setSkill] = useState(skills[0].value);
+
+  useEffect(() => {
+    setTitle(Title);
+
+    axios
+      .get("http://localhost:4000")
+      .then((response) => setJobs(response.data))
+      .catch((error) => {
+        console.error("Error fetching jobs:", error);
+        setJobs([]);
+      });
+  }, [Title]);
+  // if (jobs.length === 0) {
+  //   return <Loader />;
+  // }
 
   return (
     <>
@@ -32,23 +85,15 @@ export default function JobBoard({ title }) {
           ) : null}
 
           <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 ">
-            {jobs.map((job, id) => (
+            {Jobs.map((job, id) => (
               <div
                 key={id}
                 className="transform ease-in duration-100 hover:-translate-y-2 hover:shadow-lg w-full bg-white rounded-2xl p-6 text-left"
               >
                 <div className="flex items-center text-left pb-4">
-                  <img
-                    className="w-14 h-14 rounded-2xl mr-4"
-                    src={job.data().logo}
-                    alt="Company logo"
-                  />
                   <div>
                     <p className="text-xl font-semibold text-gray-900 leading-none">
-                      {job.data().title}
-                    </p>
-                    <p className="text-md text-gray-600">
-                      {job.data().company}
+                      {job.name}
                     </p>
                   </div>
                 </div>
@@ -57,25 +102,10 @@ export default function JobBoard({ title }) {
                     icon={faMoneyBillWave}
                     className="text-xl text-green-500 mr-2"
                   />
-                  <span className="text-xl font-medium">
-                    {job.data().hiring} SEK
-                  </span>
+                  <span className="text-xl font-medium">{job.salary} $</span>
                   <span className="text-sm font-semibold tracking-wide">
                     {" "}
                     / hiring reward
-                  </span>
-                </p>
-                <p className="pl-1 pb-1">
-                  <FontAwesomeIcon
-                    icon={faCoins}
-                    className="text-xl ml-0.5 text-yellow-400 mr-1.5"
-                  />{" "}
-                  <span className="text-xl font-medium">
-                    {job.data().interview} SEK
-                  </span>
-                  <span className="text-sm font-semibold tracking-wide">
-                    {" "}
-                    / interview reward
                   </span>
                 </p>
                 <p className="pl-1">
@@ -83,23 +113,20 @@ export default function JobBoard({ title }) {
                     icon={faMapMarkerAlt}
                     className="text-xl text-red-500 mr-3.5 ml-1"
                   />
-                  <span className="font-medium text-xl">
-                    {job.data().location}
-                  </span>
+                  <span className="font-medium text-xl">{job.address}</span>
                 </p>
-
+                <div>
+                  <Chip
+                    value="react"
+                    className="bg-gray-300 w-16 rounded-xl mt-3 font-semibold cursor-default"
+                  />
+                </div>
                 <div className="flex items-center pt-6">
-                  <Link
-                    to={`/jobs/${job.id}/refer`}
-                    className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
-                  >
+                  <Link className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black">
                     Refer
                   </Link>
 
-                  <Link
-                    to={`/jobs/${job.id}`}
-                    className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-light px-3 py-3 rounded-xl border-none"
-                  >
+                  <Link className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-light px-3 py-3 rounded-xl border-none">
                     About the job
                   </Link>
                 </div>
