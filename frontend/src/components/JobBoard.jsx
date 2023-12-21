@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import {
   faCoins,
@@ -12,9 +12,23 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "./Loader";
 import React from "react";
-import { Chip } from "@material-tailwind/react";
+import {
+  Chip,
+  Checkbox,
+  Card,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Typography,
+  Button,
+  Dialog,
+} from "@material-tailwind/react";
+import InputField from "./InputField";
+import apiList from "libs/apiList";
+import { SetPopupContext } from "App";
 
 export default function JobBoard({ Title }) {
+  const setPopup = useContext(SetPopupContext);
   const [jobs, setJobs] = useState([]);
   const [title, setTitle] = useState(false);
 
@@ -72,17 +86,182 @@ export default function JobBoard({ Title }) {
   //   return <Loader />;
   // }
 
+  const [searchOptions, setSearchOptions] = useState({
+    query: "",
+    jobType: {
+      fullTime: false,
+      partTime: false,
+      wfh: false,
+    },
+    salary: [0, 100],
+    duration: "0",
+    sort: {
+      salary: {
+        status: false,
+        desc: false,
+      },
+      duration: {
+        status: false,
+        desc: false,
+      },
+      rating: {
+        status: false,
+        desc: false,
+      },
+    },
+  });
+
+  const getData = () => {
+    let searchParams = [];
+    if (searchOptions.query !== "") {
+      searchParams = [...searchParams, `q=${searchOptions.query}`];
+    }
+    if (searchOptions.jobType.fullTime) {
+      searchParams = [...searchParams, `jobType=Full%20Time`];
+    }
+    if (searchOptions.jobType.partTime) {
+      searchParams = [...searchParams, `jobType=Part%20Time`];
+    }
+    if (searchOptions.jobType.wfh) {
+      searchParams = [...searchParams, `jobType=Work%20From%20Home`];
+    }
+    if (searchOptions.salary[0] != 0) {
+      searchParams = [
+        ...searchParams,
+        `salaryMin=${searchOptions.salary[0] * 1000}`,
+      ];
+    }
+    if (searchOptions.salary[1] != 100) {
+      searchParams = [
+        ...searchParams,
+        `salaryMax=${searchOptions.salary[1] * 1000}`,
+      ];
+    }
+    if (searchOptions.duration != "0") {
+      searchParams = [...searchParams, `duration=${searchOptions.duration}`];
+    }
+
+    let asc = [],
+      desc = [];
+
+    Object.keys(searchOptions.sort).forEach((obj) => {
+      const item = searchOptions.sort[obj];
+      if (item.status) {
+        if (item.desc) {
+          desc = [...desc, `desc=${obj}`];
+        } else {
+          asc = [...asc, `asc=${obj}`];
+        }
+      }
+    });
+    searchParams = [...searchParams, ...asc, ...desc];
+    const queryString = searchParams.join("&");
+    console.log(queryString);
+    let address = apiList.jobs;
+    if (queryString !== "") {
+      address = `${address}?${queryString}`;
+    }
+
+    axios
+      .get(address, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setJobs(
+          response.data.filter((obj) => {
+            const today = new Date();
+            const deadline = new Date(obj.deadline);
+            return deadline > today;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        setPopup({
+          open: true,
+          severity: "error",
+          message: "Error",
+        });
+      });
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(!open);
+
   return (
     <>
       <div className="bg-light">
-        <div className="md:w-10/12 w-11/12 mx-auto h-full md:pb-28 pb-12 pt-20 ">
+        <div className="md:w-10/12 w-11/12 mx-auto h-full md:pb-28 pb-12">
           {title ? (
             <div className="block pt-4">
-              <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12">
+              <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12 pt-10">
                 Trending jobs
               </h1>
             </div>
-          ) : null}
+          ) : (
+            <div className="mb-10">
+              <div>
+                <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12">
+                  Jobs
+                </h1>
+              </div>
+              <div className="flex justify-center text-center ">
+                <div className="relative bottom-10 w-3/6 bg-slate-50">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg
+                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="search"
+                    id="search"
+                    className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 
+                    rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Search"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+              <>
+                <div className="flex justify-center">
+                  <Button
+                    onClick={handleOpen}
+                    variant="gradient"
+                    className="text-black bg-slate-300"
+                  >
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-filter"
+                      className="w-4 h-4"
+                    />
+                  </Button>
+                  <Dialog open={open} handler={handleOpen}>
+                    <FilterPopup />
+                  </Dialog>
+                </div>
+              </>
+            </div>
+          )}
 
           <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 ">
             {Jobs.map((job, id) => (
@@ -176,3 +355,87 @@ export default function JobBoard({ Title }) {
     </>
   );
 }
+
+const FilterPopup = (props) => {
+  const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
+
+  return (
+    <div
+      open={open}
+      onClose={handleClose}
+      className="h-[100%] flex items-center justify-center"
+    >
+      <div className="grid grid-rows-4">
+        <div>
+          <p>Job Type</p>
+          <Card>
+            <List>
+              <ListItem className="p-0">
+                <label
+                  htmlFor="vertical-list-react"
+                  className="flex w-full cursor-pointer items-center px-3 py-2"
+                >
+                  <ListItemPrefix className="mr-3">
+                    <Checkbox
+                      id="vertical-list-react"
+                      ripple={false}
+                      className="hover:before:opacity-0"
+                      containerProps={{
+                        className: "p-0",
+                      }}
+                    />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="font-medium">
+                    React.js
+                  </Typography>
+                </label>
+              </ListItem>
+              <ListItem className="p-0">
+                <label
+                  htmlFor="vertical-list-vue"
+                  className="flex w-full cursor-pointer items-center px-3 py-2"
+                >
+                  <ListItemPrefix className="mr-3">
+                    <Checkbox
+                      id="vertical-list-vue"
+                      ripple={false}
+                      className="hover:before:opacity-0"
+                      containerProps={{
+                        className: "p-0",
+                      }}
+                    />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="font-medium">
+                    Vue.js
+                  </Typography>
+                </label>
+              </ListItem>
+              <ListItem className="p-0">
+                <label
+                  htmlFor="vertical-list-svelte"
+                  className="flex w-full cursor-pointer items-center px-3 py-2"
+                >
+                  <ListItemPrefix className="mr-3">
+                    <Checkbox
+                      id="vertical-list-svelte"
+                      ripple={false}
+                      className="hover:before:opacity-0"
+                      containerProps={{
+                        className: "p-0",
+                      }}
+                    />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="font-medium">
+                    Svelte.js
+                  </Typography>
+                </label>
+              </ListItem>
+            </List>
+          </Card>
+        </div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  );
+};
