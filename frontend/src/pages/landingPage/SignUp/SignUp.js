@@ -34,6 +34,7 @@ export default function SignUp() {
   };
 
   const [signupDetails, setSignupDetails] = useState({
+    type: type,
     email: "",
     password: "",
     name: "",
@@ -49,6 +50,8 @@ export default function SignUp() {
     bio: "",
     contactNumber: "",
   });
+
+  console.log();
 
   const [inputErrorHandler, setInputErrorHandler] = useState({
     email: {
@@ -75,7 +78,7 @@ export default function SignUp() {
     signupDetails.name.length > 0 &&
     signupDetails.email.length > 0 &&
     signupDetails.password.length > 0 &&
-    signupDetails.skill.some((item) => item.trim() !== "") &&
+    chips.some((item) => item.trim() !== "") &&
     signupDetails.education.some(
       (item) => item.institutionName.trim() !== ""
     ) &&
@@ -136,7 +139,7 @@ export default function SignUp() {
 
     if (!verified) {
       axios
-        .post(apiList.signup, updatedDetails)
+        .post(apiList.signup, signupDetails)
         .then((response) => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("type", response.data.type);
@@ -146,7 +149,8 @@ export default function SignUp() {
             severity: "success",
             message: "Logged in successfully",
           });
-          console.log(response);
+          console.log("export" + response);
+          console.log(response.data.type);
         })
         .catch((err) => {
           setPopup({
@@ -272,6 +276,13 @@ export default function SignUp() {
           helperText={inputErrorHandler.password.message}
           onChange={(e) => handleInput("password", e.target.value)}
           placeholder="Your password"
+          onBlur={(e) => {
+            if (e.target.value === "") {
+              handleInputError("password", true, "Password id required");
+            } else {
+              handleInputError("password", false, "");
+            }
+          }}
         />
         {type === "applicant" ? (
           <>

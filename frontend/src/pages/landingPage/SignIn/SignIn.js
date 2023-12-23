@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "components/InputField";
 import useRole from "hooks/useRole";
 import { SetPopupContext } from "App";
@@ -10,6 +10,7 @@ import axios from "axios";
 
 import isAuth from "libs/isAuth";
 import apiList from "../../../libs/apiList";
+import { userType } from "libs/isAuth";
 // import apiList from "../../../libs/apiList";
 
 export default function SignIn({ login }) {
@@ -56,52 +57,27 @@ export default function SignIn({ login }) {
     const verified = !Object.keys(inputErrorHandler).some((obj) => {
       return inputErrorHandler[obj].error;
     });
-    if (!verified) {
+    if (verified) {
       axios
-        .get(apiList.login, loginDetails)
+        .post(apiList.login, loginDetails)
         .then((response) => {
-          if (response.data) {
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("type", response.data.type);
-            setLoggedin(isAuth());
-            setPopup({
-              open: true,
-              severity: "success",
-              message: "Logged in successfully",
-            });
-            console.log(response);
-          } else {
-            // Handle the case where the response or response.data is undefined
-            setPopup({
-              open: true,
-              severity: "error",
-              message: "Invalid server response",
-            });
-          }
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("type", response.data.type);
+          setLoggedin(isAuth());
+          setPopup({
+            open: true,
+            severity: "success",
+            message: "Logged in successfully",
+          });
+          console.log(response);
         })
         .catch((err) => {
-          if (err.response && err.response.data && err.response.data.message) {
-            setPopup({
-              open: true,
-              severity: "error",
-              message: err.response.data.message,
-            });
-            console.log(err.response);
-          } else if (err.response && err.response.status === 401) {
-            setPopup({
-              open: true,
-              severity: "error",
-              message: "User does not exist or credentials are incorrect",
-            });
-          } else {
-            // Handle other error cases
-            setPopup({
-              open: true,
-              severity: "error",
-              message: "An error occurred during login.",
-            });
-            console.log(err);
-          }
+          setPopup({
+            open: true,
+            severity: "error",
+            message: err.response.data.message,
+          });
+          console.log(err.response);
         });
     } else {
       setPopup({
@@ -111,6 +87,17 @@ export default function SignIn({ login }) {
       });
     }
   };
+
+  const type = userType();
+  let history = useNavigate();
+
+  useEffect(() => {
+    if (type === "applicant") {
+      history("/referrals");
+    } else if (type === "recruiter") {
+      history("/admin");
+    }
+  }, [type, history]);
 
   return loggedin ? (
     <redirect to="/" />
