@@ -1,5 +1,6 @@
 import "editor.css";
-export default function JobAd({ job, description }) {
+import icon from "assets/icon.jpg";
+export default function JobAd({ job, description, tags }) {
   return (
     <>
       <div className="w-11/12 mx-auto mt-20 pb-8">
@@ -7,7 +8,7 @@ export default function JobAd({ job, description }) {
           <img
             alt="company logo"
             className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
-            src={job?.logo}
+            src={icon}
           />
 
           <div>
@@ -24,21 +25,21 @@ export default function JobAd({ job, description }) {
           <tbody className="text-xl">
             <tr>
               <td className="text-bold">Hiring reward</td>
-              <td className="text-right">{job.hiring || "25 000"} SEK</td>
+              <td className="text-right">{job.hiring || ""} $</td>
             </tr>
 
             <tr>
-              <td className="text-bold">Interview reward</td>
-              <td className="text-right">{job.interview || "1000"} SEK</td>
+              <td className="text-bold">Skills</td>
+              <td className="text-right">{tags || ""}</td>
             </tr>
 
             <tr>
               <td className="text-bold">Location</td>
-              <td className="text-right">{job.location || "Stockholm"} </td>
+              <td className="text-right">{job.location || ""} </td>
             </tr>
             <tr>
               <td className="text-bold">Employment</td>
-              <td className="text-right">{job.employment || "Full time"}</td>
+              <td className="text-right">{job.employment || ""}</td>
             </tr>
           </tbody>
         </table>

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "react-quill/dist/quill.snow.css";
+import { MuiChipsInput } from "mui-chips-input";
 
 function WaitingBtn() {
   return (
@@ -21,12 +22,17 @@ export default function JobCreator({ jobToEdit, isComplete }) {
       title: "",
       employment: "",
       hiring: "",
-      interview: "",
+      skill: "",
       location: "",
       description: "",
       status: "Open",
     }
   );
+
+  const [tags, setTags] = useState([]);
+  const addTag = (newChips) => {
+    setTags(newChips);
+  };
 
   return (
     <div className="grid grid-cols-12 overflow-y-hidden h-screen">
@@ -44,32 +50,42 @@ export default function JobCreator({ jobToEdit, isComplete }) {
           }}
           placeholder="Title"
         />
-        <div className="grid grid-cols-4 gap-4 mt-6">
-          <InputField
-            className="col-span-2"
-            type="text"
-            label="Hiring Reward"
-            placeholder="25 000"
-            value={job.hiring}
-            onChange={(e) => {
-              setJob({
-                ...job,
-                hiring: e.target.value,
-              });
-            }}
-          />
-          <InputField
-            className="col-span-2"
-            label="Interview Reward"
-            type="text"
-            placeholder="1000"
-            value={job.interview}
-            onChange={(e) => {
-              setJob({
-                ...job,
-                interview: e.target.value,
-              });
-            }}
+        <InputField
+          className="mt-8 hover:border-black"
+          type="text"
+          label="Hiring Reward"
+          placeholder="25 000"
+          value={job.hiring}
+          onChange={(e) => {
+            setJob({
+              ...job,
+              hiring: e.target.value,
+            });
+          }}
+        />
+        {/* <div>
+            {tags.map((tag, index) => {
+              return (
+                <div key={index}>
+                  {tag} <span onClick={() => removeTag(tag)}>x</span>
+                </div>
+              );
+            })}
+            <InputField
+              className="col-span-2"
+              label="Skills"
+              placeholder="skill"
+              onChange={addTag}
+            />
+          </div> */}
+        <div className="pb-4">
+          <label className="block text-black text-sm font-semibold mb-2">
+            Skills <span className="text-[#ff3131]">*</span>
+          </label>
+          <MuiChipsInput
+            value={tags}
+            onChange={addTag}
+            className="bg-white w-full block border border-grey-light p-3 rounded mb-4"
           />
         </div>
         <div className="grid grid-cols-4 gap-4 mt-1">

@@ -33,17 +33,17 @@ export default function FilterPopup() {
         onClose={() => setOpenModal(false)}
         className="bg-overlay-70"
       >
-        <Modal.Header>Terms of Service</Modal.Header>
+        <Modal.Header>Select</Modal.Header>
         <Modal.Body>
           <div className=" grid grid-rows-3 space-y-6">
             <div className="flex flex-rows justify-around items-center">
               <p className="flex justify-start">Job Type</p>
-              <div className="flex gap-4">
+              <div className="flex gap-4 w-3/4">
                 <label
                   htmlFor="horizontal-list-react"
                   className="flex w-full cursor-pointer items-center px-3 py-2"
                 >
-                  <ListItemPrefix className="mr-3">
+                  <ListItemPrefix className="mr-2">
                     <Checkbox
                       id="horizontal-list-react"
                       ripple={false}
@@ -54,14 +54,14 @@ export default function FilterPopup() {
                     />
                   </ListItemPrefix>
                   <Typography color="blue-gray" className="font-medium">
-                    React.js
+                    Full time
                   </Typography>
                 </label>
                 <label
                   htmlFor="horizontal-list-react"
                   className="flex w-full cursor-pointer items-center px-3 py-2"
                 >
-                  <ListItemPrefix className="mr-3">
+                  <ListItemPrefix className="mr-2">
                     <Checkbox
                       id="horizontal-list-react"
                       ripple={false}
@@ -72,14 +72,14 @@ export default function FilterPopup() {
                     />
                   </ListItemPrefix>
                   <Typography color="blue-gray" className="font-medium">
-                    React.js
+                    Parttime
                   </Typography>
                 </label>
                 <label
                   htmlFor="horizontal-list-react"
                   className="flex w-full cursor-pointer items-center px-3 py-2"
                 >
-                  <ListItemPrefix className="mr-3">
+                  <ListItemPrefix className="mr-2">
                     <Checkbox
                       id="horizontal-list-react"
                       ripple={false}
@@ -90,7 +90,7 @@ export default function FilterPopup() {
                     />
                   </ListItemPrefix>
                   <Typography color="blue-gray" className="font-medium">
-                    React.js
+                    ...
                   </Typography>
                 </label>
               </div>
@@ -127,7 +127,7 @@ export default function FilterPopup() {
             </div>
             <div className="flex flex-rows justify-around items-center">
               <p className="flex justify-start">Duration</p>
-              <div className="w-96">
+              <div className="w-3/4">
                 <select className="block border border-grey-light w-full p-3 rounded mb-4">
                   <option className="rounded mb-4 text-gray-950">All</option>
                   <option className="rounded mb-4 text-gray-950">1</option>
