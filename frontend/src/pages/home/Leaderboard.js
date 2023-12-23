@@ -1,5 +1,5 @@
 import useLeaderboard from "hooks/useLeaderboard";
-import LeaderboardTable from "components/table/LeaderboardTable";
+import LeaderboardTable from "components/tables/LeaderboardTable";
 import LeaderboardCard from "components/LeaderboardCard";
 import useRole from "hooks/useRole";
 

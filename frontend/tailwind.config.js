@@ -14,6 +14,9 @@ module.exports = {
         star: "#FFC828",
         money: "#10a666",
       },
+      backgroundColor: {
+        "overlay-70": "rgba(0,0,0,0.7)",
+      },
     },
   },
   plugins: [],

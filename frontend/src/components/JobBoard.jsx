@@ -7,6 +7,7 @@ import {
   faArrowRight,
   faMoneyBillWave,
   faMapMarkerAlt,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -26,9 +27,9 @@ import {
 import InputField from "./InputField";
 import apiList from "libs/apiList";
 import { SetPopupContext } from "App";
+import FilterPopup from "./filterPopup";
 
 export default function JobBoard({ Title }) {
-  const setPopup = useContext(SetPopupContext);
   const [jobs, setJobs] = useState([]);
   const [title, setTitle] = useState(false);
 
@@ -180,15 +181,15 @@ export default function JobBoard({ Title }) {
       })
       .catch((err) => {
         console.log(err.response.data);
-        setPopup({
-          open: true,
-          severity: "error",
-          message: "Error",
-        });
+        // setPopup({
+        //   open: true,
+        //   severity: "error",
+        //   message: "Error",
+        // });
       });
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
   return (
@@ -243,23 +244,9 @@ export default function JobBoard({ Title }) {
                   </button>
                 </div>
               </div>
-              <>
-                <div className="flex justify-center">
-                  <Button
-                    onClick={handleOpen}
-                    variant="gradient"
-                    className="text-black bg-slate-300"
-                  >
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-filter"
-                      className="w-4 h-4"
-                    />
-                  </Button>
-                  <Dialog open={open} handler={handleOpen}>
-                    <FilterPopup />
-                  </Dialog>
-                </div>
-              </>
+              <div className="flex justify-center items-center">
+                <FilterPopup />
+              </div>
             </div>
           )}
 
@@ -356,28 +343,28 @@ export default function JobBoard({ Title }) {
   );
 }
 
-const FilterPopup = (props) => {
+const filterPopup = (props) => {
   const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
 
   return (
     <div
       open={open}
       onClose={handleClose}
-      className="h-[100%] flex items-center justify-center"
+      className="flex items-center justify-center fixed top-0 right-0 bottom-0 left-0 z-20 bg-overlay-70"
     >
-      <div className="grid grid-rows-4">
-        <div>
-          <p>Job Type</p>
-          <Card>
-            <List>
+      <div className="grid grid-cols-4 bg-white rounded-xl gap-4 auto-cols-max">
+        <div className=" flex items-center col-span-4">
+          <p className="p-2">Job Type</p>
+          <Card className="w-full max-w-[24rem]">
+            <List className="flex-row">
               <ListItem className="p-0">
                 <label
-                  htmlFor="vertical-list-react"
+                  htmlFor="horizontal-list-react"
                   className="flex w-full cursor-pointer items-center px-3 py-2"
                 >
                   <ListItemPrefix className="mr-3">
                     <Checkbox
-                      id="vertical-list-react"
+                      id="horizontal-list-react"
                       ripple={false}
                       className="hover:before:opacity-0"
                       containerProps={{
@@ -392,12 +379,12 @@ const FilterPopup = (props) => {
               </ListItem>
               <ListItem className="p-0">
                 <label
-                  htmlFor="vertical-list-vue"
+                  htmlFor="horizontal-list-vue"
                   className="flex w-full cursor-pointer items-center px-3 py-2"
                 >
                   <ListItemPrefix className="mr-3">
                     <Checkbox
-                      id="vertical-list-vue"
+                      id="horizontal-list-vue"
                       ripple={false}
                       className="hover:before:opacity-0"
                       containerProps={{
@@ -412,12 +399,12 @@ const FilterPopup = (props) => {
               </ListItem>
               <ListItem className="p-0">
                 <label
-                  htmlFor="vertical-list-svelte"
+                  htmlFor="horizontal-list-svelte"
                   className="flex w-full cursor-pointer items-center px-3 py-2"
                 >
                   <ListItemPrefix className="mr-3">
                     <Checkbox
-                      id="vertical-list-svelte"
+                      id="horizontal-list-svelte"
                       ripple={false}
                       className="hover:before:opacity-0"
                       containerProps={{
@@ -433,8 +420,8 @@ const FilterPopup = (props) => {
             </List>
           </Card>
         </div>
-        <div></div>
-        <div></div>
+        <div>salary</div>
+        <div>skill</div>
       </div>
     </div>
   );

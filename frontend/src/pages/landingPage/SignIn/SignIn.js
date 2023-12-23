@@ -1,10 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import InputField from "components/InputField";
 import useRole from "hooks/useRole";
 import { SetPopupContext } from "App";
-
-import { redirect } from "react-router-dom";
 
 import axios from "axios";
 
@@ -100,7 +98,7 @@ export default function SignIn({ login }) {
   }, [type, history]);
 
   return loggedin ? (
-    <redirect to="/" />
+    <Navigate to="/" />
   ) : (
     <div className="min-h-screen bg-[#f8e5d4] md:pt-24 pt-12">
       <div className="bg-white rounded-2xl pt-10 md:px-8 px-6 pb-8 text-left md:w-4/12 w-11/12 mx-auto">

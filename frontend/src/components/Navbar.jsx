@@ -6,8 +6,11 @@ import MobileMenu from "./MobileMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ProfileMenu from "./ProfileMenu";
+import { userType } from "libs/isAuth";
+import isAuth from "libs/isAuth";
 
-export default function Navbar({ user, type, role }) {
+export default function Navbar({ user, role }) {
+  // const type = userType();
   return (
     <Disclosure as="nav" className="bg-[#FFF5EC]  w-full">
       {({ open }) => (
@@ -48,22 +51,18 @@ export default function Navbar({ user, type, role }) {
 
             <div className="flex">
               <MobileMenu />
-              {user ? (
-                <>
-                  {type === "Recruiter" ? (
-                    <Link
-                      to="/create-new-job"
-                      className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-sm justify-center px-6 bg-black rounded-lg mr-8 text-white"
-                    >
-                      <FontAwesomeIcon icon={faPlus} className="mr-3" />
-                      Create new job
-                    </Link>
-                  ) : (
-                    ""
-                  )}
-
-                  <ProfileMenu role={role} />
-                </>
+              {isAuth() ? (
+                userType() === "recruiter" ? (
+                  <Link
+                    to="/create-new-job"
+                    className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-sm justify-center px-6 bg-black rounded-lg mr-8 text-white"
+                  >
+                    <FontAwesomeIcon icon={faPlus} className="mr-3" />
+                    Create new job
+                  </Link>
+                ) : (
+                  <ProfileMenu type={userType} />
+                )
               ) : (
                 <>
                   <Link
