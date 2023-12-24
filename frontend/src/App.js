@@ -31,6 +31,7 @@ import Logout from "pages/landingPage/Logout";
 import AdminAddJob from "pages/admin/AdminAddJob";
 
 export const SetPopupContext = createContext();
+export const RecoveryContext = createContext();
 
 // function ApplicantRoute({ component: C, ...props }) {
 //   return (
