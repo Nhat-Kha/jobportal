@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
-import { RecoveryContext } from "App";
+import { SetPopupContext } from "App";
 import axios from "axios";
 
 export default function () {
-  const { email, otp, setPage } = useContext(RecoveryContext);
+  const { email, otp, setPage } = useContext(SetPopupContext);
   const [timerCount, setTimer] = React.useState(60);
   const [OTPinput, setOTPinput] = useState([0, 0, 0, 0]);
   const [disable, setDisable] = useState(true);

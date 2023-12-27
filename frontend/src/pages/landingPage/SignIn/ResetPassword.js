@@ -33,6 +33,7 @@ export default function ResetPassword({ forgotPassword }) {
           type="submit"
           className="mt-2 w-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-100 font-semibold cursor-pointer px-4 py-3 rounded-lg text-sm"
           onClick={forgotPassword}
+          to="/reset-recovered"
         >
           Send reset email
         </button>

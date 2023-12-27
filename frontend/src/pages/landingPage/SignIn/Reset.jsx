@@ -1,9 +1,9 @@
+import { SetPopupContext } from "App";
 import React from "react";
 import { useContext } from "react";
-import { RecoveryContext } from "App";
 
 export default function Reset() {
-  const { setPage } = useContext(RecoveryContext);
+  const { setPage } = useContext(SetPopupContext);
   function changePassword() {
     setPage("recovered");
   }
