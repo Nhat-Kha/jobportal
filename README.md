@@ -22,6 +22,9 @@
 - README.md
 
 ## Features
+ - Login,signup,forgort password
+ - Create post, search post
+ - Leaderboard
 
 ## Usage, Installation
 
