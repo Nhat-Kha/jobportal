@@ -14,7 +14,7 @@ mongoose
 
 // Create an Express application, set port for server
 const app = express();
-const port = 4444;
+const port = 5000;
 
 // Middleware
 app.use(bodyParser.json());
