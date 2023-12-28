@@ -18,46 +18,20 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }} for server
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-      working-directory: ./server
-
-    - name: Debug npm configuration for server
+    - name: Build and Test Server
       run: |
+        cd server
         echo "NPM cache directory: $(npm config get cache)"
         ls -al /home/runner/.npm
-      working-directory: ./server
+        npm cache clean -f
+        npm install
+        # Add any server-specific build and test commands here
 
-    - name: Clear npm cache for server
-      run: npm cache clean -f
-      working-directory: ./server
-
-    - run: npm install
-      working-directory: ./server
-
-    # Add any server-specific build and test commands here
-
-    - name: Use Node.js ${{ matrix.node-version }} for client
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-      working-directory: ./client
-
-    - name: Debug npm configuration for client
+    - name: Build and Test Client
       run: |
+        cd client
         echo "NPM cache directory: $(npm config get cache)"
         ls -al /home/runner/.npm
-      working-directory: ./client
-
-    - name: Clear npm cache for client
-      run: npm cache clean -f
-      working-directory: ./client
-
-    - run: npm install
-      working-directory: ./client
-
-    # Add any client-specific build and test commands here
+        npm cache clean -f
+        npm install
+        # Add any client-specific build and test commands here
