@@ -20,7 +20,7 @@ jobs:
 
     - name: Build and Test Server
       run: |
-        cd server
+        cd backend
         echo "NPM cache directory: $(npm config get cache)"
         ls -al /home/runner/.npm
         npm cache clean -f
@@ -29,7 +29,7 @@ jobs:
 
     - name: Build and Test Client
       run: |
-        cd client
+        cd frontend
         echo "NPM cache directory: $(npm config get cache)"
         ls -al /home/runner/.npm
         npm cache clean -f
