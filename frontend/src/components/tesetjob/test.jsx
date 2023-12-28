@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Loader from "./Loader";
+import Loader from "../Loader";
 import React from "react";
 import {
   Chip,
@@ -24,12 +24,12 @@ import {
   Button,
   Dialog,
 } from "@material-tailwind/react";
-import InputField from "./InputField";
+import InputField from "../InputField";
 import apiList from "libs/apiList";
 import { SetPopupContext } from "App";
-import FilterPopup from "./filterPopup";
+import FilterPopup from "../filterPopup";
 
-export default function JobBoard({ Title }) {
+export default function test({ Title }) {
   const [jobs, setJobs] = useState([]);
   const [title, setTitle] = useState(false);
 

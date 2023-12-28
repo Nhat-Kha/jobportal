@@ -1,4 +1,4 @@
-import JobBoard from "components/JobBoard";
+import JobBoard from "components/tesetjob/JobBoard";
 import Banner from "components/Banner";
 
 export default function Jobs() {

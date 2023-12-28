@@ -1,6 +1,6 @@
 import "editor.css";
 import icon from "assets/icon.jpg";
-export default function JobAd({ job, description, tags }) {
+export default function JobAd({ job, tags }) {
   return (
     <>
       <div className="w-11/12 mx-auto mt-20 pb-8">
@@ -24,29 +24,47 @@ export default function JobAd({ job, description, tags }) {
         <table class="table-auto w-full mb-3">
           <tbody className="text-xl">
             <tr>
-              <td className="text-bold">Hiring reward</td>
-              <td className="text-right">{job.hiring || ""} $</td>
+              <td className="text-bold">Salary reward</td>
+              <td className="text-right">{job.salary || ""} $</td>
             </tr>
 
             <tr>
               <td className="text-bold">Skills</td>
-              <td className="text-right">{tags || ""}</td>
+              <td className="text-right">
+                <div className="flex flex-row-reverse	">
+                  {tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="bg-blue-500 text-white p-2 m-1 rounded-full flex justify-start"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </td>
             </tr>
-
             <tr>
-              <td className="text-bold">Location</td>
-              <td className="text-right">{job.location || ""} </td>
+              <td className="text-bold">duration</td>
+              <td className="text-right">{job.duration || ""}</td>
             </tr>
             <tr>
-              <td className="text-bold">Employment</td>
-              <td className="text-right">{job.employment || ""}</td>
+              <td className="text-bold">deadline</td>
+              <td className="text-right">{job.deadline || ""}</td>
+            </tr>
+            <tr>
+              <td className="text-bold">maxApplicants</td>
+              <td className="text-right">{job.maxApplicants || ""}</td>
+            </tr>
+            <tr>
+              <td className="text-bold">maxPositions</td>
+              <td className="text-right">{job.maxPositions || ""}</td>
             </tr>
           </tbody>
         </table>
 
         <div className="my-8">
           <h1 className="text-3xl font-medium mb-2">About the job</h1>
-          <div dangerouslySetInnerHTML={{ __html: description }}></div>
+          <div dangerouslySetInnerHTML={{ __html: job.description }}></div>
         </div>
       </div>
     </>

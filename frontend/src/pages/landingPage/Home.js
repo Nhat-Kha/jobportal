@@ -3,8 +3,8 @@ import HowItWorks from "components/HowItWorks";
 import Banner from "components/Banner";
 import SocialMedia from "components/SocialMedia";
 // import { CompanyBanner } from "src/components/CompanyBanner";
-import JobBoard from "components/JobBoard";
 import Trusted from "components/Trusted";
+import JobBoard from "components/tesetjob/JobBoard";
 
 function Home() {
   return (
