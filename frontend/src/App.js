@@ -30,8 +30,9 @@ import isAuth from "libs/isAuth";
 import Logout from "pages/landingPage/Logout";
 import AdminAddJob from "pages/admin/AdminAddJob";
 import OTPInput from "pages/landingPage/SignIn/OTPInput";
-import Reset from "pages/landingPage/SignIn/Reset";
 import Recovered from "pages/landingPage/SignIn/Recovered";
+import { Reset } from "pages/landingPage/SignIn/Reset";
+import MessagePopup from "libs/MessagePopup";
 
 export const SetPopupContext = createContext();
 // export const RecoveryContext = createContext();
@@ -64,8 +65,8 @@ export default function App() {
   const type = userType();
   console.log("role:" + type);
   const [popup, setPopup] = useState({
-    open: false,
-    severity: "",
+    title: "",
+    icon: "",
     message: "",
   });
 
@@ -82,8 +83,8 @@ export default function App() {
           <Route exact path="/about" element={<About />} />
           <Route exact path="/sign-up" element={<SignUp />} />
           <Route exact path="/sign-in" element={<SignIn />} />
-          <Route exact path="/reset-pass" element={<OTPInput />} />
-          <Route exact path="/reset" element={<Reset />} />
+          {/* <Route exact path="/reset-pass" element={<OTPInput />} /> */}
+          <Route exact path="/password/reset/:token" element={<Reset />} />
           <Route exact path="/reset-recovered" element={<Recovered />} />
 
           <Route exact path="/referrals" element={<Referrals />} type={type} />
@@ -103,7 +104,7 @@ export default function App() {
           <Route exact path="/leaderboard" element={<Leaderboard />} />
           <Route
             exact
-            path="/sign-in/reset-password"
+            path="/sign-in/forgot-password"
             element={<ResetPassword />}
           />
 
@@ -124,6 +125,17 @@ export default function App() {
           <Route exact path="/logout" element={<Logout />} />
         </Routes>
         <Footer />
+        <MessagePopup
+          open={popup.open}
+          setOpen={(status) =>
+            setPopup({
+              ...popup,
+              open: status,
+            })
+          }
+          icon={popup.icon}
+          message={popup.message}
+        />
       </SetPopupContext.Provider>
     </Router>
   );

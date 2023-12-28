@@ -5,7 +5,6 @@ const applicationRouter = require("./applications");
 const ratingRouter = require("./rating");
 const uploadRouter = require("./upload");
 const downloadRouter = require("./download");
-const resetPassRouter = require("./resetPass");
 
 /**
  *
@@ -19,7 +18,6 @@ const initRouter = (app) => {
   app.use("/api/rating", ratingRouter);
   app.use("/api/upload", uploadRouter);
   app.use("/api/download", downloadRouter);
-  app.use("/api/resetPass", resetPassRouter);
 };
 
 module.exports = initRouter;

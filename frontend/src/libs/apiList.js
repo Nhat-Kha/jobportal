@@ -3,6 +3,8 @@ export const server = "http://localhost:4444/api";
 const apiList = {
   login: `${server}/auth/login`,
   signup: `${server}/auth/signup`,
+  forgot: `${server}/auth/password/forgot`,
+  reset: `${server}/auth/password/reset`,
   uploadCV: `${server}/upload/resume`,
   uploadProfile: `${server}/upload/profile`,
   jobs: `${server}/job`,

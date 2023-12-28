@@ -63,8 +63,7 @@ export default function SignIn({ login }) {
           localStorage.setItem("type", response.data.type);
           setLoggedin(isAuth());
           setPopup({
-            open: true,
-            severity: "success",
+            icon: "success",
             message: "Logged in successfully",
           });
           console.log(response);
@@ -144,7 +143,7 @@ export default function SignIn({ login }) {
         <Link
           className="block text-xs text-center mt-6 hover:underline text-semibold cursor-pointer
           hover:text-[#91b4bd]"
-          to="/sign-in/reset-password"
+          to="/sign-in/forgot-password"
         >
           Forgot your password?
         </Link>

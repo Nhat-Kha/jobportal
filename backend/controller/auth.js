@@ -1,10 +1,12 @@
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const authKeys = require("../middleware/authKeys");
+const crypto = require("crypto");
 
 const User = require("../model/user");
 const Recruiter = require("../model/recruiter");
 const JobApplicant = require("../model/jobApplicant");
+const sendMail = require("../utils/sendMail");
 
 const SignUp = async (req, res) => {
   try {
@@ -109,7 +111,75 @@ const Login = (req, res, next) => {
   )(req, res, next);
 };
 
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) throw new Error("Missing Email");
+  const user = await User.findOne({ email });
+  if (!user) throw new Error("User not found");
+  const resetToken = user.createPasswordChangedToken();
+  await user.save();
+  const html = `
+    <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 500; font-size: 14px">
+      Bạn nhận được email này vì bạn hoặc ai đó đã yêu cầu lấy lại mật khẩu
+    </p>
+    <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 500; font-size: 14px">
+      Chọn vào đây để lấy lại mật khẩu, yêu cầu này sẽ mất hiệu lực sau 15 phút:
+    </p>
+    <button style="padding: 14px; background-color: #1E90FF; border-radius: 5px; border-style: none; cursor: pointer">
+      <a href=${process.env.CLIENT_URL}/password/reset/${resetToken}
+        style="color:white; text-decoration-line: none; font-size: 14px; font-weight: 700">
+          Reset Password
+      </a>
+    </button>
+    <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 500; font-size: 14px">Nếu bạn không yêu cầu đặt lại mật khẩu, 
+    thì có thể bỏ qua email này</p>
+    <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 900; font-size: 14px">Cảm ơn bạn, </p>
+    <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 900; font-size: 14px">JobPortal Support Team!</p>
+    <img src="https://res.cloudinary.com/dkmkutpxp/image/upload/v1703743129/a4qjcagbhc7juqqjlpir.jpg" style="width: 20rem" alt="thumbnail">
+  `;
+
+  const data = {
+    email,
+    html,
+    subject: "[JobPortal] Password Reset E-Mail",
+  };
+
+  const result = await sendMail(data);
+  return res.status(200).json({
+    success: true,
+    result,
+  });
+};
+
+const resetPassword = async (req, res) => {
+  const { password, token } = req.body;
+  if (!password || !token) throw new Error("Missing Input");
+  const passwordResetToken = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+  const user = await User.findOne({
+    passwordResetToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+  // if (!user) throw new Error("Invalid Reset Token");
+  if (!user) {
+    return res.status(400).json({ error: "Invalid Reset Token" });
+  }
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordChangedAt = Date.now();
+  user.passwordResetExpires = undefined;
+  await user.save();
+  res.status(200).json({
+    success: user ? true : false,
+    msg: user ? "Update Password" : "Something went wrong",
+  });
+};
+
 module.exports = {
   SignUp,
   Login,
+  forgotPassword,
+  resetPassword,
 };

@@ -1,10 +1,66 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InputField from "components/InputField";
+import apiList from "../../../libs/apiList";
+import axios from "axios";
+import { SetPopupContext } from "App";
+import { userType } from "libs/isAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword({ forgotPassword }) {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
+
+  const setPopup = useContext(SetPopupContext);
+  const [inputErrorHandler, setInputErrorHandler] = useState({
+    email: {
+      error: false,
+      message: "",
+    },
+  });
+
+  const type = userType();
+  let history = useNavigate();
+
+  useEffect(() => {
+    if (type === "applicant") {
+      history("/referrals");
+    } else if (type === "recruiter") {
+      history("/admin");
+    }
+  }, [type, history]);
+
+  const handleInputError = (key, status, message) => {
+    setInputErrorHandler({
+      ...inputErrorHandler,
+      [key]: {
+        error: status,
+        message: message,
+      },
+    });
+  };
+  const handleForgot = async () => {
+    const verified = !Object.keys(inputErrorHandler).some((obj) => {
+      return inputErrorHandler[obj].error;
+    });
+    if (verified) {
+      try {
+        const response = await axios.post(apiList.forgot, { email });
+        setPopup({
+          open: true,
+          severity: "success",
+          message: "Successfully",
+        });
+        console.log(response);
+      } catch (err) {
+        setPopup({
+          open: true,
+          severity: "error",
+          message: err.message || "An error occurred",
+        });
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-primary md:pt-24 pt-12">
@@ -32,8 +88,7 @@ export default function ResetPassword({ forgotPassword }) {
         <button
           type="submit"
           className="mt-2 w-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-100 font-semibold cursor-pointer px-4 py-3 rounded-lg text-sm"
-          onClick={forgotPassword}
-          to="/reset-recovered"
+          onClick={handleForgot}
         >
           Send reset email
         </button>
