@@ -54,6 +54,9 @@
  $ npm start
 ```
 
+#NoSQL
+`Data from mongoDB`
+
 #API
 `Fetch Api = Postman`
 
