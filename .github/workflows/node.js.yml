@@ -26,7 +26,7 @@ jobs:
           rm -rf node_modules/
           npm update
           npm install
-          npm start
+          npm start &
           # Add any server-specific build and test commands here
 
       - name: Build and Test Client
