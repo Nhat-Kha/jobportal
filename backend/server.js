@@ -3,12 +3,13 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passportConfig = require("./middleware/passportConfig");
 const cors = require("cors");
+require("dotenv").config();
 
 const initRouter = require("./routes");
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://127.0.0.1:27017/job-portal")
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.error(err));
 
