@@ -1,4 +1,4 @@
-export const server = "http://localhost:5000/api";
+export const server = "https://jobportal-6qtv.onrender.com/api";
 
 const apiList = {
   login: `${server}/auth/login`,
