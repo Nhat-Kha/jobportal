@@ -36,5 +36,5 @@ jobs:
           ls -al /home/runner/.npm
           npm cache clean -f
           npm install
-          npm start
+          npm start &
           # Add any client-specific build and test commands here
