@@ -25,9 +25,9 @@ export const Reset = () => {
     });
     if (verified) {
       const data = { ...payload, token };
-      // const response = await axios.put(apiList.reset, { data });
-      // console.log(response);
-      console.log(data);
+      const response = await axios.put(apiList.reset, { data });
+      console.log(response);
+      // console.log(data);
     }
   };
 
