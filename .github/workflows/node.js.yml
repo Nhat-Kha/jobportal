@@ -23,6 +23,8 @@ jobs:
           echo "NPM cache directory: $(npm config get cache)"
           ls -al /home/runner/.npm
           npm cache clean -f
+          rm -rf node_modules/
+          npm update
           npm install
           npm start &
           # Add any server-specific build and test commands here
@@ -34,5 +36,5 @@ jobs:
           ls -al /home/runner/.npm
           npm cache clean -f
           npm install
-          npm start &
+          npm start
           # Add any client-specific build and test commands here
