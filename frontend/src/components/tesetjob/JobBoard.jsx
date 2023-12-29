@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import {
   faCoins,
@@ -12,7 +12,6 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Loader";
-import React from "react";
 import {
   Chip,
   Checkbox,
@@ -30,12 +29,10 @@ import apiList from "../../libs/apiList";
 import { SetPopupContext } from "App";
 import FilterPopup from "../filterPopup";
 import Myjob from "./Myjob";
+import axiosInstance from "components/test/axiosInstance";
 
-export const JobBoard = (props, Title) => {
+export default function JobBoard({ title }) {
   const setPopup = useContext(SetPopupContext);
-
-  const [title, setTitle] = useState(false);
-
   const [jobs, setJobs] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchOptions, setSearchOptions] = useState({
@@ -63,18 +60,43 @@ export const JobBoard = (props, Title) => {
     },
   });
 
-  useEffect(() => {
-    setTitle(Title);
-  }, [Title]);
   // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:4000")
+  //   axiosInstance
+  //     .get(apiList.jobs)
   //     .then((response) => setJobs(response.data))
   //     .catch((error) => {
   //       console.error("Error fetching jobs:", error);
   //       setJobs([]);
   //     });
-  // });
+  // }, []);
+
+  // useEffect(() => {
+  //   setTitle(Title);
+  // }, [Title]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(apiList.jobs);
+        console.log(response.data);
+        const data = response.data;
+
+        const items = data.map((job) => ({ data: () => job }));
+
+        if (title) {
+          // Check the Title prop, not the title state
+          setJobs(items.slice(0, 6));
+        } else {
+          setJobs(items);
+        }
+      } catch (error) {
+        console.log("message error is: " + error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log("Title: ", title);
 
   useEffect(() => {
     getData();
@@ -156,7 +178,7 @@ export const JobBoard = (props, Title) => {
     <>
       <div className="bg-light">
         <div className="md:w-10/12 w-11/12 mx-auto h-full md:pb-28 pb-12">
-          {title ? (
+          {title === false ? (
             <div className="block pt-4">
               <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12 pt-10">
                 Trending jobs
@@ -240,7 +262,7 @@ export const JobBoard = (props, Title) => {
           ) : (
             <h5 style={{ textAlign: "center" }}>No jobs found</h5>
           )}
-          {title ? (
+          {title === false ? (
             <div className="w-48 mt-16 mx-auto">
               <Link
                 to="jobs"
@@ -281,7 +303,7 @@ export const JobBoard = (props, Title) => {
       </div>
     </>
   );
-};
+}
 
 const filterPopup = (props) => {
   const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
@@ -366,5 +388,3 @@ const filterPopup = (props) => {
     </div>
   );
 };
-
-export default JobBoard;

@@ -4,7 +4,7 @@ import Banner from "components/Banner";
 export default function Jobs() {
   return (
     <div className="bg-light pt-20">
-      <JobBoard Title={false} />
+      <JobBoard title={true} />
       <Banner
         title="Want to post your own jobs?"
         button="Post a job"

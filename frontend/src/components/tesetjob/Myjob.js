@@ -34,6 +34,7 @@ const Myjob = (props) => {
   let history = useNavigate();
   const { job, getData } = props;
   const title = job && job.title ? job.title : "Default Title";
+
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -126,7 +127,9 @@ const Myjob = (props) => {
               </p>
             </div>
           </div>
-          <Rating value={job.rating !== -1 ? job.rating : null} readonly />
+          <div className="pl-1 pb-1">
+            <Rating value={job.rating !== -1 ? job.rating : null} readonly />
+          </div>
           <p className="pl-1 pb-1">
             <FontAwesomeIcon
               icon={faMoneyBillWave}

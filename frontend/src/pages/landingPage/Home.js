@@ -12,7 +12,7 @@ function Home() {
       <Content />
       <Trusted />
       <HowItWorks />
-      <JobBoard Title={true} />
+      <JobBoard title={false} />
       {/* <CompanyBanner /> */}
       <SocialMedia />
       <Banner
