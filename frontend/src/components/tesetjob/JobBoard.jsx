@@ -29,10 +29,9 @@ import apiList from "../../libs/apiList";
 import { SetPopupContext } from "App";
 import FilterPopup from "../filterPopup";
 import Myjob from "./Myjob";
-import axiosInstance from "components/test/axiosInstance";
+import axiosInstance from "../test/axiosInstance";
 
-export default function JobBoard({ title }) {
-  const setPopup = useContext(SetPopupContext);
+export default function JobBoard({ title, props }) {
   const [jobs, setJobs] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [searchOptions, setSearchOptions] = useState({
@@ -60,9 +59,40 @@ export default function JobBoard({ title }) {
     },
   });
 
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!token) {
+          console.error("Token is missing");
+          return;
+        }
+
+        const response = await axiosInstance.get(apiList.jobs, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log(response.data);
+        setJobs(response.data);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+        // Xử lý lỗi nếu cần thiết
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
   // useEffect(() => {
   //   axiosInstance
-  //     .get(apiList.jobs)
+  //     .get(apiList.jobs, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     })
   //     .then((response) => setJobs(response.data))
   //     .catch((error) => {
   //       console.error("Error fetching jobs:", error);
@@ -74,29 +104,28 @@ export default function JobBoard({ title }) {
   //   setTitle(Title);
   // }, [Title]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get(apiList.jobs);
-        console.log(response.data);
-        const data = response.data;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(apiList.jobs);
+  //       console.log(response.data);
+  //       const data = response.data;
 
-        const items = data.map((job) => ({ data: () => job }));
+  //       const items = data.map((job) => ({ data: () => job }));
 
-        if (title) {
-          // Check the Title prop, not the title state
-          setJobs(items.slice(0, 6));
-        } else {
-          setJobs(items);
-        }
-      } catch (error) {
-        console.log("message error is: " + error);
-      }
-    };
+  //       if (title) {
+  //         // Check the Title prop, not the title state
+  //         setJobs(items.slice(0, 6));
+  //       } else {
+  //         setJobs(items);
+  //       }
+  //     } catch (error) {
+  //       console.log("message error is: " + error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
-  console.log("Title: ", title);
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     getData();
@@ -166,11 +195,6 @@ export default function JobBoard({ title }) {
       })
       .catch((err) => {
         console.log(err.response.data);
-        setPopup({
-          open: true,
-          severity: "error",
-          message: "Error",
-        });
       });
   };
 
@@ -254,14 +278,15 @@ export default function JobBoard({ title }) {
               </div>
             </div>
           )}
-
-          {jobs.length > 0 ? (
-            jobs.map((job) => {
-              return <Myjob job={job} getData={getData} />;
-            })
-          ) : (
-            <h5 style={{ textAlign: "center" }}>No jobs found</h5>
-          )}
+          <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 ">
+            {jobs.length > 0 ? (
+              jobs.map((job) => {
+                return <Myjob job={job._id} getData={getData} />;
+              })
+            ) : (
+              <h5 style={{ textAlign: "center" }}>No jobs found</h5>
+            )}
+          </div>
           {title === false ? (
             <div className="w-48 mt-16 mx-auto">
               <Link

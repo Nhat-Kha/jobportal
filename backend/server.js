@@ -9,7 +9,9 @@ const initRouter = require("./routes");
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(
+    "mongodb+srv://nhatkha06299:nhatkha@datacluster.0yp5pys.mongodb.net/JobPotal"
+  )
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.error(err));
 

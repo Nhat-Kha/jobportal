@@ -1,0 +1,28 @@
+.Toastify__toast--error {
+  border: 1px solid var(--main-danger-color);
+  border-radius: var(--border-radius) !important;
+  background: var(--secondary-bg) !important;
+  color: var(--main-danger-color);
+}
+.Toastify__toast--success {
+  border: 1px solid var(--accent-color);
+  border-radius: var(--border-radius) !important;
+  background: var(--secondary-bg) !important;
+  color: var(--accent-color);
+
+  svg {
+    fill: var(--accent-color) !important;
+  }
+}
+.Toastify__toast-theme--light {
+  border-radius: var(--border-radius) !important;
+  background: var(--secondary-bg) !important;
+  color: var(--main-text) !important;
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 480px) {
+  .Toastify__toast-theme--light {
+    margin: 0.5rem;
+  }
+}

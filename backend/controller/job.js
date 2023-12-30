@@ -233,7 +233,11 @@ const getJobId = async (req, res) => {
       res.json(job);
     })
     .catch((err) => {
-      res.status(400).json(job);
+      res.status(400).json({
+        message: "Error fetching job",
+        error: err.message, // Include the error message for debugging
+      });1
+      console.log("error: ", err);
     });
 };
 

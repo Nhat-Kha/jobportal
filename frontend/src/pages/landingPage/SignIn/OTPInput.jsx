@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { SetPopupContext } from "App";
 import axios from "axios";
 
-export default function () {
+export default function OTPInput() {
   const { email, otp, setPage } = useContext(SetPopupContext);
   const [timerCount, setTimer] = React.useState(60);
   const [OTPinput, setOTPinput] = useState([0, 0, 0, 0]);
@@ -139,6 +139,7 @@ export default function () {
                     <a
                       onClick={() => verfiyOTP()}
                       className="flex flex-row cursor-pointer items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
+                      href="#!"
                     >
                       Verify Account
                     </a>
@@ -154,6 +155,7 @@ export default function () {
                         textDecorationLine: disable ? "none" : "underline",
                       }}
                       onClick={() => resendOTP()}
+                      href="#!"
                     >
                       {disable ? `Resend OTP in ${timerCount}s` : "Resend OTP"}
                     </a>

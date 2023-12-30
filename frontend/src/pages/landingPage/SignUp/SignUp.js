@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import InputField from "components/InputField";
 
 import PhoneInput from "react-phone-input-2";
@@ -9,13 +9,15 @@ import axios from "axios";
 import isAuth from "libs/isAuth";
 import apiList from "../../../libs/apiList";
 import { MuiChipsInput } from "mui-chips-input";
+import Alert from "components/alert";
 
 export default function SignUp() {
-  const setPopup = useContext(SetPopupContext);
   const [loggedin, setLoggedin] = useState(isAuth());
   const [phone, setPhone] = useState("");
 
-  const [chips, setChips] = React.useState([]);
+  const [chips, setChips] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleChip = (newChips) => {
     setChips(newChips);
@@ -144,29 +146,15 @@ export default function SignUp() {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("type", response.data.type);
           setLoggedin(isAuth());
-          setPopup({
-            open: true,
-            severity: "success",
-            message: "Logged in successfully",
-          });
+          setSuccess(true);
           console.log("export" + response);
           console.log(response.data.type);
         })
         .catch((err) => {
-          setPopup({
-            open: true,
-            severity: "error",
-            message: err.response.data.message,
-          });
           console.log(err.response);
         });
     } else {
       setInputErrorHandler(tmpErrorHandler);
-      setPopup({
-        open: true,
-        severity: "error",
-        message: "Incorrect Input",
-      });
     }
   };
 
@@ -181,6 +169,16 @@ export default function SignUp() {
       },
     });
   };
+
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        setSuccess(false);
+      });
+    }
+  }, [success]);
+
+  console.log(success);
 
   return (
     <div className="min-h-screen bg-[#f8e5d4] md:py-24">
@@ -365,6 +363,8 @@ export default function SignUp() {
         >
           Create your account
         </button>
+
+        {success && <Alert type={success} message="Đăng ký thành công" />}
 
         <p className="text-xs text-center mt-6">
           By creating an account you agree to Greet's Terms and Conditions.

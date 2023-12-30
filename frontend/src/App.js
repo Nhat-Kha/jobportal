@@ -33,6 +33,7 @@ import OTPInput from "pages/landingPage/SignIn/OTPInput";
 import Recovered from "pages/landingPage/SignIn/Recovered";
 import { Reset } from "pages/landingPage/SignIn/Reset";
 import MessagePopup from "libs/MessagePopup";
+import Alert from "components/alert/index";
 
 export const SetPopupContext = createContext();
 // export const RecoveryContext = createContext();
@@ -65,8 +66,8 @@ export default function App() {
   const type = userType();
   console.log("role:" + type);
   const [popup, setPopup] = useState({
-    title: "",
-    icon: "",
+    open: false,
+    severity: "",
     message: "",
   });
 
@@ -125,17 +126,6 @@ export default function App() {
           <Route exact path="/logout" element={<Logout />} />
         </Routes>
         <Footer />
-        <MessagePopup
-          open={popup.open}
-          setOpen={(status) =>
-            setPopup({
-              ...popup,
-              open: status,
-            })
-          }
-          icon={popup.icon}
-          message={popup.message}
-        />
       </SetPopupContext.Provider>
     </Router>
   );

@@ -13,7 +13,6 @@ export default function MobileMenu() {
         {({ open, close }) => (
           <>
             <Popover.Button
-              c
               ref={buttonRef}
               className="lg:hidden block text-black group md:py-2 py-1 rounded-md  items-center  text-lg font-semibold hover:text-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >

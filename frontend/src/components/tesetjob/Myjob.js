@@ -26,8 +26,7 @@ import {
   Rating,
 } from "@material-tailwind/react";
 import InputField from "../InputField";
-import apiList from "libs/apiList";
-import { SetPopupContext } from "App";
+import apiList from "../../libs/apiList";
 import FilterPopup from "../filterPopup";
 
 const Myjob = (props) => {
@@ -35,7 +34,6 @@ const Myjob = (props) => {
   const { job, getData } = props;
   const title = job && job.title ? job.title : "Default Title";
 
-  const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [jobDetails, setJobDetails] = useState(job);
@@ -68,21 +66,11 @@ const Myjob = (props) => {
         },
       })
       .then((response) => {
-        setPopup({
-          open: true,
-          severity: "success",
-          message: response.data.message,
-        });
         getData();
         handleClose();
       })
       .catch((err) => {
         console.log(err.response);
-        setPopup({
-          open: true,
-          severity: "error",
-          message: err.response.data.message,
-        });
         handleClose();
       });
   };
@@ -95,26 +83,17 @@ const Myjob = (props) => {
         },
       })
       .then((response) => {
-        setPopup({
-          open: true,
-          severity: "success",
-          message: response.data.message,
-        });
         getData();
         handleCloseUpdate();
       })
       .catch((err) => {
         console.log(err.response);
-        setPopup({
-          open: true,
-          severity: "error",
-          message: err.response.data.message,
-        });
         handleCloseUpdate();
       });
   };
 
-  const postedOn = job?.dateOfPosting ? new Date(job.dateOfPosting) : null;
+  // const postedOn = job?.dateOfPosting ? new Date(job.dateOfPosting) : null;
+  const postedOn = new Date(job.dateOfPosting);
 
   return (
     <>

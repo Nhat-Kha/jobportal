@@ -20,7 +20,6 @@ function WaitingBtn() {
 }
 
 export default function JobCreator({ jobToEdit, isComplete, props }) {
-  const setPopup = useContext(SetPopupContext);
   const [tags, setTags] = useState([]);
   const addTag = (e) => {
     setTags((prevTags) => [...prevTags, e]);
@@ -57,11 +56,6 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
         },
       })
       .then((response) => {
-        setPopup({
-          open: true,
-          severity: "success",
-          message: response.data.message,
-        });
         setJob({
           title: "",
           maxApplicants: 100,
@@ -76,11 +70,6 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
         });
       })
       .catch((err) => {
-        setPopup({
-          open: true,
-          severity: "error",
-          message: err.response.data.message,
-        });
         console.log(err.response);
       });
   };
