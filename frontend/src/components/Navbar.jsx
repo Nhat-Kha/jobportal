@@ -9,8 +9,7 @@ import ProfileMenu from "./ProfileMenu";
 import { userType } from "libs/isAuth";
 import isAuth from "libs/isAuth";
 
-export default function Navbar({ user, role }) {
-  // const type = userType();
+export default function Navbar() {
   return (
     <Disclosure as="nav" className="bg-[#FFF5EC]  w-full">
       {({ open }) => (
@@ -20,7 +19,7 @@ export default function Navbar({ user, role }) {
               <Link className="flex pt-1" to="/">
                 <img className="md:pl-5 pl-2" src={logo} alt="logo" />
                 <h1 className="md:pl-2 pl-2 text-3xl text-[#F2994A] font-medium hover:opacity-60">
-                  Search
+                  JobPortal
                 </h1>
               </Link>
 
@@ -37,7 +36,7 @@ export default function Navbar({ user, role }) {
                   className="lg:block hidden text-[#333333] text-lg font-semibold pl-3 pr-6 py-2 hover:opacity-60"
                   to="/companies"
                 >
-                  Recruiter
+                  Companies
                 </Link>
 
                 <Link

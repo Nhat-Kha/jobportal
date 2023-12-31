@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import NoReferrals from "components/emptyStates/NoReferrals";
 import isAuth from "libs/isAuth";
 import { userType } from "libs/isAuth";
-import axios from "axios";
 
 export default function Referrals() {
   let [referrals, setReferrals] = useState([]);

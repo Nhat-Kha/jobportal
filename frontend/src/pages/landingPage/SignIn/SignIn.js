@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import InputField from "components/InputField";
+import { SetPopupContext } from "App";
 
 import axios from "axios";
 
@@ -14,6 +15,7 @@ export default function SignIn({ login }) {
   // const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   // const role = useRole();
+  const setPopup = useContext(SetPopupContext);
   const [loggedin, setLoggedin] = useState(isAuth());
   const [loginDetails, setLoginDetails] = useState({
     email: "",
@@ -59,14 +61,26 @@ export default function SignIn({ login }) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("type", response.data.type);
           setLoggedin(isAuth());
-
+          setPopup({
+            icon: "success",
+            message: "Logged in successfully",
+          });
           console.log(response);
         })
         .catch((err) => {
+          setPopup({
+            open: true,
+            severity: "error",
+            message: err.response.data.message,
+          });
           console.log(err.response);
         });
     } else {
-      console.log(verified);
+      setPopup({
+        open: true,
+        severity: "error",
+        message: "Incorrect Input",
+      });
     }
   };
 

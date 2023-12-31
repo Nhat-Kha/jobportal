@@ -46,8 +46,7 @@ export default function ResetPassword({ forgotPassword }) {
       try {
         const response = await axios.post(apiList.forgot, { email });
         console.log(response);
-      } catch (err) {
-      }
+      } catch (err) {}
     }
   };
 

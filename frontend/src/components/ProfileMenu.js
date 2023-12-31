@@ -20,9 +20,8 @@ export default function ProfileMenu({ user }) {
   const type = userType();
   let history = useNavigate();
 
-  function handleClick(err) {
+  function handleClick() {
     history("/logout");
-    console.log(err);
   }
 
   return (
@@ -124,7 +123,7 @@ export default function ProfileMenu({ user }) {
               <Menu.Item>
                 <button
                   className="flex items-center text-left p-2 w-full transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                  onClick={() => handleClick("/logout")}
+                  onClick={() => handleClick()}
                 >
                   Logout
                 </button>

@@ -5,6 +5,7 @@ import SocialMedia from "components/SocialMedia";
 // import { CompanyBanner } from "src/components/CompanyBanner";
 import Trusted from "components/Trusted";
 import JobBoard from "components/tesetjob/JobBoard";
+import Navbar from "components/Navbar";
 
 function Home() {
   return (

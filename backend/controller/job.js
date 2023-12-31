@@ -52,12 +52,12 @@ const getJobList = async (req, res) => {
   let sortParams = {};
 
   // Filter jobs for recruiters if 'myjobs' query parameter is present
-  if (user.type === "recruiter" && req.query.myjobs) {
-    findParams = {
-      ...findParams,
-      userId: user._id,
-    };
-  }
+  // if (user.type === "recruiter" && req.query.myjobs) {
+  //   findParams = {
+  //     ...findParams,
+  //     userId: user._id,
+  //   };
+  // }
 
   // Filter jobs based on title using 'q' query parameter
   if (req.query.q) {
@@ -236,7 +236,8 @@ const getJobId = async (req, res) => {
       res.status(400).json({
         message: "Error fetching job",
         error: err.message, // Include the error message for debugging
-      });1
+      });
+      1;
       console.log("error: ", err);
     });
 };

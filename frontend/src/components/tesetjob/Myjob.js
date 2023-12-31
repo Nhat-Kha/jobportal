@@ -29,7 +29,7 @@ import InputField from "../InputField";
 import apiList from "../../libs/apiList";
 import FilterPopup from "../filterPopup";
 
-const Myjob = (props) => {
+const Myjob = (props, index) => {
   let history = useNavigate();
   const { job, getData } = props;
   const title = job && job.title ? job.title : "Default Title";
@@ -97,7 +97,10 @@ const Myjob = (props) => {
 
   return (
     <>
-      <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 ">
+      <div
+        // className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 "
+        index={index}
+      >
         <div className="transform ease-in duration-100 hover:-translate-y-2 hover:shadow-lg w-full bg-white rounded-2xl p-6 text-left">
           <div className="flex items-center text-left pb-4">
             <div>
