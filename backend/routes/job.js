@@ -10,7 +10,7 @@ const router = express.Router();
 // Get, post công việc, yêu cầu xác thực JWT
 router.post("/", jwtAuth, jobCtrl.addJob);
 router.get("/", jobCtrl.getJobList);
-router.get("/:id", jwtAuth, jobCtrl.getJobId);
+router.get("/:id", jobCtrl.getJobId);
 router.get("/:id/applications", jwtAuth, jobCtrl.getApplications);
 router.put("/", jwtAuth, jobCtrl.updateJobDetails);
 router.post("/:id/applications", jwtAuth, jobCtrl.applyJob);
