@@ -16,12 +16,11 @@ import {
 import apiList from "../../libs/apiList";
 import FilterPopup from "../filterPopup";
 import Myjob from "./Myjob";
-import axiosInstance from "../test/axiosInstance";
 
 export default function JobBoard({ title, props }) {
   const [jobs, setJobs] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
-  const [token, setToken] = useState("");
+  const [maxJobsToShow, setMaxJobsToShow] = useState(6);
   const [searchOptions, setSearchOptions] = useState({
     query: "",
     jobType: {
@@ -46,6 +45,10 @@ export default function JobBoard({ title, props }) {
       },
     },
   });
+
+  console.log("job: ", jobs);
+
+  const limitedJobs = jobs.slice(0, maxJobsToShow);
 
   useEffect(() => {
     getData();
@@ -114,7 +117,7 @@ export default function JobBoard({ title, props }) {
         setJobs(response.data);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
       });
   };
   return (
@@ -197,22 +200,40 @@ export default function JobBoard({ title, props }) {
               </div>
             </div>
           )}
-          <div className="flex flex-row	flex-wrap	justify-between	gap-10">
-            {jobs.length > 0 ? (
-              jobs.map((job, index) => {
-                return (
-                  <Myjob
-                    className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 "
-                    job={job._id}
-                    getData={getData}
-                    key={index}
-                  />
-                );
-              })
-            ) : (
-              <h5 style={{ textAlign: "center" }}>No jobs found</h5>
-            )}
-          </div>
+          {title === false ? (
+            <div className="flex flex-row	flex-wrap	justify-between	gap-10">
+              {limitedJobs.length > 0 ? (
+                limitedJobs.map((job, index) => {
+                  return (
+                    <Myjob
+                      className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2"
+                      job={job}
+                      key={index}
+                    />
+                  );
+                })
+              ) : (
+                <h5 style={{ textAlign: "center" }}>No jobs found</h5>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-row	flex-wrap	justify-between	gap-10 cursor-auto">
+              {jobs.length > 0 ? (
+                jobs.map((job, index) => {
+                  return (
+                    <Myjob
+                      className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 "
+                      job={job}
+                      key={index}
+                    />
+                  );
+                })
+              ) : (
+                <h5 style={{ textAlign: "center" }}>No jobs found</h5>
+              )}
+            </div>
+          )}
+
           {title === false ? (
             <div className="w-48 mt-16 mx-auto">
               <Link

@@ -8,6 +8,7 @@ const apiList = {
   uploadCV: `${server}/upload/resume`,
   uploadProfile: `${server}/upload/profile`,
   jobs: `${server}/job`,
+  jobsId: `${server}/job/:job`,
   applications: `${server}/application`,
   rating: `${server}/rating`,
   user: `${server}/user`,

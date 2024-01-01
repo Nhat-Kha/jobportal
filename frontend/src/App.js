@@ -22,6 +22,8 @@ import Logout from "pages/landingPage/Logout";
 import AdminAddJob from "pages/admin/AdminAddJob";
 import Recovered from "pages/landingPage/SignIn/Recovered";
 import { Reset } from "pages/landingPage/SignIn/Reset";
+import Job from "pages/landingPage/Job";
+import Refer from "pages/landingPage/Refer";
 
 export const SetPopupContext = createContext();
 
@@ -35,8 +37,8 @@ export default function App() {
   });
 
   return (
-    <Router>
-      <SetPopupContext.Provider value={setPopup}>
+    <SetPopupContext.Provider value={setPopup}>
+      <Router>
         <ScrollToTop />
         <InfoBar />
         <Navbar />
@@ -54,6 +56,8 @@ export default function App() {
           <Route exact path="/for-recruiter" element={<ForRecruiter />} />
           <Route exact path="/for-applicant" element={<ForApplicant />} />
           <Route exact path="/leaderboard" element={<Leaderboard />} />
+          <Route exact path="/jobs/:id" element={<Job />} />
+          <Route exact path="/jobs/:id/refer" element={<Refer />} />
           <Route
             exact
             path="/sign-in/forgot-password"
@@ -77,7 +81,7 @@ export default function App() {
           <Route exact path="/logout" element={<Logout />} />
         </Routes>
         <Footer />
-      </SetPopupContext.Provider>
-    </Router>
+      </Router>
+    </SetPopupContext.Provider>
   );
 }

@@ -2,20 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import InputField from "components/InputField";
 import { SetPopupContext } from "App";
-
 import axios from "axios";
-
 import isAuth from "libs/isAuth";
 import apiList from "../../../libs/apiList";
 import { userType } from "libs/isAuth";
-// import apiList from "../../../libs/apiList";
 
 export default function SignIn({ login }) {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  // const role = useRole();
   const setPopup = useContext(SetPopupContext);
+  const [errorMessage, setErrorMessage] = useState("");
   const [loggedin, setLoggedin] = useState(isAuth());
   const [loginDetails, setLoginDetails] = useState({
     email: "",

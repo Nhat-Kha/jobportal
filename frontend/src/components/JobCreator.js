@@ -10,6 +10,8 @@ import { MuiChipsInput } from "mui-chips-input";
 import { SetPopupContext } from "App";
 import apiList from "../libs/apiList";
 import axios from "axios";
+import { userType } from "libs/isAuth";
+import isAuth from "libs/isAuth";
 
 function WaitingBtn() {
   return (
@@ -21,11 +23,20 @@ function WaitingBtn() {
 
 export default function JobCreator({ jobToEdit, isComplete, props }) {
   const [tags, setTags] = useState([]);
+
   const addTag = (e) => {
-    setTags((prevTags) => [...prevTags, e]);
+    const skillToAdd = Array.isArray(e) ? e[0] : e;
+
+    setTags((prevTags) => [...prevTags, skillToAdd]);
+    setJob((prevJob) => ({
+      ...prevJob,
+      skillsets: [...prevJob.skillsets, skillToAdd],
+    }));
   };
+
   const [job, setJob] = useState(
     jobToEdit || {
+      name: isAuth(),
       title: "",
       maxApplicants: 100,
       maxPositions: 30,
@@ -33,7 +44,7 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
       deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
         .toISOString()
         .substr(0, 16),
-      skill: tags,
+      skillsets: tags,
       duration: 0,
       jobType: "Full Time",
       status: "Open",
@@ -73,9 +84,6 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
         console.log(err.response);
       });
   };
-
-  console.log(job.skill);
-  console.log(tags);
 
   return (
     <div className="grid grid-cols-12 overflow-y-hidden h-screen">
@@ -176,7 +184,7 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
             Skills <span className="text-[#ff3131]">*</span>
           </label>
           <MuiChipsInput
-            value={job.skill}
+            value={tags}
             onChange={(e) => addTag(e)}
             className="bg-white w-full block border border-grey-light p-3 rounded mb-4"
           />
@@ -218,7 +226,7 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
         </div>
       </div>
       <div className="col-span-8 overflow-y-scroll">
-        <JobAd job={job} tags={tags} description={job.description} />
+        <JobAd job={job} tags={tags} />
       </div>
     </div>
   );
