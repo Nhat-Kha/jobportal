@@ -1,10 +1,14 @@
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputField from "components/InputField";
+import FileUploadInput from "libs/FileUploadInput";
+import apiList from "libs/apiList";
 
 export default function Candidate({ candidate, addCandidate }) {
   return (
     <>
       <h2 className="mt-8 mb-4 text-4xl font-semibold text-gray-900 leading-none">
-        Who do you want to refer?
+        Could you provide a professional reference for your job application?
       </h2>
 
       <InputField

@@ -7,6 +7,9 @@ import axios from "axios";
 import isAuth from "libs/isAuth";
 import apiList from "../../../libs/apiList";
 import { MuiChipsInput } from "mui-chips-input";
+import FileUploadInput from "libs/FileUploadInput";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function SignUp() {
   const setPopup = useContext(SetPopupContext);
@@ -44,6 +47,8 @@ export default function SignUp() {
       },
     ],
     skills: [],
+    resume: "",
+    profile: "",
     news: false,
     bio: "",
     contactNumber: "",
@@ -283,20 +288,6 @@ export default function SignUp() {
                 />
               </div>
             ))}
-            {/* <InputField
-              label="Skill"
-              helperText="Please enter to add skills"
-              value={signupDetails.skills}
-              onChange={(chips) =>
-                setSignupDetails({ ...signupDetails, skills: chips })
-              }
-            /> */}
-            {/* <div className="flex">
-              <label className="block text-black text-sm font-semibold mb-2">
-                Skill
-              </label>
-              <span className="text-red-500">*</span>
-            </div> */}
             <MuiChipsInput
               label="Skill *"
               helperText="Please enter to add skill"
@@ -304,6 +295,16 @@ export default function SignUp() {
               onChange={handleChip}
               className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
             />
+            <div>
+              <FileUploadInput
+                label="Profile Photo (.jpg/.png)"
+                icon={<FontAwesomeIcon icon={faUser} />}
+                identifier={"profile"}
+                uploadTo={apiList.uploadProfileImage}
+                handleInput={handleInput}
+                className="w-[400px]"
+              />
+            </div>
           </>
         ) : (
           <>
