@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { SetPopupContext } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import Loader from "components/Loader";
 import InputField from "components/InputField";
 
 export default function FileUploadInput(props) {
@@ -33,13 +32,18 @@ export default function FileUploadInput(props) {
         setProgress((prevState) => {
           return { ...prevState, pc: ProgressEvent.progress * 100 };
         });
+        // setProgress(
+        //   parseInt(
+        //     Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)
+        //   )
+        // );
       },
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
       .then((response) => {
-        console.log(response.data);
+        setMsg("Upload success");
         handleInput(identifier, response.data.url);
         setPopup({
           open: true,
@@ -48,14 +52,14 @@ export default function FileUploadInput(props) {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log(err.file);
         setPopup({
-          //   open: true,
-          //   severity: "error",
-          //   message: err.response.statusText,
-          message: err.response.data
-            ? err.response.data.message
-            : err.response.statusText,
+          open: true,
+          severity: "error",
+          message: err.response,
+          // message: err.response.data
+          //   ? err.response.data.message
+          //   : err.response.statusText,
         });
       });
   };
@@ -68,10 +72,7 @@ export default function FileUploadInput(props) {
             {props.icon}
             <input
               type="file"
-              style={{ display: "none" }}
               onChange={(e) => {
-                console.log(e.target.files);
-                setUploadPercentage(0);
                 setFile(e.target.files[0]);
               }}
               //   onChange={onChange}
@@ -101,11 +102,8 @@ export default function FileUploadInput(props) {
           </button>
         </div>
       </div>
-      {uploadPercentage !== 0 ? (
-        <div>
-          <Loader value={uploadPercentage} />
-        </div>
-      ) : null}
+      {progress.started && <progress max="100" value={progress.pc}></progress>}
+      {msg && <span>{msg}</span>}
     </div>
   );
 }

@@ -300,7 +300,7 @@ export default function SignUp() {
                 label="Profile Photo (.jpg/.png)"
                 icon={<FontAwesomeIcon icon={faUser} />}
                 identifier={"profile"}
-                uploadTo={apiList.uploadProfileImage}
+                uploadTo={apiList.uploadProfile}
                 handleInput={handleInput}
                 className="w-[400px]"
               />

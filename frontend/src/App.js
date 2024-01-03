@@ -24,6 +24,7 @@ import Recovered from "pages/landingPage/SignIn/Recovered";
 import { Reset } from "pages/landingPage/SignIn/Reset";
 import Job from "pages/landingPage/Job";
 import Refer from "pages/landingPage/Refer";
+import AdminJobs from "pages/admin/AdminJobs";
 
 export const SetPopupContext = createContext();
 
@@ -70,6 +71,7 @@ export default function App() {
             element={<Settings />}
           /> */}
 
+          <Route exact path="/admin" element={<AdminJobs />} type={type} />
           <Route
             exact
             path="/create-new-job"
