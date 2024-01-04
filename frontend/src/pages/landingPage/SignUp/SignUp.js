@@ -10,13 +10,18 @@ import { MuiChipsInput } from "mui-chips-input";
 import FileUploadInput from "libs/FileUploadInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { apiUploadImages } from "libs/uploadImage";
 
 export default function SignUp() {
   const setPopup = useContext(SetPopupContext);
   const [loggedin, setLoggedin] = useState(isAuth());
   const [phone, setPhone] = useState("");
 
-  const [chips, setChips] = React.useState([]);
+  const [chips, setChips] = useState([]);
+  const [files, setFiles] = useState("");
+
+  const [imagesPreview, setImagesPreview] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChip = (newChips) => {
     setChips(newChips);
@@ -54,8 +59,6 @@ export default function SignUp() {
     contactNumber: "",
   });
 
-  console.log();
-
   const [inputErrorHandler, setInputErrorHandler] = useState({
     email: {
       untouched: true,
@@ -77,15 +80,16 @@ export default function SignUp() {
     },
   });
 
-  let allFieldsChecked =
-    signupDetails.name.length > 0 &&
-    signupDetails.email.length > 0 &&
-    signupDetails.password.length > 0 &&
-    chips.some((item) => item.trim() !== "") &&
-    signupDetails.education.some(
-      (item) => item.institutionName.trim() !== ""
-    ) &&
-    typeof signupDetails.news === "boolean";
+  // let allFieldsChecked =
+  //   signupDetails.name.length > 0 &&
+  //   signupDetails.email.length > 0 &&
+  //   signupDetails.password.length > 0 &&
+  //   chips.some((item) => item.trim() !== "") &&
+  //   signupDetails.education.some(
+  //     (item) => item.institutionName.trim() !== ""
+  //   ) &&
+  //   signupDetails.profile.length > 0 &&
+  //   typeof signupDetails.news === "boolean";
 
   const handleInput = (key, value) => {
     setSignupDetails((prevDetails) => ({
@@ -172,6 +176,31 @@ export default function SignUp() {
       });
     }
   };
+
+  const uploadFile = async (e) => {
+    e.stopPropagation();
+    setIsLoading(true);
+    let images = "";
+    let files = e.target.files;
+
+    if (files && files.length > 0) {
+      let formData = new FormData();
+      for (let i of files) {
+        formData.append("file", i);
+        formData.append("upload_preset", "jobportal");
+        formData.append("folder", "jobportal");
+        let response = await apiUploadImages(formData);
+        if (response.status === 200) images = response.data?.secure_url;
+        console.log(images);
+      }
+
+      setIsLoading(false);
+      setImagesPreview(images);
+      setSignupDetails({ profile: images });
+    }
+  };
+
+  console.log(signupDetails);
 
   const handleInputError = (key, status, message) => {
     setInputErrorHandler({
@@ -295,15 +324,42 @@ export default function SignUp() {
               onChange={handleChip}
               className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
             />
-            <div>
-              <FileUploadInput
-                label="Profile Photo (.jpg/.png)"
-                icon={<FontAwesomeIcon icon={faUser} />}
-                identifier={"profile"}
-                uploadTo={apiList.uploadProfile}
-                handleInput={handleInput}
-                className="w-[400px]"
-              />
+
+            <div className="w-full mb-6">
+              <h2 className="font-semibold text-xl py-4">Hình ảnh</h2>
+              <div className="w-full">
+                <label
+                  className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
+                  htmlFor="file"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    Thêm ảnh
+                  </div>
+                </label>
+                <input
+                  onChange={uploadFile}
+                  hidden
+                  type="file"
+                  id="file"
+                  multiple
+                />
+                <div className="w-full">
+                  <h3 className="font-medium py-4">Ảnh đã chọn</h3>
+                  <div className="flex gap-4 items-center">
+                    {imagesPreview?.map((item) => {
+                      return (
+                        <div key={item} className="relative w-1/3 h-1/3 ">
+                          <img
+                            src={item}
+                            alt="preview"
+                            className="w-full h-full object-cover rounded-md"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
           </>
         ) : (
@@ -351,16 +407,12 @@ export default function SignUp() {
         </label>
 
         <button
-          className={`mt-8 w-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-100 font-semibold cursor-pointer px-4 py-3 rounded-lg text-sm ${
-            allFieldsChecked ? "" : "cursor-not-allowed"
-          }`}
+          className={`mt-8 w-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-100 font-semibold cursor-pointer px-4 py-3 rounded-lg text-sm `}
           onClick={() => {
-            if (allFieldsChecked) {
-              handleLogin();
-              console.log("Input values on button click:", signupDetails);
-            }
+            handleLogin();
+            console.log("Input values on button click:", signupDetails);
           }}
-          disabled={!allFieldsChecked}
+          // disabled={!allFieldsChecked}
         >
           Create your account
         </button>

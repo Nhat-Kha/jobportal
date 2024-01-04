@@ -40,7 +40,8 @@ router.post("/profile", upload.single("file"), (req, res) => {
 
   if (
     file.detectedFileExtension != ".jpg" &&
-    file.detectedFileExtension != ".png"
+    file.detectedFileExtension != ".png" &&
+    file.detectedFileExtension != ".jpeg"
   ) {
     res.status(400).json({ message: "invalid format" });
   } else {

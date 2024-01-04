@@ -25,6 +25,7 @@ import { Reset } from "pages/landingPage/SignIn/Reset";
 import Job from "pages/landingPage/Job";
 import Refer from "pages/landingPage/Refer";
 import AdminJobs from "pages/admin/AdminJobs";
+import AdminSettings from "pages/admin/AdminSettings";
 
 export const SetPopupContext = createContext();
 
@@ -80,6 +81,7 @@ export default function App() {
           />
 
           <Route exact path="/applicant/settings" element={<Settings />} />
+          <Route exact path="/admin/settings" element={<AdminSettings />} />
           <Route exact path="/logout" element={<Logout />} />
         </Routes>
         <Footer />

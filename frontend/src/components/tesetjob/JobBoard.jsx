@@ -139,9 +139,9 @@ export default function JobBoard({ title, props }) {
               </div>
               <div className="flex justify-center text-center ">
                 <div className="relative bottom-10 w-3/6 bg-slate-50">
-                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -177,7 +177,7 @@ export default function JobBoard({ title, props }) {
                   />
                   <button
                     type="submit"
-                    class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-200 
+                    className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-200 
                     focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm 
                     px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     onClick={() => setFilterOpen(true)}

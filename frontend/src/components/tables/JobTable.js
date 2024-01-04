@@ -78,7 +78,7 @@ export default function JobTable({ jobs }) {
   return (
     <>
       <div className="mt-8 flex justify-between gap-3">
-        <div class="relative w-full">
+        <div className="relative w-full">
           <FontAwesomeIcon
             icon={faSearch}
             className="absolute top-4 left-4 text-gray-600 "

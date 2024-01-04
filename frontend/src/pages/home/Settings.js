@@ -83,12 +83,12 @@ export default function Settings() {
 
         {loading ? (
           <div
-            class="absolute inset-0 flex justify-center items-center z-10"
+            className="absolute inset-0 flex justify-center items-center z-10"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.85)" }}
           >
             {!saved ? (
               <div>
-                <div class="animate-spin rounded-full mx-auto h-12 w-12 border-b-2 border-gray-900 mb-4"></div>{" "}
+                <div className="animate-spin rounded-full mx-auto h-12 w-12 border-b-2 border-gray-900 mb-4"></div>{" "}
                 <p className="font-semibold text-lg">Saving changes...</p>
               </div>
             ) : (

@@ -8,10 +8,10 @@ export default function General({ addGeneral, general }) {
         General information
       </h2>
 
-      <label class="block text-black text-sm font-semibold mb-2">
+      <label className="block text-black text-sm font-semibold mb-2">
         How open are they to a new job?
       </label>
-      <div class="relative mb-4">
+      <div className="relative mb-4">
         <select
           className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
           onChange={(e) =>
@@ -25,15 +25,15 @@ export default function General({ addGeneral, general }) {
           <option>Average.</option>
           <option>Looking actively.</option>
         </select>
-        <div class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
+        <div className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
           <FontAwesomeIcon icon={faChevronDown} />
         </div>
       </div>
 
-      <label class="block text-black text-sm font-semibold mb-2">
+      <label className="block text-black text-sm font-semibold mb-2">
         Do you want to split the hiring bonus if they get hired?
       </label>
-      <div class="relative mb-10">
+      <div className="relative mb-10">
         <select
           className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
           onChange={(e) =>
@@ -46,7 +46,7 @@ export default function General({ addGeneral, general }) {
           <option>No, I will get 100%.</option>
           <option>Yes, we will get 50% each.</option>
         </select>
-        <div class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
+        <div className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
           <FontAwesomeIcon icon={faChevronDown} />
         </div>
       </div>
