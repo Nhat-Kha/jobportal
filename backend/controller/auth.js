@@ -106,6 +106,7 @@ const Login = (req, res, next) => {
       res.json({
         token: token,
         type: user.type,
+        _id: user._id,
       });
     }
   )(req, res, next);

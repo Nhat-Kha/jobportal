@@ -54,7 +54,7 @@ let schema = new mongoose.Schema(
       type: String,
     },
     profile: {
-      type: {},
+      type: String,
     },
   },
   { collation: { locale: "en" } }
