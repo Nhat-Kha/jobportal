@@ -14,27 +14,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { userType } from "libs/isAuth";
-import icon from "assets/icon.jpg";
-import apiList from "../libs/apiList";
 import axios from "axios";
-import isAuth from "libs/isAuth";
+import { getId } from "libs/isAuth";
 
-export default function ProfileMenu({ user }) {
+export default function ProfileMenu() {
   const type = userType();
-  const getUser = isAuth();
+  const getUser = getId();
   let history = useNavigate();
+  const [user, setUser] = useState("");
 
   function handleClick() {
     history("/logout");
   }
 
-  // const getImage = () => {
-  //   axios.get(getUser, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   });
-  // };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/user/${getUser}`)
+      .then((response) => {
+        setUser(response.data);
+        console.log("data:", response.data);
+      })
+      .catch((err) => {
+        console.log("err: ", err.message);
+      });
+  }, [getUser, setUser]);
 
   return (
     <div className="text-right ">

@@ -54,6 +54,7 @@ export default function SignIn({ login }) {
         .then((response) => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("type", response.data.type);
+          localStorage.setItem("id", response.data._id);
           setLoggedin(isAuth());
           setPopup({
             icon: "success",

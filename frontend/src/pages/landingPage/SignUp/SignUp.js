@@ -52,7 +52,7 @@ export default function SignUp() {
     ],
     skills: [],
     resume: "",
-    profile: [],
+    profile: "",
     news: false,
     bio: "",
     contactNumber: "",
@@ -197,7 +197,7 @@ export default function SignUp() {
       setImagesPreview(images);
       setSignupDetails((prevDetails) => ({
         ...prevDetails,
-        profile: [images],
+        profile: images,
       }));
     }
   };
