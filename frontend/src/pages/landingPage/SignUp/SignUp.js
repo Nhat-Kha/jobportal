@@ -18,7 +18,6 @@ export default function SignUp() {
   const [phone, setPhone] = useState("");
 
   const [chips, setChips] = useState([]);
-  const [files, setFiles] = useState("");
 
   const [imagesPreview, setImagesPreview] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +52,7 @@ export default function SignUp() {
     ],
     skills: [],
     resume: "",
-    profile: "",
+    profile: [],
     news: false,
     bio: "",
     contactNumber: "",
@@ -99,19 +98,19 @@ export default function SignUp() {
     console.log(`Input ${key} value:`, value);
   };
 
-  const handleEducationInput = (index, key, value) => {
-    setSignupDetails((prevDetails) => {
-      const updatedEducation = [...prevDetails.education];
-      updatedEducation[index] = {
-        ...updatedEducation[index],
-        [key]: value,
-      };
-      return {
-        ...prevDetails,
-        education: updatedEducation,
-      };
-    });
-  };
+  // const handleEducationInput = (index, key, value) => {
+  //   setSignupDetails((prevDetails) => {
+  //     const updatedEducation = [...prevDetails.education];
+  //     updatedEducation[index] = {
+  //       ...updatedEducation[index],
+  //       [key]: value,
+  //     };
+  //     return {
+  //       ...prevDetails,
+  //       education: updatedEducation,
+  //     };
+  //   });
+  // };
 
   const handleLogin = () => {
     const tmpErrorHandler = {};
@@ -196,11 +195,14 @@ export default function SignUp() {
 
       setIsLoading(false);
       setImagesPreview(images);
-      setSignupDetails({ profile: images });
+      setSignupDetails((prevDetails) => ({
+        ...prevDetails,
+        profile: [images],
+      }));
     }
   };
 
-  console.log(signupDetails);
+  console.log(signupDetails.education);
 
   const handleInputError = (key, status, message) => {
     setInputErrorHandler({
@@ -282,41 +284,72 @@ export default function SignUp() {
         />
         {type === "applicant" ? (
           <>
-            {signupDetails.education.map((edu, index) => (
+            {Object.keys(signupDetails.education).map((index) => (
               <div className="flex justify-between" key={index}>
                 <InputField
                   type="text"
                   label={`Institution Name ${index + 1}`}
-                  value={edu.institutionName}
-                  onChange={(e) =>
-                    handleEducationInput(
-                      index,
-                      "institutionName",
-                      e.target.value
-                    )
-                  }
+                  value={signupDetails.education[index].institutionName}
+                  onChange={(e) => {
+                    const newEdu = [...signupDetails.education];
+                    newEdu[index].institutionName = e.target.value;
+                    setSignupDetails((prevDetails) => ({
+                      ...prevDetails,
+                      education: newEdu,
+                    }));
+                  }}
                   placeholder="Institution name"
                 />
                 <InputField
                   type="number"
                   label={`Start Year ${index + 1}`}
-                  value={edu.startYear}
-                  onChange={(e) =>
-                    handleEducationInput(index, "startYear", e.target.value)
-                  }
+                  value={signupDetails.education.startYear}
+                  onChange={(e) => {
+                    const newEdu = [...signupDetails.education];
+                    newEdu[index].startYear = e.target.value;
+                    setSignupDetails((prevDetails) => ({
+                      ...prevDetails,
+                      education: newEdu,
+                    }));
+                  }}
                   placeholder="Start year"
                 />
                 <InputField
                   type="number"
                   label={`End Year ${index + 1}`}
-                  value={edu.endYear}
-                  onChange={(e) =>
-                    handleEducationInput(index, "endYear", e.target.value)
-                  }
+                  value={signupDetails.education.endYear}
+                  onChange={(e) => {
+                    const newEdu = [...signupDetails.education];
+                    newEdu[index].endYear = e.target.value;
+                    setSignupDetails((prevDetails) => ({
+                      ...prevDetails,
+                      education: newEdu,
+                    }));
+                  }}
                   placeholder="End year"
                 />
               </div>
             ))}
+            <div>
+              <button
+                className="block w-full border p-3 rounded mb-4 bg-yellow-300"
+                onClick={() => {
+                  setSignupDetails((prevDetails) => ({
+                    ...prevDetails,
+                    education: [
+                      ...prevDetails.education,
+                      {
+                        institutionName: "",
+                        startYear: "",
+                        endYear: "",
+                      },
+                    ],
+                  }));
+                }}
+              >
+                Add another institution details
+              </button>
+            </div>
             <MuiChipsInput
               label="Skill *"
               helperText="Please enter to add skill"
@@ -346,17 +379,21 @@ export default function SignUp() {
                 <div className="w-full">
                   <h3 className="font-medium py-4">Ảnh đã chọn</h3>
                   <div className="flex gap-4 items-center">
-                    {imagesPreview?.map((item) => {
-                      return (
-                        <div key={item} className="relative w-1/3 h-1/3 ">
-                          <img
-                            src={item}
-                            alt="preview"
-                            className="w-full h-full object-cover rounded-md"
-                          />
-                        </div>
-                      );
-                    })}
+                    {signupDetails.profile ? (
+                      <div className="relative w-1/3 h-1/3">
+                        <img
+                          src={
+                            Array.isArray(signupDetails.profile)
+                              ? signupDetails.profile[0]
+                              : signupDetails.profile
+                          }
+                          alt="preview"
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      </div>
+                    ) : (
+                      <p>No images selected</p>
+                    )}
                   </div>
                 </div>
               </div>

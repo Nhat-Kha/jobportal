@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,24 +15,36 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { userType } from "libs/isAuth";
 import icon from "assets/icon.jpg";
+import apiList from "../libs/apiList";
+import axios from "axios";
+import isAuth from "libs/isAuth";
 
 export default function ProfileMenu({ user }) {
   const type = userType();
+  const getUser = isAuth();
   let history = useNavigate();
 
   function handleClick() {
     history("/logout");
   }
 
+  // const getImage = () => {
+  //   axios.get(getUser, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   });
+  // };
+
   return (
     <div className="text-right ">
       <Menu as="div" className="relative inline-block text-left ">
         <div>
           <Menu.Button className="flex relative">
-            {user?.photoURL ? (
+            {user?.profile ? (
               <img
                 className="h-10 w-10 rounded-full"
-                src={user.photoURL}
+                src={user.profile}
                 alt=""
               />
             ) : (

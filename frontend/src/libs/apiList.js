@@ -12,6 +12,7 @@ const apiList = {
   applications: `${server}/application`,
   rating: `${server}/rating`,
   user: `${server}/user`,
+  userId: `${server}/user/:id`,
   applicants: `${server}/applicants`,
 };
 
