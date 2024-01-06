@@ -67,7 +67,7 @@ export default function PrivacyPolicy() {
         <h2 className="text-3xl mb-4 mt-10">
           With whom do we share personal data?
         </h2>
-        {/* <p>
+        <p>
           The company that someone got referred to will get access to the data
           if the person who referred someone and the one who got referred if
           both accept it. In other words, if the person who got referred accepts
@@ -78,12 +78,12 @@ export default function PrivacyPolicy() {
           <a
             rel="noreferrer"
             className="text-blue-400"
-            href="https://www.netlify.com/"
+            href="https://vercel.com/"
             target="_blank"
           >
-            https://www.netlify.com/
+            https://vercel.com/
           </a>{" "}
-          ,{" "}
+          {/* ,{" "}
           <a
             rel="noreferrer"
             className="text-blue-400"
@@ -91,18 +91,18 @@ export default function PrivacyPolicy() {
             target="_blank"
           >
             https://www.emailjs.com/
-          </a>{" "}
+          </a>{" "} */}
           and{" "}
           <a
             rel="noreferrer"
             className="text-blue-400"
-            href="https://www.firebase.google.com"
+            href="https://www.mongodb.com/"
             target="_blank"
           >
-            firebase.google.com
+            https://www.mongodb.com/
           </a>
           <br /> <br />
-        </p> */}
+        </p>
 
         <h2 className="text-3xl mb-4 mt-10">Your rights</h2>
         <p>

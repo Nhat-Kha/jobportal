@@ -17,7 +17,7 @@ export default function Footer() {
           </p>
 
           <a
-            className="w-44 text-lg font-medium border-b-2 border-black hover:opacity-60"
+            className="w-[220px] text-lg font-medium border-b-2 border-black hover:opacity-60"
             href="mailto:nhatkha06299@gmail.com"
           >
             nhatkha06299@gmail.com

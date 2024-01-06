@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "pages/landingPage/About";
 import Home from "pages/landingPage/Home";
 import { React, createContext, useState } from "react";
-import PrivacyPolicy from "pages/landingPage/PrivacyPolicy";
+import PrivacyPolicy from "pages/landingPage/AboutUs/PrivacyPolicy";
 import Navbar from "components/Navbar";
 import InfoBar from "components/InfoBar";
 import ScrollToTop from "hooks/ScrollToTop";
@@ -26,6 +26,7 @@ import Job from "pages/landingPage/Job";
 import Refer from "pages/landingPage/Refer";
 import AdminJobs from "pages/admin/AdminJobs";
 import AdminSettings from "pages/admin/AdminSettings";
+import CookiePolicy from "pages/landingPage/AboutUs/CookiePolicy";
 
 export const SetPopupContext = createContext();
 
@@ -47,6 +48,7 @@ export default function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route exact path="/cookie-policy" element={<CookiePolicy />} />
           <Route exact path="/companies" element={<Companies />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/sign-up" element={<SignUp />} />

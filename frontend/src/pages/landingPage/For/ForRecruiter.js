@@ -89,10 +89,11 @@ export default function ForRecruiter() {
               Step 3:
             </div>
             <h1 className="text-3xl  text-gray-900 pb-3 font-semibold">
-              Greeters refer
+              Applicant apply
             </h1>
             <p className="text-xl font-light">
-              Our community of Greeters refer their talented friends.
+              Our JOBPORTAL community allows users to discover and apply for
+              jobs.
             </p>
           </div>
 
@@ -115,7 +116,7 @@ export default function ForRecruiter() {
         </div>
       </div>
 
-      <div className="bg-white md:pt-0 mt-32 mb-20 md:w-10/12 w-11/12 mx-auto">
+      {/* <div className="bg-white md:pt-0 mt-32 mb-20 md:w-10/12 w-11/12 mx-auto">
         <div className="grid lg:grid-cols-5 md:gap-6 gap-24 grid-cols-1 md:mt-20 mt-0 mx-auto">
           <div className="md:col-span-3 col-span-1 md:mt-14 mt-0">
             <h1 className=" mx-auto md:text-left text-center md:text-6xl text-4xl font-bold text-gray-900">
@@ -141,7 +142,7 @@ export default function ForRecruiter() {
             src={chart}
           />
         </div>
-      </div>
+      </div> */}
 
       <FAQ
         questionOne="What is the hiring reward, interview reward and Greet Fee?"
