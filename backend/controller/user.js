@@ -119,6 +119,9 @@ const updateUser = async (req, res) => {
         if (data.contactNumber) {
           recruiter.contactNumber = data.contactNumber;
         }
+        if (data.profile) {
+          jobApplicant.profile = data.profile;
+        }
         if (data.bio) {
           recruiter.bio = data.bio;
         }

@@ -19,6 +19,9 @@ let schema = new mongoose.Schema(
         msg: "Phone number is invalid!",
       },
     },
+    profile: {
+      type: String,
+    },
     bio: {
       type: String,
     },
