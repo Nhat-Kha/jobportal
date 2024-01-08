@@ -1,7 +1,7 @@
 import InputField from "components/InputField";
 import JobAd from "components/JobAd";
 import ReactQuill from "react-quill";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -24,15 +24,32 @@ function WaitingBtn() {
 export default function JobCreator({ jobToEdit, isComplete, props }) {
   const [tags, setTags] = useState([]);
 
-  const addTag = (e) => {
-    const skillToAdd = Array.isArray(e) ? e[0] : e;
+  const handleDeleteTag = (deletedTag) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag[0] !== deletedTag[0]));
+  };
 
-    setTags((prevTags) => [...prevTags, skillToAdd]);
+  const addTag = (e) => {
+    const newTags = e;
+
+    setTags((prevTags) => {
+      const updatedTags = [...prevTags];
+
+      newTags.forEach((newTag) => {
+        if (!updatedTags.some((tag) => tag[0] === newTag[0])) {
+          updatedTags.push(newTag);
+        }
+      });
+
+      return updatedTags;
+    });
+  };
+
+  useEffect(() => {
     setJob((prevJob) => ({
       ...prevJob,
-      skillsets: [...prevJob.skillsets, skillToAdd],
+      skillsets: tags,
     }));
-  };
+  }, [tags]);
 
   const [job, setJob] = useState(
     jobToEdit || {
@@ -44,12 +61,24 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
       deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
         .toISOString()
         .substr(0, 16),
-      skillsets: tags,
+      skillsets: [],
       duration: 0,
       jobType: "Full Time",
       status: "Open",
+      description: "",
     }
   );
+
+  console.log("skill to add: ", tags);
+  console.log("updated job:", job);
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+    ],
+  };
 
   const handleInput = (key, value) => {
     setJob({
@@ -78,6 +107,7 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
           jobType: "Full Time",
           duration: 0,
           salary: 0,
+          description: "",
         });
       })
       .catch((err) => {
@@ -185,22 +215,29 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
           </label>
           <MuiChipsInput
             value={tags}
-            onChange={(e) => addTag(e)}
+            onChange={(e) => {
+              addTag(e);
+            }}
             className="bg-white w-full block border border-grey-light p-3 rounded mb-4"
+            onDeleteChip={(deletedTag) => handleDeleteTag(deletedTag)}
           />
         </div>
-
-        {/* <label className="block text-sm font-medium text-gray-700 mt-6 mb-2">
+        <label className="block text-sm font-medium text-gray-700 mt-6 mb-2">
           Job description
         </label>
 
         <ReactQuill
+          modules={modules}
           theme="snow"
+          value={job.description}
+          onChange={(e) => {
+            setJob({
+              ...job,
+              description: e,
+            });
+          }}
           placeholder="Job description goes here..."
-          value={job.description || ""}
-          onChange={(content) => setJob({ ...job, description: content })}
-        /> */}
-
+        />
         <div className="flex items-center pt-6">
           {/* {isComplete ? (
             <button className="text-center transform hover:-translate-y-1 hover:shadow-lg cursor-pointer font-bold text-md px-8 py-3 bg-primary rounded-xl text-black">

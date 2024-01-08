@@ -29,6 +29,7 @@ const addJob = async (req, res) => {
     duration: data.duration,
     salary: data.salary,
     rating: data.rating,
+    description: data.description,
   });
   console.log(data);
 

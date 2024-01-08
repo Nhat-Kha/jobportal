@@ -60,7 +60,6 @@ const Myjob = (props, index) => {
   };
 
   const deadline = new Date(job.deadline).toLocaleDateString();
-  console.log("skill: ", job.skillsets);
   return (
     <div index={index}>
       <div
@@ -145,8 +144,11 @@ const Myjob = (props, index) => {
         <div className="pl-1 flex mt-3 gap-2">
           {job.skillsets
             ? job.skillsets.map((skill, index) => (
-                <div className="whitespace-nowrap rounded-lg bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white">
-                  <span key={index}>{skill}</span>
+                <div
+                  key={index}
+                  className="whitespace-nowrap rounded-lg bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                >
+                  <span>{skill}</span>
                 </div>
               ))
             : null}

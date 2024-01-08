@@ -96,22 +96,10 @@ export default function CompanySettings({ profile, user }) {
         </div>
       </div>
 
-      <InputField
-        label="Name"
-        type="text"
-        value={tmpProfile?.website}
-        onChange={(e) => {
-          setTmpProfile({
-            ...tmpProfile,
-            website: e.target.value,
-          });
-        }}
-        placeholder="Enter Name Recruiter"
-      />
       <div className="grid grid-cols-4 gap-4 mt-6">
         <InputField
           className="col-span-2"
-          label="Founded"
+          label="Name"
           type="text"
           value={tmpProfile?.founded}
           onChange={(e) => {
@@ -120,13 +108,13 @@ export default function CompanySettings({ profile, user }) {
               founded: e.target.value,
             });
           }}
-          placeholder="2021"
+          placeholder="Enter name recruiter"
         />
 
         <InputField
           className="col-span-2"
-          label="Employees"
-          type="text"
+          label="Contact number"
+          type="number"
           value={tmpProfile?.employees}
           onChange={(e) => {
             setTmpProfile({
@@ -134,23 +122,9 @@ export default function CompanySettings({ profile, user }) {
               employees: e.target.value,
             });
           }}
-          placeholder="Name"
+          placeholder="Number phone"
         />
       </div>
-
-      <InputField
-        label="Bio"
-        type="text"
-        className="mt-4"
-        value={tmpProfile?.bio}
-        onChange={(e) => {
-          setTmpProfile({
-            ...tmpProfile,
-            bio: e.target.value,
-          });
-        }}
-        placeholder="Bio"
-      />
 
       <label className="block text-black text-sm font-semibold mb-2">
         About

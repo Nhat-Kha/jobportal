@@ -46,8 +46,6 @@ export default function JobBoard({ title, props }) {
     },
   });
 
-  console.log("job: ", jobs);
-
   const limitedJobs = jobs.slice(0, maxJobsToShow);
 
   useEffect(() => {
@@ -99,13 +97,12 @@ export default function JobBoard({ title, props }) {
     });
     searchParams = [...searchParams, ...asc, ...desc];
     const queryString = searchParams.join("&");
-    console.log(queryString);
+
     let address = apiList.jobs;
     if (queryString !== "") {
       address = `${address}?${queryString}`;
     }
 
-    console.log(address);
     axios
       .get(address, {
         headers: {
@@ -120,6 +117,7 @@ export default function JobBoard({ title, props }) {
         console.log(err);
       });
   };
+
   return (
     <>
       <div className="bg-light">
@@ -149,9 +147,9 @@ export default function JobBoard({ title, props }) {
                     >
                       <path
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                       />
                     </svg>
@@ -162,6 +160,7 @@ export default function JobBoard({ title, props }) {
                     className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 
                     rounded-lg focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Search"
+                    value={searchOptions.query}
                     onChange={(event) =>
                       setSearchOptions({
                         ...searchOptions,
@@ -173,14 +172,13 @@ export default function JobBoard({ title, props }) {
                         getData();
                       }
                     }}
-                    required
                   />
                   <button
                     type="submit"
                     className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-200 
                     focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm 
                     px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    onClick={() => setFilterOpen(true)}
+                    onClick={() => getData()}
                   >
                     Search
                   </button>

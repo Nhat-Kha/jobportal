@@ -25,6 +25,9 @@ let schema = new mongoose.Schema(
     bio: {
       type: String,
     },
+    banner: {
+      type: String,
+    },
   },
   { collation: { locale: "en" } }
 );

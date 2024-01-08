@@ -120,10 +120,13 @@ const updateUser = async (req, res) => {
           recruiter.contactNumber = data.contactNumber;
         }
         if (data.profile) {
-          jobApplicant.profile = data.profile;
+          recruiter.profile = data.profile;
         }
         if (data.bio) {
           recruiter.bio = data.bio;
+        }
+        if (data.banner) {
+          recruiter.banner = data.banner
         }
         recruiter
           .save()

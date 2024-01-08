@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import InputField from "components/InputField";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -17,14 +17,37 @@ export default function SignUp() {
   const [loggedin, setLoggedin] = useState(isAuth());
   const [phone, setPhone] = useState("");
 
-  const [chips, setChips] = useState([]);
-
   const [imagesPreview, setImagesPreview] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChip = (newChips) => {
-    setChips(newChips);
+  const [tags, setTags] = useState([]);
+
+  const handleDeleteTag = (deletedTag) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag[0] !== deletedTag[0]));
   };
+
+  const addTag = (e) => {
+    const newTags = e;
+
+    setTags((prevTags) => {
+      const updatedTags = [...prevTags];
+
+      newTags.forEach((newTag) => {
+        if (!updatedTags.some((tag) => tag[0] === newTag[0])) {
+          updatedTags.push(newTag);
+        }
+      });
+
+      return updatedTags;
+    });
+  };
+
+  useEffect(() => {
+    setSignupDetails((prevJob) => ({
+      ...prevJob,
+      skills: tags,
+    }));
+  }, [tags]);
 
   const changeType = [
     { value: "applicant", text: "Applicant" },
@@ -139,6 +162,8 @@ export default function SignUp() {
         }),
     };
 
+    setSignupDetails(updatedDetails);
+
     const verified = !Object.keys(tmpErrorHandler).some((obj) => {
       return tmpErrorHandler[obj].error;
     });
@@ -201,8 +226,6 @@ export default function SignUp() {
       }));
     }
   };
-
-  console.log(signupDetails.education);
 
   const handleInputError = (key, status, message) => {
     setInputErrorHandler({
@@ -353,8 +376,11 @@ export default function SignUp() {
             <MuiChipsInput
               label="Skill *"
               helperText="Please enter to add skill"
-              value={chips}
-              onChange={handleChip}
+              value={tags}
+              onChange={(e) => {
+                addTag(e);
+              }}
+              onDeleteChip={(deletedTag) => handleDeleteTag(deletedTag)}
               className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
             />
           </>

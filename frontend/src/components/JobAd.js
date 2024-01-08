@@ -1,7 +1,7 @@
 import "editor.css";
 import icon from "assets/icon.jpg";
 export default function JobAd({ job, tags, about }) {
-  console.log(about);
+  console.log(job);
   return (
     <>
       {job && (
@@ -63,6 +63,10 @@ export default function JobAd({ job, tags, about }) {
               </tr>
             </tbody>
           </table>
+          <div className="my-8">
+            <h1 className="text-3xl font-medium mb-2">About the job</h1>
+            <div dangerouslySetInnerHTML={{ __html: job.description }}></div>
+          </div>
         </div>
       )}
       {about && (
@@ -106,8 +110,28 @@ export default function JobAd({ job, tags, about }) {
                 <td className="text-bold">maxPositions</td>
                 <td className="text-right">{about.maxPositions || ""}</td>
               </tr>
+
+              <tr>
+                <td className="text-bold">Skills</td>
+                <td className="text-right">
+                  <div className="flex flex-row-reverse	">
+                    {about.skillsets.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-blue-500 text-white p-2 m-1 rounded-full flex justify-start"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
+          <div className="my-8">
+            <h1 className="text-3xl font-medium mb-2">About the job</h1>
+            <div dangerouslySetInnerHTML={{ __html: about.description }}></div>
+          </div>
         </div>
       )}
     </>
