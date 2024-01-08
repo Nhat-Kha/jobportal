@@ -2,40 +2,49 @@ import { useEffect, useState } from "react";
 import InputField from "components/InputField";
 import apiList from "../../libs/apiList";
 import apiUploadImages from "../../libs/uploadImage";
+import { userType } from "libs/isAuth";
 
-export default function AccountSetting({ user, profile }) {
-  const [tmpProfile, setTmpProfile] = useState();
-  const [ImagesePreview, setImagesPreview] = useState([]);
-  const [payload, setPayload] = useState("");
-  const [originalProfile] = useState(profile);
-  const [isLoading, setIsLoading] = useState(false);
+export default function AccountSettings({ user, profile }) {
+  const type = userType();
+  const [email, setEmail] = useState(user?.email);
 
-  useEffect(() => {
-    setTmpProfile(profile);
-  }, [profile]);
-
-  const uploadFile = async (e) => {
-    e.stopPropagation();
-    setIsLoading(true);
-    let images = [];
-    let files = e.target.files;
-    let formData = new FormData();
-    for (let i of files) {
-      formData.append("file", i);
-      formData.append("upload_preset", process.env.UPLOAD_PRESET_NAME);
-      formData.append("folder", "jobportal");
-      let response = await apiUploadImages(formData);
-      if (response.status === 200)
-        images = [...images, response.data?.secure_url];
+  async function handleEmailUpdate() {
+    if (type === "greeter") {
+      return;
     }
-    setIsLoading(false);
-    setImagesPreview((prev) => [...prev, ...images]);
-    setPayload((prev) => ({ ...prev, images: [...prev.images, ...images] }));
-  };
+  }
 
-  const uploadLogo = (e) => {
-    e.preventDefault();
-    const file = e.target[0].files[0];
-    uploadFile(file, "logo");
-  };
+  return (
+    <div className="md:mt-0 mt-16">
+      <h3 className="text-2xl font-medium leading-6 text-gray-900">
+        Account settings
+      </h3>
+      <p className="mt-1 text-sm text-gray-600">Change to a new email.</p>
+
+      <InputField
+        className="md:w-1/2 w-full mt-6"
+        label="Email"
+        type="text"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="firstname@company.com"
+      />
+
+      <div className="flex items-center pt-6">
+        <div
+          className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
+          onClick={() => handleEmailUpdate()}
+        >
+          Save
+        </div>
+
+        <div
+          className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-light px-8 py-3 rounded-xl border-none"
+          onClick={() => setEmail(user?.email)}
+        >
+          Cancel
+        </div>
+      </div>
+    </div>
+  );
 }

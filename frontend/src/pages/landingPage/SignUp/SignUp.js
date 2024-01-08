@@ -357,47 +357,6 @@ export default function SignUp() {
               onChange={handleChip}
               className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
             />
-
-            <div className="w-full mb-6">
-              <h2 className="font-semibold text-xl py-4">Hình ảnh</h2>
-              <div className="w-full">
-                <label
-                  className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
-                  htmlFor="file"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    Thêm ảnh
-                  </div>
-                </label>
-                <input
-                  onChange={uploadFile}
-                  hidden
-                  type="file"
-                  id="file"
-                  multiple
-                />
-                <div className="w-full">
-                  <h3 className="font-medium py-4">Ảnh đã chọn</h3>
-                  <div className="flex gap-4 items-center">
-                    {signupDetails.profile ? (
-                      <div className="relative w-1/3 h-1/3">
-                        <img
-                          src={
-                            Array.isArray(signupDetails.profile)
-                              ? signupDetails.profile[0]
-                              : signupDetails.profile
-                          }
-                          alt="preview"
-                          className="w-full h-full object-cover rounded-md"
-                        />
-                      </div>
-                    ) : (
-                      <p>No images selected</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
           </>
         ) : (
           <>
@@ -424,6 +383,46 @@ export default function SignUp() {
             </div>
           </>
         )}
+        <div className="w-full mb-6">
+          <h2 className="font-semibold text-xl py-4">Hình ảnh</h2>
+          <div className="w-full">
+            <label
+              className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
+              htmlFor="file"
+            >
+              <div className="flex flex-col items-center justify-center">
+                Thêm ảnh
+              </div>
+            </label>
+            <input
+              onChange={uploadFile}
+              hidden
+              type="file"
+              id="file"
+              multiple
+            />
+            <div className="w-full">
+              <h3 className="font-medium py-4">Ảnh đã chọn</h3>
+              <div className="flex gap-4 items-center">
+                {signupDetails.profile ? (
+                  <div className="relative w-1/3 h-1/3">
+                    <img
+                      src={
+                        Array.isArray(signupDetails.profile)
+                          ? signupDetails.profile[0]
+                          : signupDetails.profile
+                      }
+                      alt="preview"
+                      className="w-full h-full object-cover rounded-md"
+                    />
+                  </div>
+                ) : (
+                  <p>No images selected</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
 
         <label className="block text-black text-sm font-medium mt-8 focus:outline-none outline-none">
           <input

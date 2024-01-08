@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import About from "pages/landingPage/About";
 import Home from "pages/landingPage/Home";
 import { React, createContext, useState } from "react";
@@ -27,6 +32,7 @@ import Refer from "pages/landingPage/Refer";
 import AdminJobs from "pages/admin/AdminJobs";
 import AdminSettings from "pages/admin/AdminSettings";
 import CookiePolicy from "pages/landingPage/AboutUs/CookiePolicy";
+import HomeDashboard from "pages/dashboard/home";
 
 export const SetPopupContext = createContext();
 
@@ -41,53 +47,60 @@ export default function App() {
 
   return (
     <SetPopupContext.Provider value={setPopup}>
-      <Router>
-        <ScrollToTop />
-        <InfoBar />
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route exact path="/cookie-policy" element={<CookiePolicy />} />
-          <Route exact path="/companies" element={<Companies />} />
-          <Route exact path="/about" element={<About />} />
-          <Route exact path="/sign-up" element={<SignUp />} />
-          <Route exact path="/sign-in" element={<SignIn />} />
-          <Route exact path="/password/reset/:token" element={<Reset />} />
-          <Route exact path="/reset-recovered" element={<Recovered />} />
-          <Route exact path="/referrals" element={<Referrals />} type={type} />
-          <Route exact path="/jobs" element={<Jobs />} />
-          <Route exact path="/for-recruiter" element={<ForRecruiter />} />
-          <Route exact path="/for-applicant" element={<ForApplicant />} />
-          <Route exact path="/leaderboard" element={<Leaderboard />} />
-          <Route exact path="/jobs/:id" element={<Job />} />
-          <Route exact path="/jobs/:id/refer" element={<Refer />} />
-          <Route
-            exact
-            path="/sign-in/forgot-password"
-            element={<ResetPassword />}
-          />
+      {type === "recruiter" || type === "applicant" || type === null ? (
+        <Router>
+          <ScrollToTop />
+          <InfoBar />
+          <Navbar />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route exact path="/cookie-policy" element={<CookiePolicy />} />
+            <Route exact path="/companies" element={<Companies />} />
+            <Route exact path="/about" element={<About />} />
+            <Route exact path="/sign-up" element={<SignUp />} />
+            <Route exact path="/sign-in" element={<SignIn />} />
+            <Route exact path="/password/reset/:token" element={<Reset />} />
+            <Route exact path="/reset-recovered" element={<Recovered />} />
+            <Route
+              exact
+              path="/referrals"
+              element={<Referrals />}
+              type={type}
+            />
+            <Route exact path="/jobs" element={<Jobs />} />
+            <Route exact path="/for-recruiter" element={<ForRecruiter />} />
+            <Route exact path="/for-applicant" element={<ForApplicant />} />
+            <Route exact path="/leaderboard" element={<Leaderboard />} />
+            <Route exact path="/jobs/:id" element={<Job />} />
+            <Route exact path="/jobs/:id/refer" element={<Refer />} />
+            <Route
+              exact
+              path="/sign-in/forgot-password"
+              element={<ResetPassword />}
+            />
+            <Route exact path="/admin" element={<AdminJobs />} type={type} />
+            <Route
+              exact
+              path="/create-new-job"
+              element={<AdminAddJob />}
+              type={type}
+            />
 
-          {/* <ApplicantRoute
-            exact
-            path="/applicant/settings"
-            element={<Settings />}
-          /> */}
-
-          <Route exact path="/admin" element={<AdminJobs />} type={type} />
-          <Route
-            exact
-            path="/create-new-job"
-            element={<AdminAddJob />}
-            type={type}
-          />
-
-          <Route exact path="/applicant/settings" element={<Settings />} />
-          <Route exact path="/admin/settings" element={<AdminSettings />} />
-          <Route exact path="/logout" element={<Logout />} />
-        </Routes>
-        <Footer />
-      </Router>
+            <Route exact path="/applicant/settings" element={<Settings />} />
+            <Route exact path="/admin/settings" element={<AdminSettings />} />
+            <Route exact path="/logout" element={<Logout />} />
+          </Routes>
+          <Footer />
+        </Router>
+      ) : (
+        <Router>
+          <Routes>
+            <Route exact path="/dashboard/" element={<HomeDashboard />} />
+            {/* <Route exact path="/dashboard/home" element={<HomeDashboard />} /> */}
+          </Routes>
+        </Router>
+      )}
     </SetPopupContext.Provider>
   );
 }

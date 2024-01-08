@@ -10,7 +10,13 @@
       "stores/*": ["src/stores/*"],
       "utils/*": ["src/utils/*"],
       "libs/*": ["src/libs/*"],
-      "App": ["src/App.js"]
+      "App": ["src/App.js"],
+      "widgets": ["src/widgets/*"],
+      "configs": ["src/configs/*"],
+      "layouts": ["src/layouts/*"],
+      "data": ["src/data/*"],
+      "context": ["src/context/*"],
+      "routes": ["src/routes.jsx"]
     },
     "strict": true
   },
