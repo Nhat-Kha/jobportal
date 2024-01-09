@@ -8,12 +8,13 @@ const apiList = {
   uploadCV: `${server}/upload/resume`,
   uploadProfile: `${server}/upload/profile`,
   jobs: `${server}/job`,
-  jobsId: `${server}/job/:job`,
+  jobsId: `${server}/job/`,
   applications: `${server}/application`,
   rating: `${server}/rating`,
   user: `${server}/user`,
   userId: `${server}/user/:id`,
   applicants: `${server}/applicants`,
+  OTP: `${server}/auth/verify_otp`,
 };
 
 export default apiList;

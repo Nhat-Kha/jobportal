@@ -25,13 +25,15 @@ import Referrals from "pages/home/Referrals";
 import Settings from "pages/home/Settings";
 import Logout from "pages/landingPage/Logout";
 import AdminAddJob from "pages/admin/AdminAddJob";
-import Recovered from "pages/landingPage/SignIn/Recovered";
+import Recovered from "pages/landingPage/SignIn/EmailVerify/Recovered";
 import { Reset } from "pages/landingPage/SignIn/Reset";
 import Job from "pages/landingPage/Job";
 import Refer from "pages/landingPage/Refer";
 import AdminJobs from "pages/admin/AdminJobs";
 import AdminSettings from "pages/admin/AdminSettings";
 import CookiePolicy from "pages/landingPage/AboutUs/CookiePolicy";
+import OTPInput from "pages/landingPage/SignIn/EmailVerify/OTPInput";
+import AdminJob from "pages/admin/AdminJob";
 // import HomeDashboard from "pages/dashboard/home";
 
 export const SetPopupContext = createContext();
@@ -61,6 +63,7 @@ export default function App() {
           <Route exact path="/sign-in" element={<SignIn />} />
           <Route exact path="/password/reset/:token" element={<Reset />} />
           <Route exact path="/reset-recovered" element={<Recovered />} />
+          <Route exact path="/OTP" element={<OTPInput />} />
           <Route exact path="/referrals" element={<Referrals />} type={type} />
           <Route exact path="/jobs" element={<Jobs />} />
           <Route exact path="/for-recruiter" element={<ForRecruiter />} />
@@ -74,6 +77,7 @@ export default function App() {
             element={<ResetPassword />}
           />
           <Route exact path="/admin" element={<AdminJobs />} type={type} />
+          <Route exact path="/admin/:id" element={<AdminJob />} type={type} />
           <Route
             exact
             path="/create-new-job"

@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import JobTable from "components/tables/JobTable";
 import NoJobs from "components/emptyStates/NoJobs";
 import apiList from "../../libs/apiList";
 
 export default function AdminJobs() {
   const jobs = apiList.jobs;
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
+  const handleSearchChange = (filteredData) => {
+    setFilteredJobs(filteredData);
+  };
 
   if (!jobs) {
     return <NoJobs />;
@@ -20,7 +25,7 @@ export default function AdminJobs() {
             Jobs
           </h3>
 
-          <JobTable jobs={jobs} />
+          <JobTable jobs={jobs} onChange={handleSearchChange} />
         </div>
       </div>
     </>

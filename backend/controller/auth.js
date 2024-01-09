@@ -2,16 +2,38 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const authKeys = require("../middleware/authKeys");
 const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const User = require("../model/user");
 const Recruiter = require("../model/recruiter");
 const JobApplicant = require("../model/jobApplicant");
 const sendMail = require("../utils/sendMail");
 
+// const generateOTP = () => {
+//   const min = 1000;
+//   const max = 9999;
+//   return Math.floor(Math.random() * (max - min + 1)) + min;
+// };
+
+// const sendVerificationEmail = async (email, otp) => {
+//   try {
+//     // Gọi hàm sendEmail để gửi email với mã OTP
+//     const result = await sendEmail(email, otp); // Pass email and otp directly
+
+//     return result;
+//   } catch (error) {
+//     console.error("Error sending verification email:", error);
+//     throw new Error("Error sending verification email");
+//   }
+// };
+
 const SignUp = async (req, res) => {
   try {
     // Extract data from the request body
     const data = req.body;
+
+    console.log("res body:", req.body);
 
     // create a new user
     let user = new User({
@@ -19,9 +41,6 @@ const SignUp = async (req, res) => {
       password: data.password,
       type: data.type,
     });
-
-    // save the user to the database
-    await user.save();
 
     // Create user details based on user type
     const userDetails =
@@ -51,11 +70,108 @@ const SignUp = async (req, res) => {
     res.json({
       token: token,
       type: user.type,
+      email: user.email,
     });
   } catch (err) {
     // Handle errors during user creation or user details creation
     console.log(err.message);
     res.status(400).json({ error: err.message });
+  }
+};
+
+const sendEmail = (recipient_email, OTP) => {
+  return new Promise((resolve, reject) => {
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MY_EMAIL,
+        pass: process.env.MY_PASSWORD,
+      },
+    });
+
+    const mail_configs = {
+      from: process.env.MY_EMAIL,
+      to: recipient_email,
+      subject: "KODING 101 PASSWORD RECOVERY",
+      html: `<!DOCTYPE html>
+            <html lang="en" >
+            <head>
+              <meta charset="UTF-8">
+              <title>CodePen - OTP Email Template</title>
+              
+
+            </head>
+            <body>
+            <!-- partial:index.partial.html -->
+            <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+              <div style="margin:50px auto;width:70%;padding:20px 0">
+                <div style="border-bottom:1px solid #eee">
+                  <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Koding 101</a>
+                </div>
+                <p style="font-size:1.1em">Hi,</p>
+                <p>Thank you for choosing Koding 101. Use the following OTP to complete your Password Recovery Procedure. OTP is valid for 5 minutes</p>
+                <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${OTP}</h2>
+                <p style="font-size:0.9em;">Regards,<br />Koding 101</p>
+                <hr style="border:none;border-top:1px solid #eee" />
+                <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+                  <p>Koding 101 Inc</p>
+                  <p>1600 Amphitheatre Parkway</p>
+                  <p>California</p>
+                </div>
+              </div>
+            </div>
+            <!-- partial -->
+              
+            </body>
+            </html>`,
+    };
+    transporter.sendMail(mail_configs, function (error, info) {
+      if (error) {
+        console.log(error);
+        return reject({ message: `An error has occured` });
+      }
+      return resolve({ message: "Email sent succesfuly" });
+    });
+  });
+};
+
+const VerifyEmail = async (req, res) => {
+  console.log("Received OTP verification request");
+  const { email, enteredOTP } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const otp = generateOTP();
+
+    await sendVerificationEmail(user.email, otp);
+
+    // save the user to the database
+    await user.save();
+
+    if (
+      Array.isArray(enteredOTP) &&
+      user.otp !== undefined &&
+      user.otp.trim() === enteredOTP.map((digit) => digit.trim()).join("")
+    ) {
+      console.log("Stored OTP: ", user.otp.trim());
+      user.otp = null;
+      await user.save();
+
+      return res
+        .status(200)
+        .json({ success: true, message: "OTP verify successfully" });
+    } else {
+      return res.status(400).json({ success: false, message: "Invalid OTP" });
+    }
+  } catch (error) {
+    console.error("Error verify OTP: ", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
@@ -183,4 +299,6 @@ module.exports = {
   Login,
   forgotPassword,
   resetPassword,
+  sendEmail,
+  VerifyEmail,
 };

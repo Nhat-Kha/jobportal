@@ -11,9 +11,11 @@ import FileUploadInput from "libs/FileUploadInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { apiUploadImages } from "libs/uploadImage";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const setPopup = useContext(SetPopupContext);
+  const history = useNavigate();
   const [loggedin, setLoggedin] = useState(isAuth());
   const [phone, setPhone] = useState("");
 
@@ -174,6 +176,7 @@ export default function SignUp() {
         .then((response) => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("type", response.data.type);
+          localStorage.setItem("email", response.data.email);
           setLoggedin(isAuth());
           setPopup({
             open: true,
@@ -182,6 +185,7 @@ export default function SignUp() {
           });
           console.log("export" + response);
           console.log(response.data.type);
+          history("/OTP");
         })
         .catch((err) => {
           setPopup({

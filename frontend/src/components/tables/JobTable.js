@@ -3,28 +3,51 @@ import { useEffect, useState } from "react";
 import Select from "components/Select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 import apiList from "../../libs/apiList";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import unorm from "unorm";
 
 const times = ["Newest first", "Oldest first"];
-const th = ["Job", "Location", "Referrals", "Posted"];
+const th = ["Job", "Job type", "Skill", "Date upload", "Status"];
 
 export default function JobTable({ jobs }) {
+  let history = useNavigate();
   let [displayedJobs, setDisplayedJobs] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
+  const [currentInput, setCurrentInput] = useState("");
 
   let [selectedTime, setSelectedTime] = useState(times[0]);
 
-  const history = useNavigate();
+  // const someDate = new Date("2024-01-09");
+  // console.log("Some date: ", calculateDays(someDate));
 
   useEffect(() => {
     const validJobs = Array.isArray(jobs) ? jobs : [];
 
     setDisplayedJobs(validJobs);
+    setOriginalData(validJobs);
+
+    let address = apiList.jobs;
+
+    axios
+      .get(address, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setOriginalData(response.data);
+        setDisplayedJobs(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [jobs]);
 
-  function handleClick(id) {
-    history(`/admin/${id}`);
+  function handleClick(_id) {
+    history(`/admin/${_id}`);
   }
 
   function calculateDays(date) {
@@ -37,42 +60,52 @@ export default function JobTable({ jobs }) {
     } else return daysAgo + " days ago";
   }
 
-  function search(input) {
-    var tmp = [];
-    const filter = input.toUpperCase();
-    jobs.forEach((job) => {
-      if (job.data().title.toUpperCase().indexOf(filter) > -1) tmp.push(job);
-    });
-
-    setDisplayedJobs(tmp);
-  }
-
-  async function findNumberOfReferrals(id) {
-    const q = apiList.jobsId;
-    let count = 0;
-    const querySnapshot = await axios.get(q);
-
-    querySnapshot.forEach((doc) => {
-      count++;
-    });
-
-    console.log(count);
-
-    return count;
-  }
-
   function time(input) {
+    console.log("Sorting by:", input);
+
     setSelectedTime(input);
 
-    if (input === "Oldest first") {
-      displayedJobs.sort(
-        (a, b) => a.data().time.toMillis() - b.data().time.toMillis()
-      );
+    setDisplayedJobs((prevDisplayedJobs) => {
+      const sortedJobs = [...prevDisplayedJobs];
+
+      if (input === "Oldest first") {
+        sortedJobs.sort(
+          (a, b) =>
+            new Date(a.dateOfPosting).getTime() -
+            new Date(b.dateOfPosting).getTime()
+        );
+      } else {
+        sortedJobs.sort(
+          (a, b) =>
+            new Date(b.dateOfPosting).getTime() -
+            new Date(a.dateOfPosting).getTime()
+        );
+      }
+
+      return sortedJobs;
+    });
+  }
+
+  const normalizeText = (text) => {
+    return unorm
+      .nfkd(text)
+      .replace(/[\u0300-\u036f]/g, "")
+      .toUpperCase();
+  };
+
+  function search(input) {
+    const filter = normalizeText(input);
+
+    if (filter) {
+      const newData = originalData.filter((job) => {
+        return normalizeText(job.title).includes(filter);
+      });
+
+      setDisplayedJobs(newData);
     } else {
-      displayedJobs.sort(
-        (a, b) => b.data().time.toMillis() - a.data().time.toMillis()
-      );
+      setDisplayedJobs(originalData);
     }
+    setCurrentInput(filter);
   }
 
   return (
@@ -87,7 +120,10 @@ export default function JobTable({ jobs }) {
           <input
             className="bg-light h-12 w-2/3 text-lg block text-gray-700 rounded-lg py-3 pl-12 px-4 leading-tight focus:outline-none"
             placeholder="Search job . . ."
-            onChange={(e) => search(e.target.value)}
+            onChange={(e) => {
+              setCurrentInput(e.target.value);
+              search(e.target.value);
+            }}
           />
         </div>
 
@@ -105,7 +141,10 @@ export default function JobTable({ jobs }) {
           <thead className="border-b border-gray-500">
             <tr>
               {th.map((t) => (
-                <th className="px-6 py-3 text-left text-xs text-gray-900 uppercase tracking-wider leading-tight font-semibold">
+                <th
+                  key={t}
+                  className="px-6 py-3 text-left text-xs text-gray-900 uppercase tracking-wider leading-tight font-semibold"
+                >
                   {t}
                 </th>
               ))}
@@ -118,22 +157,31 @@ export default function JobTable({ jobs }) {
                 <tr key={index} className="hover:bg-light">
                   <td
                     className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(currentJob.id)}
+                    onClick={() => handleClick(currentJob._id)}
                   >
-                    {currentJob.data().title}
+                    {currentJob.title}
                   </td>
                   <td
                     className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(currentJob.id)}
+                    onClick={() => handleClick(currentJob._id)}
                   >
-                    {currentJob.data().location}
+                    {currentJob.jobType}
                   </td>
-                  <ReferralCount id={currentJob.id} handleClick={handleClick} />
                   <td
                     className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(currentJob.id)}
+                    onClick={() => handleClick(currentJob._id)}
                   >
-                    {calculateDays(currentJob.data().time.toDate())}
+                    {currentJob.skillsets}
+                  </td>
+                  {/* <ReferralCount
+                    id={currentJob._id}
+                    handleClick={handleClick}
+                  /> */}
+                  <td
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
+                    onClick={() => handleClick(currentJob._id)}
+                  >
+                    {calculateDays(new Date(currentJob.dateOfPosting))}
                   </td>
                 </tr>
               ))}

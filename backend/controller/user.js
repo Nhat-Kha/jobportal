@@ -126,7 +126,7 @@ const updateUser = async (req, res) => {
           recruiter.bio = data.bio;
         }
         if (data.banner) {
-          recruiter.banner = data.banner
+          recruiter.banner = data.banner;
         }
         recruiter
           .save()

@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { SetPopupContext } from "App";
 import axios from "axios";
+import apiList from "../../../../libs/apiList";
+import { useNavigate } from "react-router-dom";
 
 export default function OTPInput() {
   const { email, otp, setPage } = useContext(SetPopupContext);
-  const [timerCount, setTimer] = React.useState(60);
+  const [timerCount, setTimer] = useState(60);
   const [OTPinput, setOTPinput] = useState([0, 0, 0, 0]);
   const [disable, setDisable] = useState(true);
-
+  const history = useNavigate();
   function resendOTP() {
     if (disable) return;
     axios
-      .post("http://localhost:5000/send_recovery_email", {
+      .post("http://localhost:5000/api/auth/send_recovery_email", {
         OTP: otp,
         recipient_email: email,
       })
@@ -23,18 +25,38 @@ export default function OTPInput() {
       .catch(console.log);
   }
 
-  function verfiyOTP() {
-    if (parseInt(OTPinput.join("")) === otp) {
-      setPage("reset");
-      return;
-    }
-    alert(
-      "The code you have entered is not correct, try again or re-send the link"
-    );
-    return;
-  }
+  const verifyOTP = async () => {
+    try {
+      // Gọi API backend để kiểm tra xác nhận OTP
+      const response = await axios.post(
+        apiList.OTP,
+        {
+          email: localStorage.getItem("email"),
+          // enteredOTP: localStorage.getItem("otp").trim().split(""),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  React.useEffect(() => {
+      if (response.data.success) {
+        alert(
+          "Verification successful. You can proceed with the registration."
+        );
+        history("/reset-recovered");
+      } else {
+        alert("Verification failed. Please check your OTP and try again.");
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      alert("Error verifying OTP. Please try again.");
+    }
+  };
+  console.log("Entered OTP: ", localStorage.getItem("otp").trim().split(""));
+
+  useEffect(() => {
     let interval = setInterval(() => {
       setTimer((lastTimerCount) => {
         lastTimerCount <= 1 && clearInterval(interval);
@@ -137,7 +159,7 @@ export default function OTPInput() {
                 <div className="flex flex-col space-y-5">
                   <div>
                     <a
-                      onClick={() => verfiyOTP()}
+                      onClick={() => verifyOTP()}
                       className="flex flex-row cursor-pointer items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
                       href="#!"
                     >
