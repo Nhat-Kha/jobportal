@@ -6,6 +6,7 @@ import {
   faCalendarDays,
   faUsers,
   faHand,
+  faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -141,17 +142,30 @@ const Myjob = (props, index) => {
             </span>
           </span>
         </p>
-        <div className="pl-1 flex mt-3 gap-2">
-          {job.skillsets
-            ? job.skillsets.map((skill, index) => (
-                <div
-                  key={index}
-                  className="whitespace-nowrap rounded-lg bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
-                >
-                  <span>{skill}</span>
-                </div>
-              ))
-            : null}
+        <div className="flex items-baseline">
+          {job.skillsets && job.skillsets.length > 0 ? (
+            <>
+              <FontAwesomeIcon
+                icon={faAward}
+                className="text-xl text-red-500 mr-3 ml-2"
+              />
+              <span className="text-base font-semibold tracking-wide">
+                Skill:{" "}
+              </span>
+              <div className="pl-1 flex mt-3 gap-2">
+                {job.skillsets
+                  ? job.skillsets.map((skill, index) => (
+                      <div
+                        key={index}
+                        className="whitespace-nowrap rounded-lg bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                      >
+                        <span>{skill}</span>
+                      </div>
+                    ))
+                  : null}
+              </div>
+            </>
+          ) : null}
         </div>
         <div className="flex items-center pt-6">
           <Link

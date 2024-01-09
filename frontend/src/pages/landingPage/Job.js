@@ -22,9 +22,9 @@ export default function Job(props) {
 
   return (
     <>
-      <div className="lg:w-6/12 w-11/12 mx-auto md:mt-32 mt-20 pb-20">
+      <div className="lg:w-6/12 w-11/12 mx-auto md:mt-20 mt-10 pb-10">
         <JobAd about={job} />
-        <div className="text-center mx-auto mt-20">
+        <div className="text-center mx-auto mt-12 mb-10">
           <Link
             to="refer"
             className="px-8 py-3 border border-transparent font-medium rounded-md text-black bg-primary md:py-4 text-xl md:px-10 transform ease-in duration-100 hover:-translate-y-2 hover:shadow-lg"

@@ -16,6 +16,7 @@ import {
 import apiList from "../../libs/apiList";
 import FilterPopup from "../filterPopup";
 import Myjob from "./Myjob";
+import unorm from "unorm";
 
 export default function JobBoard({ title, props }) {
   const [jobs, setJobs] = useState([]);
@@ -52,6 +53,13 @@ export default function JobBoard({ title, props }) {
     getData();
   }, []);
 
+  const normalizeText = (text) => {
+    return unorm
+      .nfkd(text)
+      .replace(/[\u0300-\u036f]/g, "")
+      .toUpperCase();
+  };
+
   const getData = () => {
     let searchParams = [`myjobs=1`];
     if (searchOptions.query !== "") {
@@ -66,19 +74,19 @@ export default function JobBoard({ title, props }) {
     if (searchOptions.jobType.wfh) {
       searchParams = [...searchParams, `jobType=Work%20From%20Home`];
     }
-    if (searchOptions.salary[0] != 0) {
+    if (searchOptions.salary[0] !== 0) {
       searchParams = [
         ...searchParams,
         `salaryMin=${searchOptions.salary[0] * 1000}`,
       ];
     }
-    if (searchOptions.salary[1] != 100) {
+    if (searchOptions.salary[1] !== 100) {
       searchParams = [
         ...searchParams,
         `salaryMax=${searchOptions.salary[1] * 1000}`,
       ];
     }
-    if (searchOptions.duration != "0") {
+    if (searchOptions.duration !== "0") {
       searchParams = [...searchParams, `duration=${searchOptions.duration}`];
     }
 
@@ -111,6 +119,11 @@ export default function JobBoard({ title, props }) {
       })
       .then((response) => {
         console.log(response.data);
+        const newData = response.data.filter((job) => {
+          const normalizedTitle = normalizeText(job.title);
+          const normalizedQuery = normalizeText(searchOptions.query);
+          return normalizedTitle.includes(normalizedQuery);
+        });
         setJobs(response.data);
       })
       .catch((err) => {
