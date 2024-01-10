@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
-export default function LeaderboardCard({ home }) {
+export default function LeaderboardCard({ user }) {
   function generateIcon(index) {
     if (index === 1) {
       return (
@@ -33,25 +33,30 @@ export default function LeaderboardCard({ home }) {
         Helping your friends land their dream job deserves recognition 🎉
       </p>
 
-      {home.map((greeter, id) => (
-        <div
-          key={id}
-          className="px-3 py-5 relative border-b border-gray items-center text-left "
-        >
-          <div className="flex items-center text-left">
-            <h1 className="text-4xl font-bold mt-2">{generateIcon(id + 1)}</h1>
-            <div className="ml-5">
-              <div className="text-lg font-medium text-gray-900">
-                {greeter?.name}
-              </div>
-
-              <div className="text-sm text-gray-500">
-                {greeter?.referrals?.length} referrals
+      {user && Object.keys(user) && user.length > 0 ? (
+        user.map((User, id) => (
+          <div
+            key={id}
+            className="px-3 py-5 relative border-b border-gray items-center text-left "
+          >
+            <div className="flex items-center text-left">
+              <h1 className="text-4xl font-bold mt-2">
+                {generateIcon(id + 1)}
+              </h1>
+              <div className="ml-5">
+                <div className="text-lg font-medium text-gray-900">
+                  {User.alluser}
+                </div>
+                {/* <div className="text-sm text-gray-500">
+                  {User.length} referrals
+                </div> */}
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p>No data available</p>
+      )}
 
       <p className="text-sm text-center mt-10 mb-3">
         * The leaderboard only shows users who have signed up for a Greeter

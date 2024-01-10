@@ -11,7 +11,7 @@ const apiList = {
   jobsId: `${server}/job/`,
   applications: `${server}/application`,
   rating: `${server}/rating`,
-  user: `${server}/user`,
+  user: `${server}/user/all`,
   userId: `${server}/user/:id`,
   applicants: `${server}/applicants`,
   OTP: `${server}/auth/verify_otp`,

@@ -15,8 +15,6 @@ export default function AdminJobs() {
     return <NoJobs />;
   }
 
-  console.log(jobs);
-
   return (
     <>
       <div className="bg-white pb-3 ">

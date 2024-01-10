@@ -72,7 +72,7 @@ export default function JobAd({ job, tags, about }) {
         </div>
       )}
       {about && (
-        <div className="rounded-xl bg-gray-100 pd:pt-1 pt-1 shadow-sm">
+        <div className="rounded-xl bg-[#f6f6f6] pd:pt-1 pt-1 shadow-sm">
           <div className="w-11/12 mx-auto mt-10 pb-4">
             <div className="flex">
               <img
@@ -139,6 +139,7 @@ export default function JobAd({ job, tags, about }) {
                 </tr>
               </tbody>
             </table>
+            <hr className="my-8 border-gray-300" />
             <div className="my-8">
               <h1 className="text-3xl font-medium mb-2">About the job</h1>
               <div

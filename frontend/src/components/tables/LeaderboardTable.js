@@ -7,8 +7,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
-export default function LeaderboardTable({ home }) {
-  if (!home) {
+export default function LeaderboardTable({ user }) {
+  if (!user) {
     return <h1>Loading...</h1>;
   }
 
@@ -52,8 +52,8 @@ export default function LeaderboardTable({ home }) {
         </thead>
 
         <tbody className="divide-y divide-gray-300 divide-dashed">
-          {home?.map((greeter, id) => {
-            return (
+          {user && Object.keys(user) && user.length > 0 ? (
+            user.map((User, id) => (
               <tr key={id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
                   <strong>{generateIcon(id + 1)}</strong>
@@ -63,19 +63,21 @@ export default function LeaderboardTable({ home }) {
                   <div className="flex items-center">
                     <div className="">
                       <div className="text-sm font-medium text-gray-900">
-                        {greeter.name}
+                        {User.email}
                       </div>
-                      <div className="text-sm text-gray-500">{greeter.title} </div>
+                      {/* <div className="text-sm text-gray-500">{User.title} </div> */}
                     </div>
                   </div>
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {greeter?.referrals?.length}
+                  {User.length}
                 </td>
               </tr>
-            );
-          })}
+            ))
+          ) : (
+            <p>No data available</p>
+          )}
         </tbody>
       </table>
       <p className="text-sm text-center mt-10 mb-3">
