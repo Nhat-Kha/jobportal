@@ -3,14 +3,14 @@ import apiList from "../libs/apiList";
 import { useEffect, useState } from "react";
 
 export default function useLeaderboard() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     const validJobs = Array.isArray(user) ? user : [];
 
     setUser(validJobs);
 
-    let address = apiList.user;
+    let address = apiList.jobs;
 
     axios
       .get(address, {
@@ -26,8 +26,6 @@ export default function useLeaderboard() {
         console.log(err);
       });
   }, []);
-
-  console.log("user", user);
 
   return user;
 }

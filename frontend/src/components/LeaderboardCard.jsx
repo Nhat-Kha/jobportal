@@ -5,6 +5,7 @@ import {
   faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Rating } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
 export default function LeaderboardCard({ user }) {
@@ -23,6 +24,8 @@ export default function LeaderboardCard({ user }) {
       );
     } else return <h1>{index}.</h1>;
   }
+
+  console.log(user);
 
   return (
     <div>
@@ -45,11 +48,15 @@ export default function LeaderboardCard({ user }) {
               </h1>
               <div className="ml-5">
                 <div className="text-lg font-medium text-gray-900">
-                  {User.alluser}
+                  {User.title}
                 </div>
-                {/* <div className="text-sm text-gray-500">
-                  {User.length} referrals
-                </div> */}
+                <div className="text-sm text-gray-500">
+                  <Rating
+                    value={User.rating !== -1 ? User.rating : null}
+                    readonly
+                  />
+                </div>
+                {/* <div className="">{User}</div> */}
               </div>
             </div>
           </div>

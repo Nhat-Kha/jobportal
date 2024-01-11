@@ -32,7 +32,6 @@ export default function ProfileMenu() {
       .get(`http://localhost:5000/api/user/${getUser}`)
       .then((response) => {
         setUser(response.data);
-        console.log("data:", response.data);
       })
       .catch((err) => {
         console.log("err: ", err.message);

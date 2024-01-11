@@ -184,9 +184,23 @@ const updateUser = async (req, res) => {
   }
 };
 
+const getAllUserApplicant = async (req, res) => {
+  try {
+    const allUser = await JobApplicant.find();
+
+    // const allUsers = [...allRecruiter, ...allJobApplicant];
+
+    res.status(200).json({ allUser, message: "show all user successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getUser,
   getAllUser,
   getUserId,
   updateUser,
+  getAllUserApplicant,
 };

@@ -5,6 +5,7 @@ import {
   faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Rating } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
 export default function LeaderboardTable({ user }) {
@@ -43,10 +44,10 @@ export default function LeaderboardTable({ user }) {
               Rank
             </th>
             <th className="px-6 py-3 text-left text-xs text-gray-900 uppercase tracking-wider leading-tight font-semibold">
-              Greeter
+              Jobs
             </th>
             <th className="px-6 py-3 text-left text-xs text-gray-900 uppercase tracking-wider leading-tight font-semibold">
-              Referrals
+              Start
             </th>
           </tr>
         </thead>
@@ -62,16 +63,24 @@ export default function LeaderboardTable({ user }) {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="">
-                      <div className="text-sm font-medium text-gray-900">
-                        {User.email}
+                      <div className="text-sm font-bold text-gray-900">
+                        {User.title}
                       </div>
-                      {/* <div className="text-sm text-gray-500">{User.title} </div> */}
+                      {/* <div className="text-sm text-gray-500">
+                        <Rating
+                          value={User.rating !== -1 ? User.rating : null}
+                          readonly
+                        />{" "}
+                      </div> */}
                     </div>
                   </div>
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {User.length}
+                  <Rating
+                    value={User.rating !== -1 ? User.rating : null}
+                    readonly
+                  />{" "}
                 </td>
               </tr>
             ))

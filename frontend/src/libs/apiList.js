@@ -15,6 +15,7 @@ const apiList = {
   userId: `${server}/user/:id`,
   applicants: `${server}/applicants`,
   OTP: `${server}/auth/verify_otp`,
+  allApplicants: `${server}/user/allApplicant`,
 };
 
 export default apiList;
