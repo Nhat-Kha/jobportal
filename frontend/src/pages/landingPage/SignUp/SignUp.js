@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import InputField from "components/InputField";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -11,70 +11,34 @@ import FileUploadInput from "libs/FileUploadInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { apiUploadImages } from "libs/uploadImage";
-import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const setPopup = useContext(SetPopupContext);
-  const history = useNavigate();
   const [loggedin, setLoggedin] = useState(isAuth());
   const [phone, setPhone] = useState("");
+
+  const [chips, setChips] = useState([]);
 
   const [imagesPreview, setImagesPreview] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [tags, setTags] = useState([]);
-
-  const handleDeleteTag = (deletedTag) => {
-    setTags((prevTags) => prevTags.filter((tag) => tag[0] !== deletedTag[0]));
+  const handleChip = (newChips) => {
+    setChips(newChips);
   };
 
-  const addTag = (e) => {
-    const newTags = e;
+  // const changeType = [
+  //   { value: "applicant", text: "Applicant" },
+  //   { value: "recruiter", text: "Recruiter" },
+  // ];
 
-    setTags((prevTags) => {
-      const updatedTags = [...prevTags];
-
-      newTags.forEach((newTag) => {
-        if (!updatedTags.some((tag) => tag[0] === newTag[0])) {
-          updatedTags.push(newTag);
-        }
-      });
-
-      return updatedTags;
-    });
-  };
-
-  useEffect(() => {
-    setSignupDetails((prevJob) => ({
-      ...prevJob,
-      skills: tags,
-    }));
-  }, [tags]);
-
-  const changeType = [
-    { value: "applicant", text: "Applicant" },
-    { value: "recruiter", text: "Recruiter" },
-  ];
-
-  const [type, setType] = useState(changeType[0].value);
-
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setType(event.target.value);
-  };
+  // const [type, setType] = useState(changeType[0].value);
 
   const [signupDetails, setSignupDetails] = useState({
-    type: type,
+    type: "applicant",
     email: "",
     password: "",
     name: "",
-    education: [
-      {
-        institutionName: "",
-        startYear: "",
-        endYear: "",
-      },
-    ],
+    education: [],
     skills: [],
     resume: "",
     profile: "",
@@ -82,6 +46,22 @@ export default function SignUp() {
     bio: "",
     contactNumber: "",
   });
+
+  const [education, setEducation] = useState([
+    {
+      institutionName: "",
+      startYear: "",
+      endYear: "",
+    },
+  ]);
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setSignupDetails((prevDetails) => ({
+      ...prevDetails,
+      type: event.target.value,
+    }));
+  };
 
   const [inputErrorHandler, setInputErrorHandler] = useState({
     email: {
@@ -154,7 +134,7 @@ export default function SignUp() {
 
     let updatedDetails = {
       ...signupDetails,
-      education: signupDetails.education
+      education: education
         .filter((obj) => obj.institutionName.trim() !== "")
         .map((obj) => {
           if (obj["endYear"] === "") {
@@ -176,7 +156,7 @@ export default function SignUp() {
         .then((response) => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("type", response.data.type);
-          localStorage.setItem("email", response.data.email);
+          localStorage.setItem("id", response.data._id);
           setLoggedin(isAuth());
           setPopup({
             open: true,
@@ -184,8 +164,78 @@ export default function SignUp() {
             message: "Logged in successfully",
           });
           console.log("export" + response);
-          console.log(response.data.type);
-          history("/OTP");
+          console.log(response?.data.type);
+        })
+        .catch((err) => {
+          setPopup({
+            open: true,
+            severity: "error",
+            message: err.response.data.message,
+          });
+          console.log(err.response);
+        });
+    } else {
+      setInputErrorHandler(tmpErrorHandler);
+      setPopup({
+        open: true,
+        severity: "error",
+        message: "Incorrect Input",
+      });
+    }
+  };
+
+  const handleLoginRecruiter = () => {
+    const tmpErrorHandler = {};
+    Object.keys(inputErrorHandler).forEach((obj) => {
+      if (inputErrorHandler[obj].required && inputErrorHandler[obj].untouched) {
+        tmpErrorHandler[obj] = {
+          required: true,
+          untouched: false,
+          error: true,
+          message: `${obj[0].toUpperCase() + obj.substr(1)} is required`,
+        };
+      } else {
+        tmpErrorHandler[obj] = inputErrorHandler[obj];
+      }
+    });
+
+    let updatedDetails = {
+      ...signupDetails,
+    };
+    if (phone !== "") {
+      updatedDetails = {
+        ...signupDetails,
+        contactNumber: `+${phone}`,
+      };
+    } else {
+      updatedDetails = {
+        ...signupDetails,
+        contactNumber: "",
+      };
+    }
+
+    setSignupDetails(updatedDetails);
+
+    const verified = !Object.keys(tmpErrorHandler).some((obj) => {
+      return tmpErrorHandler[obj].error;
+    });
+
+    console.log(updatedDetails);
+
+    if (!verified) {
+      axios
+        .post(apiList.signup, updatedDetails)
+        .then((response) => {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("type", response.data.type);
+          localStorage.setItem("id", response.data._id);
+          setLoggedin(isAuth());
+          setPopup({
+            open: true,
+            severity: "success",
+            message: "Logged in successfully",
+          });
+          console.log(response);
         })
         .catch((err) => {
           setPopup({
@@ -231,6 +281,8 @@ export default function SignUp() {
     }
   };
 
+  console.log(signupDetails.education);
+
   const handleInputError = (key, status, message) => {
     setInputErrorHandler({
       ...inputErrorHandler,
@@ -260,18 +312,15 @@ export default function SignUp() {
           </label>
           <select
             className="block border border-grey-light w-full p-3 rounded mb-4"
-            value={type}
+            value={signupDetails.type}
             onChange={handleChange}
           >
-            {changeType.map((changetype, index) => (
-              <option
-                key={index}
-                value={changetype.value}
-                className="rounded mb-4 text-gray-950"
-              >
-                {changetype.text}
-              </option>
-            ))}
+            <option value="applicant" className="rounded mb-4 text-gray-950">
+              Applicant
+            </option>
+            <option value="recruiter" className="rounded mb-4 text-gray-950">
+              Recruiter
+            </option>
           </select>
         </div>
 
@@ -309,49 +358,40 @@ export default function SignUp() {
             }
           }}
         />
-        {type === "applicant" ? (
+        {signupDetails.type === "applicant" ? (
           <>
-            {Object.keys(signupDetails.education).map((index) => (
+            {education.map((edu, index) => (
               <div className="flex justify-between" key={index}>
                 <InputField
                   type="text"
                   label={`Institution Name ${index + 1}`}
-                  value={signupDetails.education[index].institutionName}
+                  value={edu.institutionName}
                   onChange={(e) => {
-                    const newEdu = [...signupDetails.education];
-                    newEdu[index].institutionName = e.target.value;
-                    setSignupDetails((prevDetails) => ({
-                      ...prevDetails,
-                      education: newEdu,
-                    }));
+                    const newEducation = [...education];
+                    newEducation[index].institutionName = e.target.value;
+                    setEducation(newEducation);
                   }}
                   placeholder="Institution name"
                 />
                 <InputField
                   type="number"
                   label={`Start Year ${index + 1}`}
-                  value={signupDetails.education.startYear}
+                  value={edu.startYear}
                   onChange={(e) => {
-                    const newEdu = [...signupDetails.education];
-                    newEdu[index].startYear = e.target.value;
-                    setSignupDetails((prevDetails) => ({
-                      ...prevDetails,
-                      education: newEdu,
-                    }));
+                    const newEducation = [...education];
+                    newEducation[index].startYear = e.target.value;
+                    setEducation(newEducation);
                   }}
                   placeholder="Start year"
                 />
                 <InputField
                   type="number"
                   label={`End Year ${index + 1}`}
-                  value={signupDetails.education.endYear}
+                  value={edu.endYear}
                   onChange={(e) => {
-                    const newEdu = [...signupDetails.education];
-                    newEdu[index].endYear = e.target.value;
-                    setSignupDetails((prevDetails) => ({
-                      ...prevDetails,
-                      education: newEdu,
-                    }));
+                    const newEducation = [...education];
+                    newEducation[index].endYear = e.target.value;
+                    setEducation(newEducation);
                   }}
                   placeholder="End year"
                 />
@@ -360,33 +400,69 @@ export default function SignUp() {
             <div>
               <button
                 className="block w-full border p-3 rounded mb-4 bg-yellow-300"
-                onClick={() => {
-                  setSignupDetails((prevDetails) => ({
-                    ...prevDetails,
-                    education: [
-                      ...prevDetails.education,
-                      {
-                        institutionName: "",
-                        startYear: "",
-                        endYear: "",
-                      },
-                    ],
-                  }));
-                }}
+                onClick={() =>
+                  setEducation([
+                    ...education,
+                    {
+                      institutionName: "",
+                      startYear: "",
+                      endYear: "",
+                    },
+                  ])
+                }
               >
                 Add another institution details
               </button>
             </div>
+
             <MuiChipsInput
               label="Skill *"
               helperText="Please enter to add skill"
-              value={tags}
-              onChange={(e) => {
-                addTag(e);
-              }}
-              onDeleteChip={(deletedTag) => handleDeleteTag(deletedTag)}
+              value={chips}
+              onChange={handleChip}
               className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
             />
+
+            <div className="w-full mb-6">
+              <h2 className="font-semibold text-xl py-4">Hình ảnh</h2>
+              <div className="w-full">
+                <label
+                  className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
+                  htmlFor="file"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    Thêm ảnh
+                  </div>
+                </label>
+                <input
+                  onChange={uploadFile}
+                  hidden
+                  type="file"
+                  id="file"
+                  multiple
+                />
+                <div className="w-full">
+                  <h3 className="font-medium py-4">Ảnh đã chọn</h3>
+                  <div className="flex gap-4 items-center">
+                    {signupDetails.profile ? (
+                      <div className="relative w-1/3 h-1/3">
+                        <img
+                          src={
+                            Array.isArray(signupDetails.profile)
+                              ? signupDetails.profile[0]
+                              : signupDetails.profile
+                          }
+                          alt="preview"
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      </div>
+                    ) : (
+                      <p>No images selected</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           <>
@@ -413,46 +489,6 @@ export default function SignUp() {
             </div>
           </>
         )}
-        <div className="w-full mb-6">
-          <h2 className="font-semibold text-xl py-4">Hình ảnh</h2>
-          <div className="w-full">
-            <label
-              className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
-              htmlFor="file"
-            >
-              <div className="flex flex-col items-center justify-center">
-                Thêm ảnh
-              </div>
-            </label>
-            <input
-              onChange={uploadFile}
-              hidden
-              type="file"
-              id="file"
-              multiple
-            />
-            <div className="w-full">
-              <h3 className="font-medium py-4">Ảnh đã chọn</h3>
-              <div className="flex gap-4 items-center">
-                {signupDetails.profile ? (
-                  <div className="relative w-1/3 h-1/3">
-                    <img
-                      src={
-                        Array.isArray(signupDetails.profile)
-                          ? signupDetails.profile[0]
-                          : signupDetails.profile
-                      }
-                      alt="preview"
-                      className="w-full h-full object-cover rounded-md"
-                    />
-                  </div>
-                ) : (
-                  <p>No images selected</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
 
         <label className="block text-black text-sm font-medium mt-8 focus:outline-none outline-none">
           <input
@@ -475,8 +511,9 @@ export default function SignUp() {
         <button
           className={`mt-8 w-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-100 font-semibold cursor-pointer px-4 py-3 rounded-lg text-sm `}
           onClick={() => {
-            handleLogin();
-            console.log("Input values on button click:", signupDetails);
+            signupDetails.type === "applicant"
+              ? handleLogin()
+              : handleLoginRecruiter();
           }}
           // disabled={!allFieldsChecked}
         >
