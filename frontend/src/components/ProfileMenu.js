@@ -31,6 +31,7 @@ export default function ProfileMenu() {
     axios
       .get(`http://localhost:5000/api/user/${getUser}`)
       .then((response) => {
+        console.log("type", response);
         setUser(response.data);
       })
       .catch((err) => {
