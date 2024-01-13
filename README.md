@@ -24,6 +24,8 @@
 ## Features
  - Login,signup,forgort password
  - Create post, search post
+ - Changed profile, changed password
+ - Apply job
  - Leaderboard
 
 ## Usage, Installation
