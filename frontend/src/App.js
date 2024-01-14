@@ -1,12 +1,7 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "pages/landingPage/About";
 import Home from "pages/landingPage/Home";
-import { React, createContext, useState } from "react";
+import { React, createContext, useEffect, useState } from "react";
 import PrivacyPolicy from "pages/landingPage/AboutUs/PrivacyPolicy";
 import Navbar from "components/Navbar";
 import InfoBar from "components/InfoBar";
@@ -36,7 +31,9 @@ import OTPInput from "pages/landingPage/SignIn/EmailVerify/OTPInput";
 import AdminJob from "pages/admin/AdminJob";
 import Company from "pages/landingPage/InfoRecruiter";
 import TalentPool from "pages/admin/TalentPool";
-// import HomeDashboard from "pages/dashboard/home";
+import MessagePopup from "libs/MessagePopup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const SetPopupContext = createContext();
 
@@ -45,9 +42,27 @@ export default function App() {
   console.log("type: " + type);
   const [popup, setPopup] = useState({
     open: false,
-    severity: "",
+    icon: "",
     message: "",
   });
+
+  useEffect(() => {
+    if (popup.open) {
+      toast[popup.icon](popup.message, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setPopup({
+        ...popup,
+        open: false,
+      });
+    }
+  }, [popup.open, popup.icon, popup.message]);
 
   return (
     <SetPopupContext.Provider value={setPopup}>
@@ -100,6 +115,7 @@ export default function App() {
         </Routes>
         <Footer />
       </Router>
+      <ToastContainer />
     </SetPopupContext.Provider>
   );
 }

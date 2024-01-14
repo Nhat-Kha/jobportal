@@ -1,18 +1,26 @@
-import swal from "sweetalert";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function MessagePopup(props) {
-  const handleClose = () => {
-    props.setOpen(false);
+const MessagePopup = (props) => {
+  const showToast = () => {
+    toast[props.icon](props.message, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
-  if (props.open) {
-    swal({
-      title: props.title === "success" ? "Good job!" : "Again",
-      text: props.message === true ? "You clicked the button!" : "",
-      icon: props.icon === "success" ? "success" : "error",
-      onClose: handleClose,
-    });
-  }
+  useEffect(() => {
+    if (props.open) {
+      showToast();
+    }
+  }, [props.open, props.icon, props.message]);
 
   return null;
-}
+};
+
+export default MessagePopup;

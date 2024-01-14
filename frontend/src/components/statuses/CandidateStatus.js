@@ -7,7 +7,9 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 const statuses = ["In progress", "Shortlisted", "Not a fit", "Hired"];
 
 export default function CandidateStatus({ referral }) {
-  const [selected, setSelected] = useState(referral.general.status);
+  const [selected, setSelected] = useState(referral.statuses);
+
+  console.log("CandidateStatus props:", referral);
 
   function generateBtn(status) {
     if (status === "Shortlisted") {
@@ -18,6 +20,8 @@ export default function CandidateStatus({ referral }) {
       return "bg-red-100 text-red-800 border-red-100";
     else return "bg-yellow-100 text-yellow-800 border-yellow-100";
   }
+
+  console.log("status: ", setSelected);
 
   return (
     <Listbox value={selected} onChange={setSelected}>

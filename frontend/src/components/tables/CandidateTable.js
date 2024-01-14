@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Select from "../Select";
 import NoReferrals from "components/emptyStates/NoReferrals";
 import CandidateStatus from "components/statuses/CandidateStatus";
+import axios from "axios";
+import apiList from "../../libs/apiList";
 
 const times = ["Newest first", "Oldest first"];
 let th = [];
@@ -12,6 +14,7 @@ export default function CandidateTable({ referrals }) {
   let currentDate = new Date();
   const [selectedTime, setSelectedTime] = useState(times[0]);
   let [displayedReferrals, setDisplayedReferrals] = useState([]);
+  let [update, setUpdate] = useState([]);
   let url = window.location.href;
   let job = url.split("/")[url.split("/").length - 1];
 
@@ -22,6 +25,23 @@ export default function CandidateTable({ referrals }) {
   if (job !== "talent-pool") {
     th = ["Candidate", "Referred by", "Added", ""];
   }
+  console.log("status: ", setUpdate);
+
+  useEffect(() => {
+    axios
+      .put(apiList.updateApplications, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setUpdate(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   useEffect(() => {
     setDisplayedReferrals(referrals);
@@ -71,7 +91,6 @@ export default function CandidateTable({ referrals }) {
   }
 
   console.log("displayedReferrals: ", referrals);
-  console.log("status: ", CandidateStatus);
 
   return (
     <>
@@ -138,12 +157,9 @@ export default function CandidateTable({ referrals }) {
                   >
                     {calculateDays(referral.time.toDate())}
                   </td>
-
-                  {job === "talent-pool" ? (
-                    <td>
-                      <CandidateStatus referral={referral} />
-                    </td>
-                  ) : null}
+                  <td>
+                    <CandidateStatus referral={update} />
+                  </td>
                 </tr>
               ))}
             </tbody>

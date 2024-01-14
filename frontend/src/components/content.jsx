@@ -63,7 +63,7 @@ export default function Jumbotron() {
 
             <Link
               to="/sign-up"
-              className="transform ease-in duration-100 md:mx-0 text-black  font-semibold rounded-full items-center justify-center py-3 border-2 border-black hover:bg-black hover:text-primary  text-base  bg-primary md:py-4 md:text-lg px-8"
+              className="transform ease-in duration-100 md:mx-0 text-black  font-semibold rounded-full items-center justify-center py-3 border-2  hover:bg-black hover:text-primary  text-base  bg-primary md:py-4 md:text-lg px-8"
             >
               Sign up for free
             </Link>
@@ -122,7 +122,7 @@ export default function Jumbotron() {
                     </div>
                   </Link>
                   <Link
-                    to="/jobs/talent-pool/refer"
+                    to="/companies"
                     className="border-2 border-gray-200 flex items-center text-left p-3 mx-1 my-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                   >
                     <div className="flex items-center text-2xl justify-center flex-shrink-0 w-10 h-10 text-secondary bg-primary rounded-lg sm:h-12 sm:w-12">
@@ -130,7 +130,7 @@ export default function Jumbotron() {
                     </div>
                     <div className="ml-4">
                       <p className="text-lg font-semibold text-gray-900">
-                        Refer to the talent pool
+                        Browse the Recruiter board
                       </p>
                     </div>
                   </Link>

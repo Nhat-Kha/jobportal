@@ -21,7 +21,9 @@ function WaitingBtn() {
   );
 }
 
-export default function JobCreator({ jobToEdit, isComplete, props }) {
+export default function JobCreator({ jobToEdit, props }) {
+  const setPopup = useContext(SetPopupContext);
+
   const [tags, setTags] = useState([]);
 
   const handleDeleteTag = (deletedTag) => {
@@ -55,8 +57,8 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
     jobToEdit || {
       name: isAuth(),
       title: "",
-      maxApplicants: 100,
-      maxPositions: 30,
+      maxApplicants: "",
+      maxPositions: "",
       salary: 0,
       deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
         .toISOString()
@@ -69,8 +71,17 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
     }
   );
 
-  console.log("skill to add: ", tags);
-  console.log("updated job:", job);
+  let isComplete =
+    job.title.length > 0 &&
+    job.maxApplicants.length > 0 &&
+    job.maxPositions.length > 0 &&
+    job.salary.length > 0 &&
+    job.deadline.length > 0 &&
+    job.skillsets.length > 0 &&
+    job.duration.length > 0 &&
+    job.jobType.length > 0 &&
+    job.jobType.length > 0 &&
+    job.description.length > 0;
 
   const modules = {
     toolbar: [
@@ -98,16 +109,21 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
       .then((response) => {
         setJob({
           title: "",
-          maxApplicants: 100,
-          maxPositions: 30,
+          maxApplicants: "",
+          maxPositions: "",
           deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
             .toISOString()
             .substr(0, 16),
           skillsets: [],
-          jobType: "Full Time",
-          duration: 0,
-          salary: 0,
+          jobType: "",
+          duration: "",
+          salary: "",
           description: "",
+        });
+        setPopup({
+          open: true,
+          icon: "success",
+          message: "Post created successfully",
         });
       })
       .catch((err) => {
@@ -239,21 +255,25 @@ export default function JobCreator({ jobToEdit, isComplete, props }) {
           placeholder="Job description goes here..."
         />
         <div className="flex items-center pt-6">
-          {/* {isComplete ? (
-            <button className="text-center transform hover:-translate-y-1 hover:shadow-lg cursor-pointer font-bold text-md px-8 py-3 bg-primary rounded-xl text-black">
+          {isComplete ? (
+            <button
+              onClick={() => handleUpdate()}
+              className="text-center transform hover:-translate-y-1 hover:shadow-lg 
+              cursor-pointer font-bold text-md px-8 py-3 bg-primary rounded-xl text-black"
+            >
               Save
             </button>
           ) : (
             <WaitingBtn />
-          )} */}
+          )}
 
-          <button
+          {/* <button
             className="text-center transform hover:-translate-y-1 hover:shadow-lg 
           cursor-pointer font-bold text-md px-8 py-3 bg-primary rounded-xl text-black"
             onClick={() => handleUpdate()}
           >
             Save
-          </button>
+          </button> */}
           <Link
             to="/admin"
             className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-light px-8 py-3 rounded-xl border-none"

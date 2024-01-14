@@ -11,7 +11,7 @@ const Logout = (props) => {
     localStorage.removeItem("id");
     setPopup({
       open: true,
-      severity: "success",
+      icon: "success",
       message: "Logged out successfully",
     });
   }, []);

@@ -10,6 +10,7 @@ const apiList = {
   jobs: `${server}/job`,
   jobsId: `${server}/job/`,
   applications: `${server}/application`,
+  updateApplications: `${server}/application/:id`,
   rating: `${server}/rating`,
   user: `${server}/user/all`,
   userId: `${server}/user/:id`,

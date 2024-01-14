@@ -160,7 +160,7 @@ export default function SignUp() {
           setLoggedin(isAuth());
           setPopup({
             open: true,
-            severity: "success",
+            icon: "success",
             message: "Logged in successfully",
           });
           console.log("export" + response);
@@ -169,7 +169,7 @@ export default function SignUp() {
         .catch((err) => {
           setPopup({
             open: true,
-            severity: "error",
+            icon: "warn",
             message: err.response.data.message,
           });
           console.log(err.response);
@@ -178,7 +178,7 @@ export default function SignUp() {
       setInputErrorHandler(tmpErrorHandler);
       setPopup({
         open: true,
-        severity: "error",
+        icon: "error",
         message: "Incorrect Input",
       });
     }
@@ -232,7 +232,7 @@ export default function SignUp() {
           setLoggedin(isAuth());
           setPopup({
             open: true,
-            severity: "success",
+            icon: "success",
             message: "Logged in successfully",
           });
           console.log(response);
@@ -240,7 +240,7 @@ export default function SignUp() {
         .catch((err) => {
           setPopup({
             open: true,
-            severity: "error",
+            icon: "error",
             message: err.response.data.message,
           });
           console.log(err.response);
@@ -249,7 +249,7 @@ export default function SignUp() {
       setInputErrorHandler(tmpErrorHandler);
       setPopup({
         open: true,
-        severity: "error",
+        icon: "error",
         message: "Incorrect Input",
       });
     }

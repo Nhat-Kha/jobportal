@@ -6,6 +6,7 @@ import axios from "axios";
 import isAuth from "libs/isAuth";
 import apiList from "../../../libs/apiList";
 import { userType } from "libs/isAuth";
+import { Bounce, toast } from "react-toastify";
 
 export default function SignIn({ login }) {
   const setPopup = useContext(SetPopupContext);
@@ -57,6 +58,7 @@ export default function SignIn({ login }) {
           localStorage.setItem("id", response.data._id);
           setLoggedin(isAuth());
           setPopup({
+            open: true,
             icon: "success",
             message: "Logged in successfully",
           });
@@ -65,7 +67,7 @@ export default function SignIn({ login }) {
         .catch((err) => {
           setPopup({
             open: true,
-            severity: "error",
+            icon: "warn",
             message: err.response.data.message,
           });
           console.log(err.response);
@@ -73,7 +75,7 @@ export default function SignIn({ login }) {
     } else {
       setPopup({
         open: true,
-        severity: "error",
+        icon: "error",
         message: "Incorrect Input",
       });
     }
