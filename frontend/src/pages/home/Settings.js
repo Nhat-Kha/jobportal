@@ -3,10 +3,12 @@ import InputField from "components/InputField";
 import { apiUploadImages } from "libs/uploadImage";
 import axios from "axios";
 import { SetPopupContext } from "App";
-import apiList from "libs/apiList";
+import apiList from "../../libs/apiList";
+import { getId } from "libs/isAuth";
 
 export default function Settings() {
   const setPopup = useContext(SetPopupContext);
+  const getUser = getId();
 
   const [isLoading, setIsLoading] = useState(false);
   const [imagesPreview, setImagesPreview] = useState("");
@@ -34,7 +36,7 @@ export default function Settings() {
 
   const getData = () => {
     axios
-      .get(apiList.user, {
+      .get(`http://localhost:5000/api/user/${getUser}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -78,7 +80,7 @@ export default function Settings() {
     };
 
     axios
-      .put(apiList.user, updatedDetails, {
+      .put(apiList.userId, updatedDetails, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

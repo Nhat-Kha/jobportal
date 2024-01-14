@@ -8,6 +8,7 @@ const Logout = (props) => {
   useEffect(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("type");
+    localStorage.removeItem("id");
     setPopup({
       open: true,
       severity: "success",

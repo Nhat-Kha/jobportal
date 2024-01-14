@@ -25,36 +25,36 @@ export default function OTPInput() {
       .catch(console.log);
   }
 
-  const verifyOTP = async () => {
-    try {
-      // Gọi API backend để kiểm tra xác nhận OTP
-      const response = await axios.post(
-        apiList.OTP,
-        {
-          email: localStorage.getItem("email"),
-          // enteredOTP: localStorage.getItem("otp").trim().split(""),
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+  // const verifyOTP = async () => {
+  //   try {
+  //     // Gọi API backend để kiểm tra xác nhận OTP
+  //     const response = await axios.post(
+  //       apiList.OTP,
+  //       {
+  //         email: localStorage.getItem("email"),
+  //         // enteredOTP: localStorage.getItem("otp").trim().split(""),
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
 
-      if (response.data.success) {
-        alert(
-          "Verification successful. You can proceed with the registration."
-        );
-        history("/reset-recovered");
-      } else {
-        alert("Verification failed. Please check your OTP and try again.");
-      }
-    } catch (error) {
-      console.error("Error verifying OTP:", error);
-      alert("Error verifying OTP. Please try again.");
-    }
-  };
-  console.log("Entered OTP: ", localStorage.getItem("otp").trim().split(""));
+  //     if (response.data.success) {
+  //       alert(
+  //         "Verification successful. You can proceed with the registration."
+  //       );
+  //       history("/reset-recovered");
+  //     } else {
+  //       alert("Verification failed. Please check your OTP and try again.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error verifying OTP:", error);
+  //     alert("Error verifying OTP. Please try again.");
+  //   }
+  // };
+  // console.log("Entered OTP: ", localStorage.getItem("otp").trim().split(""));
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -159,7 +159,7 @@ export default function OTPInput() {
                 <div className="flex flex-col space-y-5">
                   <div>
                     <a
-                      onClick={() => verifyOTP()}
+                      // onClick={() => verifyOTP()}
                       className="flex flex-row cursor-pointer items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
                       href="#!"
                     >

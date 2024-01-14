@@ -21,7 +21,7 @@ export default function Refer() {
     share: "No, I will get 100%.",
   });
 
-  let indices = 5;
+  let indices = 3;
   let [index, setIndex] = useState(0);
 
   let addCandidate = (value) => setCandidate(value);
@@ -88,14 +88,14 @@ export default function Refer() {
 
   function generateStep(value) {
     switch (value) {
+      // case 0:
+      //   return <Candidate candidate={candidate} addCandidate={addCandidate} />;
+      // case 1:
+      //   return <Motivation referrer={referrer} addMotivation={addReferrer} />;
       case 0:
-        return <Candidate candidate={candidate} addCandidate={addCandidate} />;
-      case 1:
-        return <Motivation referrer={referrer} addMotivation={addReferrer} />;
-      case 2:
-        return <General general={general} addGeneral={addGeneral} />;
-      case 3: {
         return <Referrer referrer={referrer} addReferrer={addReferrer} />;
+      case 1: {
+        return <General general={general} addGeneral={addGeneral} />;
       }
     }
   }

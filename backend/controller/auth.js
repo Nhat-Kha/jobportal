@@ -33,45 +33,62 @@ const SignUp = async (req, res) => {
     // Extract data from the request body
     const data = req.body;
 
-    console.log("res body:", req.body);
-
     // create a new user
     let user = new User({
       email: data.email,
       password: data.password,
       type: data.type,
+      _id: data._id,
     });
 
     // Create user details based on user type
-    const userDetails =
-      user.type == "recruiter"
-        ? new Recruiter({
-            userId: user._id,
-            name: data.name,
-            contactNumber: data.contactNumber,
-            bio: data.bio,
+    user
+      .save()
+      .then(() => {
+        const userDetails =
+          user.type == "recruiter"
+            ? new Recruiter({
+                userId: user._id,
+                name: data.name,
+                contactNumber: data.contactNumber,
+                bio: data.bio,
+              })
+            : new JobApplicant({
+                userId: user._id,
+                name: data.name,
+                education: data.education,
+                skills: data.skills,
+                rating: data.rating,
+                resume: data.resume,
+                profile: data.profile,
+              });
+
+        userDetails
+          .save()
+          .then(() => {
+            // Token
+            const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
+            res.json({
+              token: token,
+              type: user.type,
+              _id: user._id,
+            });
           })
-        : new JobApplicant({
-            userId: user._id,
-            name: data.name,
-            education: data.education,
-            skills: data.skills,
-            rating: data.rating,
-            resume: data.resume,
-            profile: data.profile,
+          .catch((err) => {
+            user
+              .delete()
+              .then(() => {
+                res.status(400).json(err);
+              })
+              .catch((err) => {
+                res.json({ error: err });
+              });
+            err;
           });
-
-    // Save user details to the database
-    await userDetails.save();
-
-    // Token
-    const token = jwt.sign({ _id: user._id }, authKeys.jwtSecretKey);
-    // Response with the token and user type
-    res.json({
-      token: token,
-      type: user.type,
-      email: user.email,
-    });
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
   } catch (err) {
     // Handle errors during user creation or user details creation
     console.log(err.message);

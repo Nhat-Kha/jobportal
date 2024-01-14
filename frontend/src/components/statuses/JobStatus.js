@@ -1,24 +1,29 @@
-import { Fragment, useState, useEffect } from "react";
-
+import axios from "axios";
+import apiList from "../../libs/apiList";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const statuses = ["In progress", "Shortlisted", "Not a fit", "Hired"];
+const statuses = ["Open", "Hidden"];
 
-export default function CandidateStatus({ referral }) {
-  const [selected, setSelected] = useState(referral.general.status);
+export default function JobStatus({ job, id }) {
+  const [selected, setSelected] = useState(job.status);
+  const ref = apiList.jobs;
+
+  useEffect(() => {
+    AddToDatabase();
+  }, []);
+
+  const AddToDatabase = async () => {
+    const updateDoc = await axios.get(ref, { status: selected });
+  };
 
   function generateBtn(status) {
-    if (status === "Shortlisted") {
-      return "bg-pink-100 text-pink-800 border-pink-100";
-    } else if (status === "Hired") {
+    if (status === "Open") {
       return "bg-green-100 text-green-800 border-green-100";
-    } else if (status === "Not a fit")
-      return "bg-red-100 text-red-800 border-red-100";
-    else return "bg-yellow-100 text-yellow-800 border-yellow-100";
+    } else return "bg-yellow-100 text-yellow-800 border-yellow-100";
   }
-
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="absolute w-32 -mt-4">

@@ -71,6 +71,7 @@ export default function CandidateTable({ referrals }) {
   }
 
   console.log("displayedReferrals: ", referrals);
+  console.log("status: ", CandidateStatus);
 
   return (
     <>
@@ -138,11 +139,11 @@ export default function CandidateTable({ referrals }) {
                     {calculateDays(referral.time.toDate())}
                   </td>
 
-                  {job === "talent-pool" ? null : (
+                  {job === "talent-pool" ? (
                     <td>
                       <CandidateStatus referral={referral} />
                     </td>
-                  )}
+                  ) : null}
                 </tr>
               ))}
             </tbody>

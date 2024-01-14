@@ -16,6 +16,8 @@ const apiList = {
   applicants: `${server}/applicants`,
   OTP: `${server}/auth/verify_otp`,
   allApplicants: `${server}/user/allApplicant`,
+  allRecruiter: `${server}/user/allRecruiter`,
+  getIdRecruiter: `${server}/user/allRecruiter/:id`,
 };
 
 export default apiList;

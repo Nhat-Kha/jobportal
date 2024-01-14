@@ -197,10 +197,43 @@ const getAllUserApplicant = async (req, res) => {
   }
 };
 
+const getAllUserRecruiter = async (req, res) => {
+  try {
+    const allUser = await Recruiter.find();
+
+    // const allUsers = [...allRecruiter, ...allJobApplicant];
+
+    res.status(200).json({ allUser, message: "show all user successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const getIdRecruiter = async (req, res) => {
+  const { _id } = req.params;
+
+  Recruiter.findOne(_id)
+    .then((recruiter) => {
+      if (recruiter === null) {
+        res.status(404).json({
+          message: "User recruiter does not exist",
+        });
+        return;
+      }
+      res.json(recruiter);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+
 module.exports = {
   getUser,
   getAllUser,
   getUserId,
+  getIdRecruiter,
   updateUser,
   getAllUserApplicant,
+  getAllUserRecruiter,
 };
