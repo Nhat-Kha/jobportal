@@ -1,11 +1,15 @@
 import isAuth from "libs/isAuth";
-import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import JobAd from "./JobAd";
 import ReactQuill from "react-quill";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPen } from "@fortawesome/free-solid-svg-icons";
 import InputField from "./InputField";
+import { MuiChipsInput } from "mui-chips-input";
+import axios from "axios";
+import apiList from "../libs/apiList";
+import { SetPopupContext } from "App";
 
 const modules = {
   toolbar: [
@@ -25,23 +29,59 @@ function WaitingBtn() {
 export default function JobEditor({ jobToEdit, _id }) {
   let history = useNavigate();
   const [editing, setEditing] = useState(true);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const { id } = useParams();
 
-  const { user } = isAuth();
+  const setPopup = useContext(SetPopupContext);
+
+  // const { user } = isAuth();
   const [job, setJob] = useState(
     jobToEdit || {
-      company: user.displayName,
-      companyId: user.uid,
-      logo: user.photoURL,
+      name: isAuth(),
       title: "",
-      employment: "",
-      hiring: "",
-      interview: "",
-      location: "",
-      description: "",
+      maxApplicants: "",
+      maxPositions: "",
+      salary: 0,
+      deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .substr(0, 16),
+      skillsets: [],
+      duration: 0,
+      jobType: "Full Time",
       status: "Open",
-      time: Date.now(),
+      description: "",
     }
   );
+  const [jobDetails, setJobDetails] = useState(job);
+
+  const [tags, setTags] = useState([]);
+
+  const handleDeleteTag = (deletedTag) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag[0] !== deletedTag[0]));
+  };
+
+  const addTag = (e) => {
+    const newTags = e;
+
+    setTags((prevTags) => {
+      const updatedTags = [...prevTags];
+
+      newTags.forEach((newTag) => {
+        if (!updatedTags.some((tag) => tag[0] === newTag[0])) {
+          updatedTags.push(newTag);
+        }
+      });
+
+      return updatedTags;
+    });
+  };
+
+  useEffect(() => {
+    setJob((prevJob) => ({
+      ...prevJob,
+      skillsets: tags,
+    }));
+  }, [tags]);
 
   // let isComplete =
   //   job.title.length > 0 &&
@@ -59,11 +99,53 @@ export default function JobEditor({ jobToEdit, _id }) {
     setJob({ ...job, description: description });
   }, [description]);
 
-  const addToDatabase = useCallback(async () => {
-    if (jobToEdit && _id) {
-      return;
-    }
-  });
+  useEffect(() => {
+    setJobDetails(job);
+  }, [job]);
+
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
+
+  const handleJobUpdate = () => {
+    console.log("Job data to be sent:", job);
+    console.log(`${apiList.jobs}/${id}`);
+
+    const address = `${apiList.jobs}/${id}`;
+
+    axios
+      .put(address, job, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response && response.data) {
+          setPopup({
+            open: true,
+            icon: "success",
+            message: response.data.message,
+          });
+          setJob();
+          handleCloseUpdate();
+        } else {
+          console.error("Invalid response format:", response);
+        }
+      })
+      .catch((err) => {
+        if (err.response && err.response.data) {
+          console.log(err.response);
+          setPopup({
+            open: true,
+            icon: "error",
+            message: err.response.data.message,
+          });
+        } else {
+          console.error("Error response format:", err.response);
+        }
+        handleCloseUpdate();
+      });
+  };
 
   return (
     <div className="w-1/2 mx-auto mt-32  grid">
@@ -113,64 +195,97 @@ export default function JobEditor({ jobToEdit, _id }) {
             }}
             placeholder="Title"
           />
-          <div className="grid grid-cols-4 gap-4 mt-6">
-            <InputField
-              className="col-span-2"
-              type="text"
-              label="Hiring Reward"
-              placeholder="25 000"
-              value={job.hiring}
+          <InputField
+            className="mt-8 hover:border-black"
+            type="number"
+            label="salary Reward"
+            placeholder="..."
+            value={job.salary}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                salary: e.target.value,
+              });
+            }}
+          />
+          <InputField
+            className="mt-8 hover:border-black"
+            type="text"
+            label="Job type"
+            placeholder="25 000"
+            value={job.jobType}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                jobType: e.target.value,
+              });
+            }}
+          />
+          <InputField
+            className="mt-8 hover:border-black"
+            type="text"
+            label="duration"
+            placeholder="25 000"
+            value={job.duration}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                duration: e.target.value,
+              });
+            }}
+          />
+          <InputField
+            className="mt-8 hover:border-black"
+            type="datetime-local"
+            label="Application Deadline"
+            placeholder="dd/mm/yy"
+            value={job.deadline}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                deadline: e.target.value,
+              });
+            }}
+          />
+          <InputField
+            className="mt-8 hover:border-black"
+            type="number"
+            label="Maximum Number Of Applicants"
+            placeholder="100"
+            value={job.maxApplicants}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                maxApplicants: e.target.value,
+              });
+            }}
+          />
+          <InputField
+            className="mt-8 hover:border-black"
+            type="number"
+            label="Positions Available"
+            placeholder="20"
+            value={job.maxPositions}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                maxPositions: e.target.value,
+              });
+            }}
+          />
+          <div className="pb-4">
+            <label className="block text-black text-sm font-semibold mb-2">
+              Skills <span className="text-[#ff3131]">*</span>
+            </label>
+            <MuiChipsInput
+              value={tags}
               onChange={(e) => {
-                setJob({
-                  ...job,
-                  hiring: e.target.value,
-                });
+                addTag(e);
               }}
-            />
-            <InputField
-              className="col-span-2"
-              label="Interview Reward"
-              type="text"
-              placeholder="1000"
-              value={job.interview}
-              onChange={(e) => {
-                setJob({
-                  ...job,
-                  interview: e.target.value,
-                });
-              }}
+              className="bg-white w-full block border border-grey-light p-3 rounded mb-4"
+              onDeleteChip={(deletedTag) => handleDeleteTag(deletedTag)}
             />
           </div>
-          <div className="grid grid-cols-4 gap-4 mt-1">
-            <InputField
-              className="col-span-2"
-              type="text"
-              label="Location"
-              value={job.location}
-              onChange={(e) => {
-                setJob({
-                  ...job,
-                  location: e.target.value,
-                });
-              }}
-              placeholder="Stockholm"
-            />
-
-            <InputField
-              className="col-span-2"
-              type="text"
-              label="Employment Type"
-              value={job.employment}
-              onChange={(e) => {
-                setJob({
-                  ...job,
-                  employment: e.target.value,
-                });
-              }}
-              placeholder="Full Time"
-            />
-          </div>
-
           <label className="block text-sm font-medium text-gray-700 mt-6 mb-2">
             Job description
           </label>
@@ -178,19 +293,24 @@ export default function JobEditor({ jobToEdit, _id }) {
           <ReactQuill
             modules={modules}
             theme="snow"
-            value={description}
-            onChange={setDescription}
+            value={job.description}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                description: e,
+              });
+            }}
             placeholder="Job description goes here..."
           />
         </>
       ) : (
-        <JobAd job={job} description={job.description} />
+        <JobAd edit={job} />
       )}
 
       <div className="flex items-center pt-6 mt-12">
         <button
           className="text-center transform hover:-translate-y-1 hover:shadow-lg cursor-pointer font-bold text-md px-8 py-3 bg-primary rounded-xl text-black"
-          onClick={() => addToDatabase()}
+          onClick={() => handleJobUpdate()}
         >
           Save
         </button>

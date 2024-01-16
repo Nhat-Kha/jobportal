@@ -248,12 +248,12 @@ const updateJobDetails = async (req, res) => {
   const user = req.user;
 
   // Check if the user is a recruiter
-  if (user.type != "recruiter") {
-    res.status(401).json({
-      message: "You don't have permissions to change the job details",
-    });
-    return;
-  }
+  // if (user.type != "recruiter") {
+  //   res.status(401).json({
+  //     message: "You don't have permissions to change the job details",
+  //   });
+  //   return;
+  // }
 
   // Find the job by ID and user ID
   Job.findOne({

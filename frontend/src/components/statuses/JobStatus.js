@@ -8,7 +8,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 const statuses = ["Open", "Hidden"];
 
 export default function JobStatus({ job, id }) {
-  const [selected, setSelected] = useState(job.status);
+  const [selected, setSelected] = useState("Open");
   const ref = apiList.jobs;
 
   useEffect(() => {

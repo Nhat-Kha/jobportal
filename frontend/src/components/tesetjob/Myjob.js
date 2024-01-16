@@ -8,7 +8,7 @@ import {
   faHand,
   faAward,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 import { Rating } from "@material-tailwind/react";
@@ -17,6 +17,7 @@ import { SetPopupContext } from "App";
 import icon from "assets/icon.jpg";
 
 const Myjob = (props, index) => {
+  let history = useNavigate();
   const { job } = props;
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
@@ -42,9 +43,10 @@ const Myjob = (props, index) => {
         }
       )
       .then((response) => {
+        history(`/jobs/${job._id}/refer`);
         setPopup({
           open: true,
-          severity: "success",
+          icon: "success",
           message: response.data.message,
         });
         handleClose();
@@ -53,7 +55,7 @@ const Myjob = (props, index) => {
         console.log(err.response);
         setPopup({
           open: true,
-          severity: "error",
+          icon: "error",
           message: err.response.data.message,
         });
         handleClose();
@@ -168,13 +170,22 @@ const Myjob = (props, index) => {
           ) : null}
         </div>
         <div className="flex items-center pt-6">
-          <Link
+          {/* <Link
             className="hover:opacity-80 flex cursor-pointer items-center font-semibold 
             text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
             to={`/jobs/${job._id}/refer`}
           >
             Refer
-          </Link>
+          </Link> */}
+          {handleApply === null ? (
+            <Link
+              className="hover:opacity-80 flex cursor-pointer items-center font-semibold 
+              text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
+              onClick={() => handleApply()}
+            >
+              Apply
+            </Link>
+          ) : null}
 
           <Link
             className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-light px-3 py-3 rounded-xl border-none"

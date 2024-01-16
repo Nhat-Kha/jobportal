@@ -1,47 +1,145 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import Select from "../Select";
 import NoReferrals from "components/emptyStates/NoReferrals";
 import CandidateStatus from "components/statuses/CandidateStatus";
 import axios from "axios";
 import apiList from "../../libs/apiList";
+import { SetPopupContext } from "App";
 
 const times = ["Newest first", "Oldest first"];
 let th = [];
 
 export default function CandidateTable({ referrals }) {
   const history = useNavigate();
+  const setPopup = useContext(SetPopupContext);
+  const { jobId } = useParams();
+
   let currentDate = new Date();
+  const [applications, setApplications] = useState([]);
   const [selectedTime, setSelectedTime] = useState(times[0]);
   let [displayedReferrals, setDisplayedReferrals] = useState([]);
   let [update, setUpdate] = useState([]);
-  let url = window.location.href;
-  let job = url.split("/")[url.split("/").length - 1];
-
-  if (job === "talent-pool") {
-    th = ["Candidate", "Referred by", "Added"];
-  }
-
-  if (job !== "talent-pool") {
-    th = ["Candidate", "Referred by", "Added", ""];
-  }
-  console.log("status: ", setUpdate);
+  const [searchOptions, setSearchOptions] = useState({
+    status: {
+      all: false,
+      applied: false,
+      shortlisted: false,
+    },
+    sort: {
+      "jobApplicant.name": {
+        status: false,
+        desc: false,
+      },
+      dateOfApplication: {
+        status: true,
+        desc: true,
+      },
+      "jobApplicant.rating": {
+        status: false,
+        desc: false,
+      },
+    },
+  });
 
   useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    let searchParams = [];
+
+    if (searchOptions.status.rejected) {
+      searchParams = [...searchParams, `status=rejected`];
+    }
+    if (searchOptions.status.applied) {
+      searchParams = [...searchParams, `status=applied`];
+    }
+    if (searchOptions.status.shortlisted) {
+      searchParams = [...searchParams, `status=shortlisted`];
+    }
+
+    let asc = [],
+      desc = [];
+
+    Object.keys(searchOptions.sort).forEach((obj) => {
+      const item = searchOptions.sort[obj];
+      if (item.status) {
+        if (item.desc) {
+          desc = [...desc, `desc=${obj}`];
+        } else {
+          asc = [...asc, `asc=${obj}`];
+        }
+      }
+    });
+    searchParams = [...searchParams, ...asc, ...desc];
+    const queryString = searchParams.join("&");
+    console.log(queryString);
+    let address = `${apiList.applicants}?jobId=${jobId}`;
+    if (queryString !== "") {
+      address = `${address}&${queryString}`;
+    }
+
+    console.log(address);
+
     axios
-      .put(apiList.updateApplications, {
+      .get(address, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {
-        setUpdate(response.data);
         console.log(response.data);
+        setApplications(response.data);
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log(err.response);
+        // console.log(err.response.data);
+        setApplications([]);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: err.response.data.message,
+        });
       });
-  }, []);
+  };
+
+  useEffect(
+    (status) => {
+      // Check if applications has an _id property
+      if (applications._id) {
+        const address = `${apiList.applications}/${applications._id}`;
+        const statusData = {
+          status: status,
+          dateOfJoining: new Date().toISOString(),
+        };
+
+        axios
+          .put(address, statusData, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            setPopup({
+              open: true,
+              icon: "success",
+              message: response.data.message,
+            });
+            getData();
+          })
+          .catch((err) => {
+            setPopup({
+              open: true,
+              icon: "error",
+              message: err.response.data.message,
+            });
+            console.log(err.response);
+          });
+      }
+    },
+    [applications._id]
+  );
 
   useEffect(() => {
     setDisplayedReferrals(referrals);
@@ -54,14 +152,6 @@ export default function CandidateTable({ referrals }) {
   const handleSearch = (data) => {
     setDisplayedReferrals(data);
   };
-
-  function handleClick(_id) {
-    if (job === "talent-pool") {
-      history(`/talent-pool/${_id}`);
-    } else {
-      history(`/admin/${url.split("/")[url.split("/").length - 1]}/${_id}`);
-    }
-  }
 
   function calculateDays(date) {
     let daysAgo = Math.floor((currentDate - date) / (1000 * 3600 * 24));
@@ -86,9 +176,9 @@ export default function CandidateTable({ referrals }) {
     }
   }
 
-  if (referrals.length === 0) {
-    return <NoReferrals />;
-  }
+  // if (referrals.length === 0) {
+  //   return <NoReferrals />;
+  // }
 
   console.log("displayedReferrals: ", referrals);
 
@@ -119,10 +209,7 @@ export default function CandidateTable({ referrals }) {
             <tbody className="divide-y divide-gray-300 divide-dashed">
               {displayedReferrals.map((referral) => (
                 <tr key={referral._id} className="hover:bg-light">
-                  <td
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(referral._id)}
-                  >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
                     <div className="h-10 w-10 border border-gray-500 rounded-full mr-3 text-center pt-1 text-lg capitalize float-left ">
                       {referral.name[0]}
                     </div>
@@ -135,10 +222,7 @@ export default function CandidateTable({ referrals }) {
                     </div>
                   </td>
 
-                  <td
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(referral._id)}
-                  >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
                     <div className="h-10 w-10 border border-gray-500 rounded-full mr-3 text-center pt-1 text-lg capitalize float-left ">
                       {referral.name[0]}
                     </div>
@@ -151,10 +235,7 @@ export default function CandidateTable({ referrals }) {
                     </div>
                   </td>
 
-                  <td
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(referral._id)}
-                  >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
                     {calculateDays(referral.time.toDate())}
                   </td>
                   <td>

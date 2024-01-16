@@ -59,6 +59,19 @@ const getAllApplications = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const all = await Application.find();
+
+    // const allUsers = [...allRecruiter, ...allJobApplicant];
+
+    res.status(200).json({ all, message: "show all user successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Function to update status of application
 const updateStatusApplication = async (req, res) => {
   // Get the authenticated user and application ID from the request
@@ -233,4 +246,5 @@ const updateStatusApplication = async (req, res) => {
 module.exports = {
   getAllApplications,
   updateStatusApplication,
+  getAll,
 };

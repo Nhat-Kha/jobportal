@@ -1,32 +1,43 @@
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import apiList from "libs/apiList";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import JobStatus from "./statuses/JobStatus";
+import { SetPopupContext } from "App";
 
 export default function JobSettings({ job, id }) {
   let [isOpen, setIsOpen] = useState(false);
   let history = useNavigate();
+  const setPopup = useContext(SetPopupContext);
 
   const handleDelete = async () => {
     let address = apiList.jobs;
 
-    const handleDelete = await axios
-      .get(`${address}/${id} `, {
+    await axios
+      .delete(`${address}/${id} `, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {
         console.log(response.data);
+        setPopup({
+          Open: true,
+          icon: "success",
+          message: response.data.message,
+        });
         setIsOpen(false);
         setIsOpen(response.data);
       })
       .catch((err) => {
         console.log(err);
+        setPopup({
+          Open: true,
+          icon: "error",
+          message: err.response.data.message,
+        });
       });
-    history("/");
   };
   if (job == null) {
     return <h1>Loding...</h1>;

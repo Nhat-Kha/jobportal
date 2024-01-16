@@ -28,22 +28,25 @@ export default function JobTable({ jobs }) {
     setDisplayedJobs(validJobs);
     setOriginalData(validJobs);
 
-    let address = apiList.jobs;
+    const fetchData = async () => {
+      try {
+        let address = apiList.jobs;
 
-    axios
-      .get(address, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
+        const response = await axios.get(address, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
         console.log(response.data);
         setOriginalData(response.data);
         setDisplayedJobs(response.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      });
+      }
+    };
+
+    fetchData();
   }, [jobs]);
 
   function handleClick(_id) {
@@ -68,23 +71,27 @@ export default function JobTable({ jobs }) {
     setDisplayedJobs((prevDisplayedJobs) => {
       const sortedJobs = [...prevDisplayedJobs];
 
-      if (input === "Oldest first") {
-        sortedJobs.sort(
-          (a, b) =>
-            new Date(a.dateOfPosting).getTime() -
-            new Date(b.dateOfPosting).getTime()
-        );
-      } else {
+      if (input === "Newest first") {
         sortedJobs.sort(
           (a, b) =>
             new Date(b.dateOfPosting).getTime() -
             new Date(a.dateOfPosting).getTime()
         );
+      } else {
+        sortedJobs.sort(
+          (a, b) =>
+            new Date(a.dateOfPosting).getTime() -
+            new Date(b.dateOfPosting).getTime()
+        );
       }
 
-      return sortedJobs;
+      return [...sortedJobs];
     });
   }
+
+  useEffect(() => {
+    time(selectedTime);
+  }, [selectedTime, originalData]);
 
   const normalizeText = (text) => {
     return unorm

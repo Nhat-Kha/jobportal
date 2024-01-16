@@ -8,9 +8,9 @@ export default function TalentPool() {
   const [referrals, setReferrals] = useState([]);
   const type = userType();
 
-  if (referrals.length === 0) {
-    return <Loader />;
-  }
+  // if (referrals.length === 0) {
+  //   return <Loader />;
+  // }
 
   return (
     <div className="">

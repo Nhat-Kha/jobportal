@@ -21,46 +21,16 @@ export default function CompanyBoard() {
       });
   }, []);
 
-  // const Companies = [
-  //   {
-  //     logo: icon,
-  //     name: "valtech",
-  //     text: "A global digital agency focused on business transformation.",
-  //   },
-  // {
-  //   logo: icon,
-  //   name: "Curb Food",
-  //   text: "Creating high quality food experiences fully tailored for home delivery.",
-  // },
-  // {
-  //   logo: icon,
-  //   name: "Volta Greentech",
-  //   text: "Battling global warming by reducing methane emissions from cows.",
-  // },
-  // {
-  //   logo: icon,
-  //   name: "Bemlo",
-  //   text: "A service where you easily compare staffing companies in health care.",
-  // },
-  // {
-  //   logo: icon,
-  //   name: "Team Together",
-  //   text: "Impact driven shopping app that let's you donate without paying extra.",
-  // },
-  // {
-  //   logo: icon,
-  //   name: "Depict",
-  //   text: "AI-driven product recommendations that help customers find products they love.",
-  // },
-  // ];
-
   if (companies.length === 0) {
     return <Loader />;
   }
   return (
     <>
       <div className="bg-light">
-        <div className="md:w-10/12 w-11/12 mx-auto h-full pt-8 md:pb-28 pb-12 ">
+        <div className="md:w-10/12 w-11/12 mx-auto h-full md:pb-28 pb-12 ">
+          <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12">
+            Recruiter
+          </h1>
           <div className="grid lg:grid-cols-3 md:gap-6 gap-10 grid-cols-1 ">
             {companies.map((company, id) => (
               <div

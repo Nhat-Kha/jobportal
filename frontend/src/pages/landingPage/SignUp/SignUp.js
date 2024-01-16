@@ -172,7 +172,7 @@ export default function SignUp() {
             icon: "warn",
             message: err.response.data.message,
           });
-          console.log(err.response);
+          console.log(err.response.data.message);
         });
     } else {
       setInputErrorHandler(tmpErrorHandler);

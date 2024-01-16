@@ -9,6 +9,7 @@ const router = express.Router();
 
 // Get all applications , protected by JWT authentication
 router.get("/", applicationCtrl.getAllApplications);
+router.get("/getall", applicationCtrl.getAll);
 // Update the status of an applications, protected by JWT authentication
 router.put("/:id", jwtAuth, applicationCtrl.updateStatusApplication);
 

@@ -50,7 +50,7 @@ export default function App() {
     if (popup.open) {
       toast[popup.icon](popup.message, {
         position: "top-right",
-        autoClose: 1000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
