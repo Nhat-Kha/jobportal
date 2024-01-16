@@ -58,7 +58,7 @@ export default function Settings() {
         console.log(err.response.data);
         setPopup({
           open: true,
-          severity: "error",
+          icon: "error",
           message: "Error",
         });
       });
@@ -88,7 +88,7 @@ export default function Settings() {
       .then((response) => {
         setPopup({
           open: true,
-          severity: "success",
+          icon: "success",
           message: response.data.message,
         });
         setProfileDetails(updatedDetails);
@@ -97,7 +97,7 @@ export default function Settings() {
       .catch((err) => {
         setPopup({
           open: true,
-          severity: "error",
+          icon: "error",
           message: err.response.data.message,
         });
         console.log(err.response);
@@ -131,7 +131,7 @@ export default function Settings() {
       console.log("error");
       setPopup({
         open: true,
-        severity: "error",
+        icon: "error",
         message: "Error",
       });
     }
