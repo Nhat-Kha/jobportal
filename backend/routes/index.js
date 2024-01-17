@@ -14,7 +14,7 @@ const applicantRouter = require("./applicant");
 const initRouter = (app) => {
   app.use("/api/auth", authRouter);
   app.use("/api/user", userRouter);
-  app.use("/api/job", jobRouter);
+  app.use("/api/jobs", jobRouter);
   app.use("/api/application", applicationRouter);
   app.use("/api/rating", ratingRouter);
   app.use("/api/upload", uploadRouter);

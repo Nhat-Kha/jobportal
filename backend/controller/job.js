@@ -248,54 +248,46 @@ const updateJobDetails = async (req, res) => {
   const user = req.user;
 
   // Check if the user is a recruiter
-  if (user.type != "recruiter") {
+  if (user.type !== "recruiter") {
     res.status(401).json({
       message: "You don't have permissions to change the job details",
     });
     return;
   }
 
-  // Find the job by ID and user ID
-  Job.findOne({
-    _id: req.params.id,
-    userId: user.id,
-  })
-    .then((job) => {
-      if (job == null) {
-        res.status(404).json({
-          message: "Job does not exist",
-        });
-        return;
-      }
+  const jobId = req.params.id;
+  const updateData = req.body;
 
-      // Extract update data from the request body
-      const data = req.body;
-      // Update job detail if new values are provided
-      if (data.maxApplicants) {
-        job.maxApplicants = data.maxApplicants;
-      }
-      if (data.maxPositions) {
-        job.maxPositions = data.maxPositions;
-      }
-      if (data.deadline) {
-        job.deadline = data.deadline;
-      }
+  if (!updateData) {
+    res.status(400).json({ message: "No data provided for update" });
+    return;
+  }
 
-      // Save the update job to the database
-      job
-        .save()
-        .then(() => {
-          res.json({
-            message: "Job details updated successfully",
-          });
-        })
-        .catch((err) => {
-          res.status(400).json(err);
-        });
-    })
-    .catch((err) => {
-      res.status(400).json(err);
+  try {
+    // Find the job by ID and user ID, and update it
+    const updatedJob = await Job.findByIdAndUpdate(
+      {
+        _id: jobId,
+        userId: user.id,
+      },
+      updateData
+      // { new: true, runValidators: true }
+    );
+
+    if (!updatedJob) {
+      res.status(404).json({
+        message: "Job does not exist",
+      });
+      return;
+    }
+
+    res.json({
+      message: "Job details updated successfully",
+      updatedJob,
     });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 };
 
 // Function to allow an applicant to apply for a job
@@ -469,6 +461,34 @@ const getApplications = async (req, res) => {
     });
 };
 
+const deleteJob = async (req, res) => {
+  const user = req.user;
+  if (user.type != "recruiter") {
+    res.status(401).json({
+      message: "You don't have permissions to delete the job",
+    });
+    return;
+  }
+  Job.findOneAndDelete({
+    _id: req.params.id,
+    userId: user.id,
+  })
+    .then((job) => {
+      if (job === null) {
+        res.status(401).json({
+          message: "You don't have permissions to delete the job",
+        });
+        return;
+      }
+      res.json({
+        message: "Job deleted successfully",
+      });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+
 module.exports = {
   addJob,
   getJobList,
@@ -476,4 +496,5 @@ module.exports = {
   updateJobDetails,
   applyJob,
   getApplications,
+  deleteJob,
 };
