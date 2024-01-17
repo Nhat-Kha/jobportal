@@ -15,7 +15,7 @@ const initRouter = (app) => {
   app.use("/api/auth", authRouter);
   app.use("/api/user", userRouter);
   app.use("/api/jobs", jobRouter);
-  app.use("/api/application", applicationRouter);
+  app.use("/api/applications", applicationRouter);
   app.use("/api/rating", ratingRouter);
   app.use("/api/upload", uploadRouter);
   app.use("/api/download", downloadRouter);

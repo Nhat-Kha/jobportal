@@ -5,12 +5,7 @@ const Job = require("../model/job");
 const getAllApplications = async (req, res) => {
   const user = req.user;
 
-  // const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
-  // const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
-  // const skip = page - 1 >= 0 ? (page - 1) * limit : 0;
-
   try {
-    // Use MongoDB aggregation to fetch and structure application data
     const applications = await Application.aggregate([
       {
         $lookup: {
@@ -40,11 +35,6 @@ const getAllApplications = async (req, res) => {
       },
       { $unwind: "$recruiter" },
       {
-        $match: {
-          [user.type === "recruiter" ? "recruiterId" : "userId"]: user._id,
-        },
-      },
-      {
         $sort: {
           dateOfApplication: -1,
         },
@@ -54,9 +44,13 @@ const getAllApplications = async (req, res) => {
     // Response with the fetched applications
     res.json({ applications, message: "show all successfully" });
   } catch (err) {
-    // Handle errors durings applications retrieval
-    res.status(400).json(err);
+    // Handle errors during applications retrieval
+    console.log(err.message);
+    res.status(400).json(err.message);
   }
+
+  console.log("User type:", user.type);
+  console.log("User ID:", user._id);
 };
 
 const getAll = async (req, res) => {
@@ -246,5 +240,4 @@ const updateStatusApplication = async (req, res) => {
 module.exports = {
   getAllApplications,
   updateStatusApplication,
-  getAll,
 };
