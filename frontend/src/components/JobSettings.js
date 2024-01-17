@@ -6,50 +6,76 @@ import { useNavigate, useParams } from "react-router-dom";
 import JobStatus from "./statuses/JobStatus";
 import { SetPopupContext } from "App";
 
-export default function JobSettings({ job, id }) {
+export default function JobSettings({ props }) {
   let [isOpen, setIsOpen] = useState(false);
   let history = useNavigate();
   const setPopup = useContext(SetPopupContext);
+  const { jobs, getData } = props;
+  const { id } = useParams();
 
-  const handleDelete = async () => {
-    let address = apiList.jobs;
+  const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [jobDetails, setJobDetails] = useState(jobs);
 
-    await axios
-      .delete(`${address}/${id} `, {
+  const handleInput = (key, value) => {
+    setJobDetails({
+      ...jobDetails,
+      [key]: value,
+    });
+  };
+
+  const handleClick = (location) => {
+    history(location);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
+
+  const handleDelete = () => {
+    console.log(jobs._id);
+    axios
+      .delete(`${apiList.jobs}/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {
-        console.log(response.data);
         setPopup({
-          Open: true,
+          open: true,
           icon: "success",
           message: response.data.message,
         });
-        setIsOpen(false);
-        setIsOpen(response.data);
+        getData();
+        handleClose();
+        history("/");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         setPopup({
-          Open: true,
+          open: true,
           icon: "error",
           message: err.response.data.message,
         });
+        handleClose();
       });
   };
-  if (job == null) {
+
+  if (jobs == null) {
     return <h1>Loding...</h1>;
   }
 
   return (
     <>
       <div className="mt-12">
-        <label className="block mb-6 text-sm font-medium text-gray-700">
+        {/* <label className="block mb-6 text-sm font-medium text-gray-700">
           Job status
         </label>
-        <JobStatus job={job} id={id} />
+        <JobStatus job={job} id={id} /> */}
 
         <button
           className="mt-12 w-60 text-center transform hover:-translate-y-1 hover:shadow-lg cursor-pointer font-bold text-md px-8 py-3 bg-red-400 rounded-xl text-white"

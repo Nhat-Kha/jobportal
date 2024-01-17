@@ -177,7 +177,6 @@ const Myjob = (props, index) => {
           >
             Refer
           </Link> */}
-          {/* {handleApply === null ? ( */}
           <Link
             className="hover:opacity-80 flex cursor-pointer items-center font-semibold 
               text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
@@ -185,7 +184,6 @@ const Myjob = (props, index) => {
           >
             Apply
           </Link>
-          {/* ) : null} */}
 
           <Link
             className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-light px-3 py-3 rounded-xl border-none"

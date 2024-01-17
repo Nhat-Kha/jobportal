@@ -144,7 +144,7 @@ export default function CandidateTable({ referrals }) {
 
   return (
     <>
-      <div className="mt-14 flex gap-3">
+      {/* <div className="mt-14 flex gap-3">
         <div class="w-52">
           <Select
             selected={selectedTime}
@@ -152,7 +152,7 @@ export default function CandidateTable({ referrals }) {
             changeStatus={time}
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="flex container flex-col	w-full items-stretch">
         {applications.length > 0 ? (

@@ -10,6 +10,7 @@ import { MuiChipsInput } from "mui-chips-input";
 import axios from "axios";
 import apiList from "../libs/apiList";
 import { SetPopupContext } from "App";
+import { userType } from "libs/isAuth";
 
 const modules = {
   toolbar: [
@@ -26,16 +27,17 @@ function WaitingBtn() {
     </div>
   );
 }
-export default function JobEditor({ jobToEdit, _id }) {
+export default function JobEditor({ jobToEdit, props }) {
   let history = useNavigate();
   const [editing, setEditing] = useState(true);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [open, setOpen] = useState(false);
   const { id } = useParams();
-
   const setPopup = useContext(SetPopupContext);
+  const { job, getData } = props;
+  const type = userType();
 
-  // const { user } = isAuth();
-  const [job, setJob] = useState(
+  const [jobs, setJobs] = useState(
     jobToEdit || {
       name: isAuth(),
       title: "",
@@ -77,7 +79,7 @@ export default function JobEditor({ jobToEdit, _id }) {
   };
 
   useEffect(() => {
-    setJob((prevJob) => ({
+    setJobs((prevJob) => ({
       ...prevJob,
       skillsets: tags,
     }));
@@ -93,56 +95,59 @@ export default function JobEditor({ jobToEdit, _id }) {
 
   // console.log("isComplete:", isComplete);
 
-  const [description, setDescription] = useState(job?.description);
+  const [description, setDescription] = useState(jobs?.description);
+
+  const handleInput = (key, value) => {
+    setJobDetails({
+      ...jobDetails,
+      [key]: value,
+    });
+  };
+
+  const handleClick = (location) => {
+    history(location);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
-    setJob({ ...job, description: description });
+    setJobs({ ...jobs, description: description });
   }, [description]);
 
   useEffect(() => {
-    setJobDetails(job);
-  }, [job]);
+    setJobDetails(jobs);
+  }, [jobs]);
 
   const handleCloseUpdate = () => {
     setOpenUpdate(false);
   };
 
   const handleJobUpdate = () => {
-    console.log("Job data to be sent:", job);
-    console.log(`${apiList.jobs}/${id}`);
-
-    const address = `${apiList.jobs}/${id}`;
-
+    console.log("fetch: ", `${apiList.jobs}/${id}`);
     axios
-      .put(address, job, {
+      .put(`${apiList.jobs}/${id}`, jobDetails, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {
-        if (response && response.data) {
-          setPopup({
-            open: true,
-            icon: "success",
-            message: response.data.message,
-          });
-          setJob();
-          handleCloseUpdate();
-        } else {
-          console.error("Invalid response format:", response);
-        }
+        setPopup({
+          open: true,
+          icon: "success",
+          message: response.data.message,
+        });
+        getData(response.data);
+        handleCloseUpdate();
       })
       .catch((err) => {
-        if (err.response && err.response.data) {
-          console.log(err.response);
-          setPopup({
-            open: true,
-            icon: "error",
-            message: err.response.data.message,
-          });
-        } else {
-          console.error("Error response format:", err.response);
-        }
+        console.log(err);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: err,
+        });
         handleCloseUpdate();
       });
   };
@@ -186,10 +191,10 @@ export default function JobEditor({ jobToEdit, _id }) {
             className="mt-8"
             type="text"
             label="Job Title"
-            value={job.title}
+            value={jobs.title}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 title: e.target.value,
               });
             }}
@@ -200,10 +205,10 @@ export default function JobEditor({ jobToEdit, _id }) {
             type="number"
             label="salary Reward"
             placeholder="..."
-            value={job.salary}
+            value={jobs.salary}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 salary: e.target.value,
               });
             }}
@@ -213,10 +218,10 @@ export default function JobEditor({ jobToEdit, _id }) {
             type="text"
             label="Job type"
             placeholder="25 000"
-            value={job.jobType}
+            value={jobs.jobType}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 jobType: e.target.value,
               });
             }}
@@ -226,10 +231,10 @@ export default function JobEditor({ jobToEdit, _id }) {
             type="text"
             label="duration"
             placeholder="25 000"
-            value={job.duration}
+            value={jobs.duration}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 duration: e.target.value,
               });
             }}
@@ -239,10 +244,10 @@ export default function JobEditor({ jobToEdit, _id }) {
             type="datetime-local"
             label="Application Deadline"
             placeholder="dd/mm/yy"
-            value={job.deadline}
+            value={jobs.deadline}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 deadline: e.target.value,
               });
             }}
@@ -252,10 +257,10 @@ export default function JobEditor({ jobToEdit, _id }) {
             type="number"
             label="Maximum Number Of Applicants"
             placeholder="100"
-            value={job.maxApplicants}
+            value={jobs.maxApplicants}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 maxApplicants: e.target.value,
               });
             }}
@@ -265,10 +270,10 @@ export default function JobEditor({ jobToEdit, _id }) {
             type="number"
             label="Positions Available"
             placeholder="20"
-            value={job.maxPositions}
+            value={jobs.maxPositions}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 maxPositions: e.target.value,
               });
             }}
@@ -293,10 +298,10 @@ export default function JobEditor({ jobToEdit, _id }) {
           <ReactQuill
             modules={modules}
             theme="snow"
-            value={job.description}
+            value={jobs.description}
             onChange={(e) => {
-              setJob({
-                ...job,
+              setJobs({
+                ...jobs,
                 description: e,
               });
             }}
@@ -304,7 +309,7 @@ export default function JobEditor({ jobToEdit, _id }) {
           />
         </>
       ) : (
-        <JobAd edit={job} />
+        <JobAd edit={jobs} />
       )}
 
       <div className="flex items-center pt-6 mt-12">

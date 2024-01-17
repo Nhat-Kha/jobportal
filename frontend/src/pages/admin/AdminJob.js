@@ -5,41 +5,125 @@ import JobEditor from "components/JobEditor";
 import JobSettings from "components/JobSettings";
 import CandidateTable from "components/tables/CandidateTable";
 import apiList from "../../libs/apiList";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { SetPopupContext } from "App";
 
 export default function AdminJob() {
+  const { id } = useParams();
+  const setPopup = useContext(SetPopupContext);
+
   let [active, setActive] = useState(0);
   let [referrals, setReferrals] = useState([]);
-  const [job, setJob] = useState([]);
-  const { id } = useParams();
+  const [jobs, setJobs] = useState([]);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [searchOptions, setSearchOptions] = useState({
+    query: "",
+    jobType: {
+      fullTime: false,
+      partTime: false,
+      wfh: false,
+    },
+    salary: [0, 100],
+    duration: "0",
+    sort: {
+      salary: {
+        status: false,
+        desc: false,
+      },
+      duration: {
+        status: false,
+        desc: false,
+      },
+      rating: {
+        status: false,
+        desc: false,
+      },
+    },
+  });
 
   useEffect(() => {
-    let address = apiList.jobs;
+    getData();
+  }, []);
 
+  const getData = () => {
+    let searchParams = [`myjobs=1`];
+    if (searchOptions.query !== "") {
+      searchParams = [...searchParams, `q=${searchOptions.query}`];
+    }
+    if (searchOptions.jobType.fullTime) {
+      searchParams = [...searchParams, `jobType=Full%20Time`];
+    }
+    if (searchOptions.jobType.partTime) {
+      searchParams = [...searchParams, `jobType=Part%20Time`];
+    }
+    if (searchOptions.jobType.wfh) {
+      searchParams = [...searchParams, `jobType=Work%20From%20Home`];
+    }
+    if (searchOptions.salary[0] != 0) {
+      searchParams = [
+        ...searchParams,
+        `salaryMin=${searchOptions.salary[0] * 1000}`,
+      ];
+    }
+    if (searchOptions.salary[1] != 100) {
+      searchParams = [
+        ...searchParams,
+        `salaryMax=${searchOptions.salary[1] * 1000}`,
+      ];
+    }
+    if (searchOptions.duration != "0") {
+      searchParams = [...searchParams, `duration=${searchOptions.duration}`];
+    }
+
+    let asc = [],
+      desc = [];
+
+    Object.keys(searchOptions.sort).forEach((obj) => {
+      const item = searchOptions.sort[obj];
+      if (item.status) {
+        if (item.desc) {
+          desc = [...desc, `desc=${obj}`];
+        } else {
+          asc = [...asc, `asc=${obj}`];
+        }
+      }
+    });
+    searchParams = [...searchParams, ...asc, ...desc];
+    const queryString = searchParams.join("&");
+    console.log(queryString);
+    let address = apiList.jobs;
+    if (queryString !== "") {
+      address = `${address}?${queryString}`;
+    }
+
+    console.log(address);
     axios
-      .get(`${address}/${id} `, {
+      .get(address, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {
         console.log(response.data);
-        setJob(response.data);
+        setJobs(response.data);
       })
       .catch((err) => {
         console.log(err);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: "Error",
+        });
       });
-  }, []);
-
-  console.log("referrals", job);
+  };
 
   return (
     <div className="bg-white">
       <div className="pt-32 pb-56 w-10/12 mx-auto min-h-screen">
         <Link to="/admin" className="text-4xl">
           <FontAwesomeIcon icon={faChevronLeft} className="mr-3 text-xl mb-1" />
-          {job.title}
+          {jobs.title}
         </Link>
         <div className="flex mt-6 gap-4 border-b border-gray-300 ">
           <button
@@ -73,9 +157,13 @@ export default function AdminJob() {
         {active === 0 ? (
           <CandidateTable id={id} referrals={referrals} />
         ) : active === 1 ? (
-          <JobEditor jobToEdit={job} id={id} />
+          <JobEditor
+            jobToEdit={jobs}
+            props={{ job: jobs, getData: getData }}
+            id={id}
+          />
         ) : (
-          <JobSettings job={job} id={id} />
+          <JobSettings props={{ jobs: jobs, getData: getData }} id={id} />
         )}
       </div>
     </div>

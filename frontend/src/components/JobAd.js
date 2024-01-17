@@ -100,17 +100,19 @@ export default function JobAd({ job, tags, about, edit }) {
               <tr>
                 <td className="text-bold">Skills</td>
                 <td className="text-right">
-                  <div className="flex flex-row-reverse gap-1">
-                    {edit.skillsets.map((tag, index) => (
-                      <div
-                        key={index}
-                        class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                  {edit.skillsets && (
+                    <div className="flex flex-row-reverse gap-1">
+                      {edit.skillsets.map((tag, index) => (
+                        <div
+                          key={index}
+                          class="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
-                      >
-                        <span class="">{tag}</span>
-                      </div>
-                    ))}
-                  </div>
+                        >
+                          <span class="">{tag}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </td>
               </tr>
               <tr>
