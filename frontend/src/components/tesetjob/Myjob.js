@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   faMoneyBillWave,
   faMapMarkerAlt,
@@ -15,21 +15,42 @@ import { Rating } from "@material-tailwind/react";
 import apiList from "../../libs/apiList";
 import { SetPopupContext } from "App";
 import icon from "assets/icon.jpg";
+import { Modal } from "flowbite-react";
+import { userType } from "libs/isAuth";
+import InputField from "components/InputField";
 
 const Myjob = (props, index) => {
   let history = useNavigate();
   const { job } = props;
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
+  const [hasAcceptedJob, setHasAcceptedJob] = useState(false);
   const [sop, setSop] = useState("");
   const handleClose = () => {
     setOpen(false);
     setSop("");
   };
 
+  const userApply = () => {
+    return (
+      (job && job.status === "accepted") || (job && job.status === "finished")
+    );
+  };
+
   const handleApply = () => {
     console.log(job._id);
     console.log(sop);
+
+    if (userApply()) {
+      setPopup({
+        open: true,
+        icon: "success",
+        message:
+          "You already have an accepted job. Cannot apply for another job.",
+      });
+      return;
+    }
+
     axios
       .post(
         `${apiList.jobs}/${job._id}/applications`,
@@ -61,6 +82,25 @@ const Myjob = (props, index) => {
         handleClose();
       });
   };
+
+  useEffect(() => {
+    const checkAccepted = async () => {
+      try {
+        const response = await axios.get(
+          `${apiList.jobs}/${job._id}/applications`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setHasAcceptedJob(response.data.hasAcceptedJob);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    checkAccepted();
+  }, []);
 
   const deadline = new Date(job.deadline).toLocaleDateString();
   return (
@@ -181,7 +221,9 @@ const Myjob = (props, index) => {
             className="hover:opacity-80 flex cursor-pointer items-center font-semibold 
               text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
             onClick={() => handleApply()}
+            // aria-disabled={userType() === "recruiter" || hasAcceptedJob}
           >
+            {/* {hasAcceptedJob ? "Already Accepted Job" : "Apply"} */}
             Apply
           </Link>
 
