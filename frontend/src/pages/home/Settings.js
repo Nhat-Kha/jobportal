@@ -5,6 +5,9 @@ import axios from "axios";
 import { SetPopupContext } from "App";
 import apiList from "../../libs/apiList";
 import { getId } from "libs/isAuth";
+import FileUploadInput from "libs/FileUploadInput";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 
 export default function Settings() {
   const setPopup = useContext(SetPopupContext);
@@ -105,6 +108,13 @@ export default function Settings() {
     setOpen(false);
   };
 
+  const handleInput = (key, value) => {
+    setProfileDetails({
+      ...profileDetails,
+      [key]: value,
+    });
+  };
+
   const uploadFile = async (e) => {
     e.stopPropagation();
     setIsLoading(true);
@@ -200,6 +210,7 @@ export default function Settings() {
             />
           </div>
         ))}
+        
         <div>
           <button
             className="block w-full border p-3 rounded mb-4 bg-yellow-300"

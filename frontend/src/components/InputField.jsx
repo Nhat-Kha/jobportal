@@ -4,6 +4,7 @@ export default function InputField({
   onChange,
   className,
   placeholder,
+  onBlur,
   type,
 }) {
   return (
@@ -19,6 +20,7 @@ export default function InputField({
         type={type}
         placeholder={placeholder}
         value={value}
+        onBlur={onBlur}
         onChange={onChange}
       />
     </div>

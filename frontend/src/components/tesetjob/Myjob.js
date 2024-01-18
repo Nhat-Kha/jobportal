@@ -84,10 +84,10 @@ const Myjob = (props, index) => {
   };
 
   useEffect(() => {
-    const checkAccepted = async () => {
+    const checkAcceptedJob = async () => {
       try {
         const response = await axios.get(
-          `${apiList.jobs}/${job._id}/applications`,
+          `${apiList.jobs}/${job._id}/check-accepted`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -99,7 +99,8 @@ const Myjob = (props, index) => {
         console.error(error);
       }
     };
-    checkAccepted();
+
+    checkAcceptedJob();
   }, []);
 
   const deadline = new Date(job.deadline).toLocaleDateString();
@@ -217,18 +218,21 @@ const Myjob = (props, index) => {
           >
             Refer
           </Link> */}
-          <Link
-            className="hover:opacity-80 flex cursor-pointer items-center font-semibold 
-              text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
-            onClick={() => handleApply()}
-            // aria-disabled={userType() === "recruiter" || hasAcceptedJob}
-          >
-            {/* {hasAcceptedJob ? "Already Accepted Job" : "Apply"} */}
-            Apply
-          </Link>
+          {userType() === "applicant" ? (
+            <Link
+              className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
+            text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
+              hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+              onClick={() => handleApply()}
+              title={hasAcceptedJob ? "You already have an accepted job" : ""}
+            >
+              {hasAcceptedJob ? "Job accepted!" : "Apply"}
+            </Link>
+          ) : null}
 
           <Link
-            className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-light px-3 py-3 rounded-xl border-none"
+            className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-gray-100 hover:bg-gray-200 ease-out duration-300 px-3 py-3 rounded-xl border-none"
             to={`/jobs/${job._id}`}
           >
             About the job

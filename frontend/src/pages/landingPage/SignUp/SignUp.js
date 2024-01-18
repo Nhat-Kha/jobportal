@@ -84,16 +84,16 @@ export default function SignUp() {
     },
   });
 
-  // let allFieldsChecked =
-  //   signupDetails.name.length > 0 &&
-  //   signupDetails.email.length > 0 &&
-  //   signupDetails.password.length > 0 &&
-  //   chips.some((item) => item.trim() !== "") &&
-  //   signupDetails.education.some(
-  //     (item) => item.institutionName.trim() !== ""
-  //   ) &&
-  //   signupDetails.profile.length > 0 &&
-  //   typeof signupDetails.news === "boolean";
+  let allFieldsChecked =
+    signupDetails.name.trim().length > 0 &&
+    signupDetails.email.trim().length > 0 &&
+    signupDetails.password.trim().length > 0 &&
+    chips.some((item) => item.trim() !== "") &&
+    signupDetails.education.every(
+      (item) => item.institutionName.trim() !== ""
+    ) &&
+    signupDetails.profile.trim().length > 0 &&
+    typeof signupDetails.news === "boolean";
 
   const handleInput = (key, value) => {
     setSignupDetails((prevDetails) => ({
@@ -181,6 +181,18 @@ export default function SignUp() {
         icon: "error",
         message: "Incorrect Input",
       });
+    }
+  };
+
+  const handleInputErrorOnBlur = (key) => {
+    if (signupDetails[key].trim() === "") {
+      handleInputError(
+        key,
+        true,
+        `${key[0].toUpperCase() + key.substr(1)} is required`
+      );
+    } else {
+      handleInputError(key, false, "");
     }
   };
 
@@ -330,6 +342,7 @@ export default function SignUp() {
           value={signupDetails.name}
           error={inputErrorHandler.name.error}
           helperText={inputErrorHandler.name.message}
+          onBlur={() => handleInputErrorOnBlur("name")}
           onChange={(e) => handleInput("name", e.target.value)}
           placeholder="Firstname Lastname"
         />
@@ -337,6 +350,7 @@ export default function SignUp() {
           type="email"
           label="Email"
           value={signupDetails.email}
+          onBlur={() => handleInputErrorOnBlur("email")}
           onChange={(e) => handleInput("email", e.target.value)}
           inputErrorHandler={inputErrorHandler}
           handleInputError={handleInputError}
@@ -366,6 +380,9 @@ export default function SignUp() {
                   type="text"
                   label={`Institution Name ${index + 1}`}
                   value={edu.institutionName}
+                  // onBlur={() =>
+                  //   handleInputErrorOnBlur(`Institution Name ${index + 1}`)
+                  // }
                   onChange={(e) => {
                     const newEducation = [...education];
                     newEducation[index].institutionName = e.target.value;
@@ -470,6 +487,7 @@ export default function SignUp() {
               label="bio (upto 250 words)"
               style={{ width: "100%" }}
               value={signupDetails.bio}
+              onBlur={() => handleInputErrorOnBlur("name")} // Thêm sự kiện onBlur
               onChange={(e) => {
                 if (
                   e.target.value.split(" ").filter(function (n) {
@@ -509,13 +527,17 @@ export default function SignUp() {
         </label>
 
         <button
-          className={`mt-8 w-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-100 font-semibold cursor-pointer px-4 py-3 rounded-lg text-sm `}
+          className={`mt-2 w-full font-semibold px-4 py-3 rounded-lg text-sm ${
+            allFieldsChecked
+              ? "bg-primary text-gray-500 hover:bg-[#F2994A] hover:text-black border-yellow-100 cursor-pointer"
+              : "bg-yellow-100 text-yellow-800 cursor-not-allowed border-yellow-100"
+          }`}
           onClick={() => {
             signupDetails.type === "applicant"
               ? handleLogin()
               : handleLoginRecruiter();
           }}
-          // disabled={!allFieldsChecked}
+          disabled={!allFieldsChecked}
         >
           Create your account
         </button>
