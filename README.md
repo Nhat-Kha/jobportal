@@ -3,7 +3,6 @@
 
 # Badges
  ![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)
- ![Build Status](https://github.com/Nhat-Kha/jobportal/workflows/Build/badge.svg)
 [![Node.js CI](https://github.com/Nhat-Kha/jobportal/actions/workflows/node.js.yml/badge.svg)](https://github.com/Nhat-Kha/jobportal/actions/workflows/node.js.yml)
 
 
