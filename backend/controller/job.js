@@ -433,6 +433,35 @@ const applyJob = async (req, res) => {
     });
 };
 
+const checkApply = async (req, res) => {
+  const user = req.user;
+
+  if (user.type !== "applicant") {
+    res.status(400).json({
+      message: "You don't have permissions to check for an accepted job",
+    });
+    return;
+  }
+
+  try {
+    const acceptedJob = await Application.findOne({
+      userId: user._id,
+      status: {
+        $nin: ["accepted", "finished"],
+      },
+    });
+
+    res.json({
+      hasAcceptedJob: acceptedJob !== null,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
 // recruiter gets applications for a particular job
 const getApplications = async (req, res) => {
   const user = req.user;
@@ -514,6 +543,7 @@ module.exports = {
   getJobId,
   updateJobDetails,
   applyJob,
+  checkApply,
   getApplications,
   deleteJob,
 };
