@@ -301,105 +301,124 @@ const applyJob = async (req, res) => {
     });
     return;
   }
-  const data = req.body;
-  const jobId = req.params.id;
 
-  // Check if the user has already applied for the job
   Application.findOne({
     userId: user._id,
-    jobId: jobId,
     status: {
-      $nin: ["deleted", "accepted", "cancelled"],
+      $nin: ["accepted", "finished"],
     },
   })
-    .then((appliedApplication) => {
-      console.log(appliedApplication);
-      if (appliedApplication !== null) {
+    .then((acceptedJob) => {
+      if (acceptedJob !== null) {
         res.status(400).json({
-          message: "You have already applied for this job",
+          message:
+            "You already have an accepted job. Hence you cannot apply for a new one.",
         });
         return;
       }
+      const data = req.body;
+      const jobId = req.params.id;
 
-      // Check if the job exists
-      Job.findOne({ _id: jobId })
-        .then((job) => {
-          if (job === null) {
-            res.status(404).json({
-              message: "Job does not exist",
+      // Check if the user has already applied for the job
+      Application.findOne({
+        userId: user._id,
+        jobId: jobId,
+        status: {
+          $nin: ["deleted", "accepted", "cancelled"],
+        },
+      })
+        .then((appliedApplication) => {
+          console.log(appliedApplication);
+          if (appliedApplication !== null) {
+            res.status(400).json({
+              message: "You have already applied for this job",
             });
             return;
           }
 
-          // Count the number active applications for the job
-          Application.countDocuments({
-            jobId: jobId,
-            status: {
-              $nin: ["rejected", "deleted", "cancelled", "finished"],
-            },
-          })
-            .then((activeApplicationCount) => {
-              // Check if the maxium number of appilcant for the job
-              if (activeApplicationCount < job.maxApplicants) {
-                // Count the number of active applications for the applicant
-                Application.countDocuments({
-                  userId: user._id,
-                  status: {
-                    $nin: ["rejected", "deleted", "cancelled", "finished"],
-                  },
-                })
-                  .then((myActiveApplicationCount) => {
-                    // Check if the applicant has not reached the maximum number of active applications
-                    if (myActiveApplicationCount < 10) {
-                      // Count the number of accepted jobs for the applicant
-                      Application.countDocuments({
-                        userId: user._id,
-                        status: "accepted",
-                      }).then((acceptedJobs) => {
-                        // Check if the applicant has no accepted jobs
-                        if (acceptedJobs === 0) {
-                          // Create a new applicant instance
-                          const application = new Application({
-                            userId: user._id,
-                            recruiterId: job.userId,
-                            jobId: job._id,
-                            status: "applied",
-                            sop: data.sop,
-                          });
+          // Check if the job exists
+          Job.findOne({ _id: jobId })
+            .then((job) => {
+              if (job === null) {
+                res.status(404).json({
+                  message: "Job does not exist",
+                });
+                return;
+              }
 
-                          // Save the applicant to the database
-                          application
-                            .save()
-                            .then(() => {
-                              res.json({
-                                message: "Job application successful",
+              // Count the number active applications for the job
+              Application.countDocuments({
+                jobId: jobId,
+                status: {
+                  $nin: ["rejected", "deleted", "cancelled", "finished"],
+                },
+              })
+                .then((activeApplicationCount) => {
+                  // Check if the maxium number of appilcant for the job
+                  if (activeApplicationCount < job.maxApplicants) {
+                    // Count the number of active applications for the applicant
+                    Application.countDocuments({
+                      userId: user._id,
+                      status: {
+                        $nin: ["rejected", "deleted", "cancelled", "finished"],
+                      },
+                    })
+                      .then((myActiveApplicationCount) => {
+                        // Check if the applicant has not reached the maximum number of active applications
+                        if (myActiveApplicationCount < 10) {
+                          // Count the number of accepted jobs for the applicant
+                          Application.countDocuments({
+                            userId: user._id,
+                            status: "accepted",
+                          }).then((acceptedJobs) => {
+                            // Check if the applicant has no accepted jobs
+                            if (acceptedJobs === 0) {
+                              // Create a new applicant instance
+                              const application = new Application({
+                                userId: user._id,
+                                recruiterId: job.userId,
+                                jobId: job._id,
+                                status: "applied",
+                                sop: data.sop,
                               });
-                            })
-                            .catch((err) => {
-                              res.status(400).json(err);
-                            });
+
+                              // Save the applicant to the database
+                              application
+                                .save()
+                                .then(() => {
+                                  res.json({
+                                    message: "Job application successful",
+                                  });
+                                })
+                                .catch((err) => {
+                                  res.status(400).json(err);
+                                });
+                            } else {
+                              res.status(400).json({
+                                message:
+                                  "You already have an accepted job. Hence you cannot apply.",
+                              });
+                            }
+                          });
                         } else {
                           res.status(400).json({
                             message:
-                              "You already have an accepted job. Hence you cannot apply.",
+                              "You have 10 active applications. Hence you cannot apply.",
                           });
                         }
+                      })
+                      .catch((err) => {
+                        res.status(400).json(err);
                       });
-                    } else {
-                      res.status(400).json({
-                        message:
-                          "You have 10 active applications. Hence you cannot apply.",
-                      });
-                    }
-                  })
-                  .catch((err) => {
-                    res.status(400).json(err);
-                  });
-              } else {
-                res.status(400).json({
-                  message: "Application limit reached",
+                  } else {
+                    res.status(400).json({
+                      message: "Application limit reached",
+                    });
+                  }
+                })
+                .catch((err) => {
+                  res.status(400).json(err);
                 });
-              }
             })
             .catch((err) => {
               res.status(400).json(err);
