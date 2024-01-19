@@ -23,8 +23,6 @@
     - home/
     - landingPage/
   - utils/
-  - libs/
-  - hooks/
 - README.md
 
 # Features
