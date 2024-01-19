@@ -128,6 +128,10 @@ let schema = new mongoose.Schema(
         msg: "Invalid rating",
       },
     },
+    description: {
+      type: String,
+      required: true,
+    },
   },
   { collation: { locale: "en" } }
 );
