@@ -1,24 +1,44 @@
 import ReferralsTable from "components/tables/ReferralsTable";
-import ReferralCard from "components/ReferralCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import NoReferrals from "components/emptyStates/NoReferrals";
-import isAuth from "libs/isAuth";
 import { userType } from "libs/isAuth";
+import apiList from "libs/apiList";
+import axios from "axios";
+import { SetPopupContext } from "App";
 
 export default function Referrals() {
   const [referrals, setReferrals] = useState([]);
-  const { user } = isAuth();
+  const setPopup = useContext(SetPopupContext);
+  const setPopupRef = useRef(setPopup);
   const type = userType();
 
-  //   useEffect(() => {
-  //     if (user) {
-  //         axios.get("applicant", user._id).then((applicant) => {
-  //             applicant.data.referrals?.forEach((referral) => {
-  //                 const referralRef =
-  //             })
-  //         })
-  //     }
-  //   });
+  useEffect(() => {
+    setPopupRef.current = setPopup;
+  }, [setPopup]);
+
+  useEffect(() => {
+    console.log("data: ", apiList.applications);
+
+    axios
+      .get(apiList.applications, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data.applications);
+        setReferrals(response.data.applications);
+      })
+      .catch((err) => {
+        // console.log(err.response);
+        console.log(err.response.data);
+        setPopupRef.current({
+          open: true,
+          icon: "error",
+          message: "Error",
+        });
+      });
+  }, []);
 
   if (type === "none") {
     return <NoReferrals />;
@@ -39,9 +59,9 @@ export default function Referrals() {
           <ReferralsTable referrals={referrals} />
         </div>
 
-        <div className="block md:hidden pt-8">
+        {/* <div className="block md:hidden pt-8">
           <ReferralCard referrals={referrals} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
