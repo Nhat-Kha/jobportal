@@ -1,21 +1,16 @@
-import { Chip, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { SetPopupContext } from "App";
 import axios from "axios";
 import { Modal, Rating } from "flowbite-react";
 import apiList from "libs/apiList";
 import { server } from "libs/apiList";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 const ApplicationTile = (props) => {
   const { application, getData } = props;
   const setPopup = useContext(SetPopupContext);
-  const [open, setOpen] = useState(false);
 
   const appliedOn = new Date(application.dateOfApplication);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const colorSet = {
     applied: "#3454D1",
@@ -214,7 +209,8 @@ const ApplicationTile = (props) => {
       <div className="container">
         <div className="flex justify-center items-center">
           <img
-            src={`${server}${application.jobApplicant.profile}`}
+            src={`${application.jobApplicant.profile}`}
+            alt={`${application.jobApplicant.name}'s profile`}
             className="w-4 h-4"
           />
         </div>
@@ -244,14 +240,6 @@ const ApplicationTile = (props) => {
                 })`;
               })
               .join(", ")}
-          </div>
-          <div>
-            SOP: {application.sop !== "" ? application.sop : "Not Submitted"}
-          </div>
-          <div>
-            {application.jobApplicant.skills.map((skill) => (
-              <Chip label={skill} style={{ marginRight: "2px" }} />
-            ))}
           </div>
         </div>
         <div>

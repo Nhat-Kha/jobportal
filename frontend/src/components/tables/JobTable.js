@@ -178,7 +178,17 @@ export default function JobTable({ jobs }) {
                     className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
                     onClick={() => handleClick(currentJob._id)}
                   >
-                    {currentJob.skillsets}
+                    <div className="flex gap-1">
+                      {currentJob.skillsets.map((tag, index) => (
+                        <div
+                          key={index}
+                          class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                          bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                        >
+                          <span class="">{tag}</span>
+                        </div>
+                      ))}
+                    </div>
                   </td>
                   {/* <ReferralCount
                     id={currentJob._id}
