@@ -85,9 +85,11 @@ export default function JobCreator({ jobToEdit, props }) {
 
   const modules = {
     toolbar: [
-      [{ header: [1, 2, false] }],
+      [{ header: [1, 2, 3, false] }],
       ["bold", "italic", "underline"],
+      [{ color: ["red", "blue"] }, { background: ["red", "blue"] }],
       [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
     ],
   };
 
@@ -241,19 +243,20 @@ export default function JobCreator({ jobToEdit, props }) {
         <label className="block text-sm font-medium text-gray-700 mt-6 mb-2">
           Job description
         </label>
-
-        <ReactQuill
-          modules={modules}
-          theme="snow"
-          value={job.description}
-          onChange={(e) => {
-            setJob({
-              ...job,
-              description: e,
-            });
-          }}
-          placeholder="Job description goes here..."
-        />
+        <tr>
+          <ReactQuill
+            modules={modules}
+            theme="snow"
+            value={job.description}
+            onChange={(e) => {
+              setJob({
+                ...job,
+                description: e,
+              });
+            }}
+            placeholder="Job description goes here..."
+          />
+        </tr>
         <div className="flex items-center pt-6">
           {isComplete ? (
             <button

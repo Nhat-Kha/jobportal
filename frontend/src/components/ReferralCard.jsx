@@ -18,15 +18,17 @@ export default function ReferralCard({ referrals }) {
           onClick={() => history(`/referrals/${r.referral.id}`)}
         >
           <h3 className="text-xl leading-6 font-medium text-gray-900">
-            {r.referral.data().candidate.name}
+            {/* {r.referral.name} */}
+            oke
           </h3>
           <p className="mt-2 text-md text-gray-500 mb-4">
-            {r.referral.data().job === "talent-pool"
+            {/* {r.referral.job === "talent-pool"
               ? "Talent Pool"
-              : r.job.data().title + "@" + r.job.data().company}
+              : r.job.title + "@" + r.job.company} */}
+            oke
           </p>
 
-          <ReferralStatus status={r.referral.data().general.status} />
+          <ReferralStatus />
         </div>
       ))}
     </div>

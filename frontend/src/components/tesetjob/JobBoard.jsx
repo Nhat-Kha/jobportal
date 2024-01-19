@@ -51,7 +51,7 @@ export default function JobBoard({ title, props }) {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [searchOptions]);
 
   const normalizeText = (text) => {
     return unorm
@@ -69,7 +69,7 @@ export default function JobBoard({ title, props }) {
       searchParams = [...searchParams, `jobType=Full%20Time`];
     }
     if (searchOptions.jobType.partTime) {
-      searchParams = [...searchParams, `jobType=Part%20Time`];
+      searchParams = [...searchParams, `jobType=Part%20time`];
     }
     if (searchOptions.jobType.wfh) {
       searchParams = [...searchParams, `jobType=Work%20From%20Home`];
@@ -131,6 +131,16 @@ export default function JobBoard({ title, props }) {
       });
   };
 
+  const handleJobTypeChange = (type) => {
+    setSearchOptions({
+      ...searchOptions,
+      jobType: {
+        ...searchOptions.jobType,
+        [type]: !searchOptions.jobType[type],
+      },
+    });
+  };
+
   return (
     <>
       <div className="bg-light">
@@ -148,7 +158,7 @@ export default function JobBoard({ title, props }) {
                   Jobs
                 </h1>
               </div>
-              <div className="flex justify-center text-center ">
+              <div className="flex justify-center text-center">
                 <div className="relative bottom-10 w-3/6 bg-slate-50">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg
@@ -170,8 +180,8 @@ export default function JobBoard({ title, props }) {
                   <input
                     type="search"
                     id="search"
-                    className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 
-                    rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full p-4 ps-10 text-sm text-black border border-gray-300 bg-gray-100
+                    rounded-lg focus:ring-blue-500 focus:bg-white transition duration-150 ease-out hover:ease-in"
                     placeholder="Search"
                     value={searchOptions.query}
                     onChange={(event) =>
@@ -186,7 +196,7 @@ export default function JobBoard({ title, props }) {
                       }
                     }}
                   />
-                  <button
+                  {/* <button
                     type="submit"
                     className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-200 
                     focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm 
@@ -194,7 +204,7 @@ export default function JobBoard({ title, props }) {
                     onClick={() => getData()}
                   >
                     Search
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div className="flex justify-center items-center">
@@ -207,6 +217,7 @@ export default function JobBoard({ title, props }) {
                     getData();
                     setFilterOpen(false);
                   }}
+                  handleJobTypeChange={handleJobTypeChange}
                 />
               </div>
             </div>
@@ -228,7 +239,7 @@ export default function JobBoard({ title, props }) {
               )}
             </div>
           ) : (
-            <div className="flex flex-row	flex-wrap	justify-between	gap-10 cursor-auto">
+            <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 ">
               {jobs.length > 0 ? (
                 jobs.map((job, index) => {
                   return (
@@ -287,87 +298,3 @@ export default function JobBoard({ title, props }) {
     </>
   );
 }
-
-const filterPopup = (props) => {
-  const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
-
-  return (
-    <div
-      open={open}
-      onClose={handleClose}
-      className="flex items-center justify-center fixed top-0 right-0 bottom-0 left-0 z-20 bg-overlay-70"
-    >
-      <div className="grid grid-cols-4 bg-white rounded-xl gap-4 auto-cols-max">
-        <div className=" flex items-center col-span-4">
-          <p className="p-2">Job Type</p>
-          <Card className="w-full max-w-[24rem]">
-            <List className="flex-row">
-              <ListItem className="p-0">
-                <label
-                  htmlFor="horizontal-list-react"
-                  className="flex w-full cursor-pointer items-center px-3 py-2"
-                >
-                  <ListItemPrefix className="mr-3">
-                    <Checkbox
-                      id="horizontal-list-react"
-                      ripple={false}
-                      className="hover:before:opacity-0"
-                      containerProps={{
-                        className: "p-0",
-                      }}
-                    />
-                  </ListItemPrefix>
-                  <Typography color="blue-gray" className="font-medium">
-                    React.js
-                  </Typography>
-                </label>
-              </ListItem>
-              <ListItem className="p-0">
-                <label
-                  htmlFor="horizontal-list-vue"
-                  className="flex w-full cursor-pointer items-center px-3 py-2"
-                >
-                  <ListItemPrefix className="mr-3">
-                    <Checkbox
-                      id="horizontal-list-vue"
-                      ripple={false}
-                      className="hover:before:opacity-0"
-                      containerProps={{
-                        className: "p-0",
-                      }}
-                    />
-                  </ListItemPrefix>
-                  <Typography color="blue-gray" className="font-medium">
-                    Vue.js
-                  </Typography>
-                </label>
-              </ListItem>
-              <ListItem className="p-0">
-                <label
-                  htmlFor="horizontal-list-svelte"
-                  className="flex w-full cursor-pointer items-center px-3 py-2"
-                >
-                  <ListItemPrefix className="mr-3">
-                    <Checkbox
-                      id="horizontal-list-svelte"
-                      ripple={false}
-                      className="hover:before:opacity-0"
-                      containerProps={{
-                        className: "p-0",
-                      }}
-                    />
-                  </ListItemPrefix>
-                  <Typography color="blue-gray" className="font-medium">
-                    Svelte.js
-                  </Typography>
-                </label>
-              </ListItem>
-            </List>
-          </Card>
-        </div>
-        <div>salary</div>
-        <div>skill</div>
-      </div>
-    </div>
-  );
-};

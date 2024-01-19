@@ -15,9 +15,8 @@ import { Rating } from "@material-tailwind/react";
 import apiList from "../../libs/apiList";
 import { SetPopupContext } from "App";
 import icon from "assets/icon.jpg";
-import { Modal } from "flowbite-react";
+
 import { userType } from "libs/isAuth";
-import InputField from "components/InputField";
 
 const Myjob = (props, index) => {
   let history = useNavigate();
@@ -211,19 +210,12 @@ const Myjob = (props, index) => {
           ) : null}
         </div>
         <div className="flex items-center pt-6">
-          {/* <Link
-            className="hover:opacity-80 flex cursor-pointer items-center font-semibold 
-            text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
-            to={`/jobs/${job._id}/refer`}
-          >
-            Refer
-          </Link> */}
           {userType() === "applicant" ? (
             <Link
               className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
-            text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
-              hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+                text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
+                  hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               onClick={() => handleApply()}
               title={hasAcceptedJob ? "You already have an accepted job" : ""}
             >
