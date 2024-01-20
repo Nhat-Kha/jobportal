@@ -184,18 +184,6 @@ export default function SignUp() {
     }
   };
 
-  const handleInputErrorOnBlur = (key) => {
-    if (signupDetails[key].trim() === "") {
-      handleInputError(
-        key,
-        true,
-        `${key[0].toUpperCase() + key.substr(1)} is required`
-      );
-    } else {
-      handleInputError(key, false, "");
-    }
-  };
-
   const handleLoginRecruiter = () => {
     const tmpErrorHandler = {};
     Object.keys(inputErrorHandler).forEach((obj) => {
@@ -342,7 +330,6 @@ export default function SignUp() {
           value={signupDetails.name}
           error={inputErrorHandler.name.error}
           helperText={inputErrorHandler.name.message}
-          onBlur={() => handleInputErrorOnBlur("name")}
           onChange={(e) => handleInput("name", e.target.value)}
           placeholder="Firstname Lastname"
         />
@@ -350,7 +337,6 @@ export default function SignUp() {
           type="email"
           label="Email"
           value={signupDetails.email}
-          onBlur={() => handleInputErrorOnBlur("email")}
           onChange={(e) => handleInput("email", e.target.value)}
           inputErrorHandler={inputErrorHandler}
           handleInputError={handleInputError}
@@ -380,9 +366,6 @@ export default function SignUp() {
                   type="text"
                   label={`Institution Name ${index + 1}`}
                   value={edu.institutionName}
-                  // onBlur={() =>
-                  //   handleInputErrorOnBlur(`Institution Name ${index + 1}`)
-                  // }
                   onChange={(e) => {
                     const newEducation = [...education];
                     newEducation[index].institutionName = e.target.value;
@@ -487,7 +470,6 @@ export default function SignUp() {
               label="bio (upto 250 words)"
               style={{ width: "100%" }}
               value={signupDetails.bio}
-              onBlur={() => handleInputErrorOnBlur("name")} // Thêm sự kiện onBlur
               onChange={(e) => {
                 if (
                   e.target.value.split(" ").filter(function (n) {

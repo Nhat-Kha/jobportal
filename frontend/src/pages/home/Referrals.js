@@ -5,12 +5,14 @@ import { userType } from "libs/isAuth";
 import apiList from "libs/apiList";
 import axios from "axios";
 import { SetPopupContext } from "App";
+import { getId } from "libs/isAuth";
 
 export default function Referrals() {
   const [referrals, setReferrals] = useState([]);
   const setPopup = useContext(SetPopupContext);
   const setPopupRef = useRef(setPopup);
   const type = userType();
+  const UserId = getId();
 
   useEffect(() => {
     setPopupRef.current = setPopup;
@@ -40,6 +42,8 @@ export default function Referrals() {
       });
   }, []);
 
+  const filteredReferrals = referrals.filter((obj) => obj.userId === UserId);
+
   if (type === "none") {
     return <NoReferrals />;
   }
@@ -52,7 +56,7 @@ export default function Referrals() {
     <div className="md:bg-light  ">
       <div className="md:w-11/12 w-12/12 mx-auto md:py-28 py-10">
         <h2 className="text-4xl font-semibold text-gray-900 leading-none text-center mt-10 mb-20">
-          My Profile ({referrals.length})
+          My Profile ({filteredReferrals.length})
         </h2>
 
         <div className="md:block hidden">
