@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -19,9 +19,12 @@ import Myjob from "./Myjob";
 import unorm from "unorm";
 
 export default function JobBoard({ title, props }) {
+  const searchRef = useRef(null);
   const [jobs, setJobs] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [placeholderText, setPlaceholderText] = useState("Type (/) search");
   const [maxJobsToShow, setMaxJobsToShow] = useState(6);
+  const [searchValue, setSearchValue] = useState("");
   const [searchOptions, setSearchOptions] = useState({
     query: "",
     jobType: {
@@ -46,6 +49,36 @@ export default function JobBoard({ title, props }) {
       },
     },
   });
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "/") {
+        event.preventDefault();
+        if (searchRef.current) {
+          searchRef.current.focus();
+        }
+      }
+      if (event.key === "Escape") {
+        setSearchValue("");
+        if (searchRef.current) {
+          searchRef.current.blur();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
+  const handleChange = (event) => {
+    setSearchValue(event.target.value);
+    setSearchOptions({
+      ...searchOptions,
+      query: event.target.value,
+    });
+  };
 
   const limitedJobs = jobs.slice(0, maxJobsToShow);
 
@@ -181,32 +214,18 @@ export default function JobBoard({ title, props }) {
                     type="search"
                     id="search"
                     className="block w-full p-4 ps-10 text-sm text-black border border-gray-300 bg-gray-100
-                    rounded-lg focus:ring-blue-500 focus:bg-white transition duration-150 ease-out hover:ease-in"
-                    placeholder="Search"
+                    rounded-lg focus:ring-blue-500 focus:bg-white transition-all duration-150 ease-out hover:ease-in
+                    hover:border-blue-500"
+                    placeholder={placeholderText}
                     value={searchOptions.query}
-                    onChange={(event) =>
-                      setSearchOptions({
-                        ...searchOptions,
-                        query: event.target.value,
-                      })
-                    }
-                    onKeyPress={(ev) => {
-                      if (ev.key === "Enter") {
-                        getData();
-                      }
-                    }}
+                    onChange={handleChange}
+                    onFocus={() => setPlaceholderText("Search job")}
+                    onBlur={() => setPlaceholderText("Type (/) search")}
+                    ref={searchRef}
                   />
-                  {/* <button
-                    type="submit"
-                    className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-200 
-                    focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm 
-                    px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    onClick={() => getData()}
-                  >
-                    Search
-                  </button> */}
                 </div>
               </div>
+
               <div className="flex justify-center items-center">
                 <FilterPopup
                   open={filterOpen}

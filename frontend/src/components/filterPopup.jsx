@@ -181,7 +181,10 @@ export default function FilterPopup(props) {
         </Modal.Body>
         <Modal.Footer className="bg-gray-200 rounded-b-2xl">
           <Button
-            onClick={() => getData()}
+            onClick={() => {
+              getData();
+              setOpenModal(false);
+            }}
             className="bg-blue-400 hover:bg-blue-600 mr-5"
           >
             I accept
