@@ -26,13 +26,6 @@ export default function SignUp() {
     setChips(newChips);
   };
 
-  // const changeType = [
-  //   { value: "applicant", text: "Applicant" },
-  //   { value: "recruiter", text: "Recruiter" },
-  // ];
-
-  // const [type, setType] = useState(changeType[0].value);
-
   const [signupDetails, setSignupDetails] = useState({
     type: "applicant",
     email: "",
@@ -102,20 +95,6 @@ export default function SignUp() {
     }));
     console.log(`Input ${key} value:`, value);
   };
-
-  // const handleEducationInput = (index, key, value) => {
-  //   setSignupDetails((prevDetails) => {
-  //     const updatedEducation = [...prevDetails.education];
-  //     updatedEducation[index] = {
-  //       ...updatedEducation[index],
-  //       [key]: value,
-  //     };
-  //     return {
-  //       ...prevDetails,
-  //       education: updatedEducation,
-  //     };
-  //   });
-  // };
 
   const handleLogin = () => {
     const tmpErrorHandler = {};
