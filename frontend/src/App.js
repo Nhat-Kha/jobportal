@@ -31,7 +31,6 @@ import OTPInput from "pages/landingPage/SignIn/EmailVerify/OTPInput";
 import AdminJob from "pages/admin/AdminJob";
 import Company from "pages/landingPage/InfoRecruiter";
 import TalentPool from "pages/admin/TalentPool";
-import MessagePopup from "libs/MessagePopup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -62,7 +61,7 @@ export default function App() {
         open: false,
       });
     }
-  }, [popup.open, popup.icon, popup.message]);
+  }, [popup.open, popup.icon, popup.message, popup]);
 
   return (
     <SetPopupContext.Provider value={setPopup}>

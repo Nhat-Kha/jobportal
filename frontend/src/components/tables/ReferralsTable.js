@@ -5,6 +5,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Rating, Typography } from "@material-tailwind/react";
 import { Modal } from "flowbite-react";
+import { getId } from "libs/isAuth";
 
 const th = ["Title", "Name", "job type", "Status", "Day apply and join"];
 
@@ -12,6 +13,8 @@ export default function ReferralsTable({ referrals }) {
   const setPopup = useContext(SetPopupContext);
   const [rating, setRating] = useState(referrals?.job?.rating || -1);
   const [open, setOpen] = useState(false);
+
+  const UserId = getId();
 
   const appliedOn =
     referrals.length > 0 ? new Date(referrals[0].dateOfApplication) : null;
@@ -139,109 +142,112 @@ export default function ReferralsTable({ referrals }) {
             <tbody className="divide-y divide-gray-300 divide-dashed">
               {referrals && referrals.length > 0 ? (
                 <>
-                  {referrals.map((obj, index) => (
-                    <React.Fragment key={index}>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <Link
-                            to={`/jobs/${obj.jobId}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-money hover:underline"
+                  {referrals.map(
+                    (obj, index) =>
+                      obj.userId === UserId && (
+                        <React.Fragment key={index}>
+                          <tr>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              <Link
+                                to={`/jobs/${obj.jobId}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-money hover:underline"
+                              >
+                                <Typography>{obj.job.title}</Typography>
+                              </Link>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              <Link
+                                to={`/companies/${obj.recruiterId}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-money hover:underline"
+                              >
+                                {obj.recruiterId && obj.recruiter.name}
+                              </Link>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              {obj.job.jobType}
+                            </td>
+                            <td className="w-[5.75rem] py-4 whitespace-nowrap text-sm text-gray-500 flex flex-col-reverse">
+                              <div>
+                                <div
+                                  className="w-full h-full flex items-center justify-center uppercase rounded-xl"
+                                  style={{
+                                    background: colorSet[obj.status],
+                                    color: "#ffffff",
+                                  }}
+                                >
+                                  {obj.status}
+                                </div>
+                              </div>
+                              {obj.status === "accepted" ||
+                              obj.status === "finished" ? (
+                                <div>
+                                  <button
+                                    variant="contained"
+                                    color="primary"
+                                    className="w-full h-full flex items-center justify-center uppercase"
+                                    onClick={() => {
+                                      fetchRating();
+                                      setOpen(true);
+                                    }}
+                                  >
+                                    Rate Job
+                                  </button>
+                                </div>
+                              ) : null}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              <div>
+                                Applied On: {appliedOn.toLocaleDateString()}
+                              </div>
+                              {obj.status === "accepted" ||
+                              obj.status === "finished" ? (
+                                <div>
+                                  Joined On: {joinedOn.toLocaleDateString()}
+                                </div>
+                              ) : null}
+                            </td>
+                          </tr>
+                          <Modal
+                            open={open}
+                            onClose={handleClose}
+                            className="h-full flex items-center justify-center"
                           >
-                            <Typography>{obj.job.title}</Typography>
-                          </Link>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <Link
-                            to={`/companies/${obj.recruiterId}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-money hover:underline"
-                          >
-                            {obj.recruiterId && obj.recruiter.name}
-                          </Link>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {obj.job.jobType}
-                        </td>
-                        <td className="w-[5.75rem] py-4 whitespace-nowrap text-sm text-gray-500 flex flex-col-reverse">
-                          <div>
                             <div
-                              className="w-full h-full flex items-center justify-center uppercase rounded-xl"
                               style={{
-                                background: colorSet[obj.status],
-                                color: "#ffffff",
+                                padding: "20px",
+                                outline: "none",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                minWidth: "30%",
+                                alignItems: "center",
                               }}
                             >
-                              {obj.status}
-                            </div>
-                          </div>
-                          {obj.status === "accepted" ||
-                          obj.status === "finished" ? (
-                            <div>
+                              <Rating
+                                name="simple-controlled"
+                                style={{ marginBottom: "30px" }}
+                                value={rating === -1 ? null : rating}
+                                onChange={(event, newValue) => {
+                                  setRating(newValue);
+                                }}
+                              />
                               <button
                                 variant="contained"
                                 color="primary"
-                                className="w-full h-full flex items-center justify-center uppercase"
-                                onClick={() => {
-                                  fetchRating();
-                                  setOpen(true);
-                                }}
+                                style={{ padding: "10px 50px" }}
+                                onClick={() => changeRating()}
                               >
-                                Rate Job
+                                Submit
                               </button>
                             </div>
-                          ) : null}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <div>
-                            Applied On: {appliedOn.toLocaleDateString()}
-                          </div>
-                          {obj.status === "accepted" ||
-                          obj.status === "finished" ? (
-                            <div>
-                              Joined On: {joinedOn.toLocaleDateString()}
-                            </div>
-                          ) : null}
-                        </td>
-                      </tr>
-                      <Modal
-                        open={open}
-                        onClose={handleClose}
-                        className="h-full flex items-center justify-center"
-                      >
-                        <div
-                          style={{
-                            padding: "20px",
-                            outline: "none",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            minWidth: "30%",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Rating
-                            name="simple-controlled"
-                            style={{ marginBottom: "30px" }}
-                            value={rating === -1 ? null : rating}
-                            onChange={(event, newValue) => {
-                              setRating(newValue);
-                            }}
-                          />
-                          <button
-                            variant="contained"
-                            color="primary"
-                            style={{ padding: "10px 50px" }}
-                            onClick={() => changeRating()}
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </Modal>
-                    </React.Fragment>
-                  ))}
+                          </Modal>
+                        </React.Fragment>
+                      )
+                  )}
                 </>
               ) : (
                 <Typography style={{ textAlign: "center" }}>
