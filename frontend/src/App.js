@@ -29,10 +29,10 @@ import AdminSettings from "pages/admin/AdminSettings";
 import CookiePolicy from "pages/landingPage/AboutUs/CookiePolicy";
 import OTPInput from "pages/landingPage/SignIn/EmailVerify/OTPInput";
 import AdminJob from "pages/admin/AdminJob";
-import Company from "pages/landingPage/InfoRecruiter";
 import TalentPool from "pages/admin/TalentPool";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import InfoRecruiter from "pages/landingPage/InfoRecruiter";
 
 export const SetPopupContext = createContext();
 
@@ -74,7 +74,7 @@ export default function App() {
           <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route exact path="/cookie-policy" element={<CookiePolicy />} />
           <Route exact path="/companies" element={<Companies />} />
-          <Route exact path="/companies/:id" element={<Company />} />
+          <Route exact path="/companies/:id" element={<InfoRecruiter />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/sign-up" element={<SignUp />} />
           <Route exact path="/sign-in" element={<SignIn />} />
