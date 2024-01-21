@@ -99,7 +99,7 @@ export default function AdminJob() {
 
     console.log(address);
     axios
-      .get(address, {
+      .get(`${address}/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

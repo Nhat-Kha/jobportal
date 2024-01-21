@@ -5,33 +5,32 @@ import axios from "axios";
 import { SetPopupContext } from "App";
 import apiList from "../../libs/apiList";
 import { getId } from "libs/isAuth";
-import FileUploadInput from "libs/FileUploadInput";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFile } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
 
 export default function Settings() {
   const setPopup = useContext(SetPopupContext);
   const getUser = getId();
+  const { id } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [imagesPreview, setImagesPreview] = useState("");
   const [userData, setUserData] = useState();
   const [open, setOpen] = useState(false);
+
   const [profileDetails, setProfileDetails] = useState({
     name: "",
-    education: [],
     password: "",
     skills: [],
     resume: "",
     profile: "",
+    education: [
+      {
+        institutionName: "",
+        startYear: "",
+        endYear: "",
+      },
+    ],
   });
-  const [education, setEducation] = useState([
-    {
-      institutionName: "",
-      startYear: "",
-      endYear: "",
-    },
-  ]);
 
   useEffect(() => {
     getData();
@@ -46,16 +45,14 @@ export default function Settings() {
       })
       .then((response) => {
         console.log(response.data);
-        setProfileDetails(response.data);
-        if (response.data.education.length > 0) {
-          setEducation(
-            response.data.education.map((edu) => ({
-              institutionName: edu.institutionName ? edu.institutionName : "",
-              startYear: edu.startYear ? edu.startYear : "",
-              endYear: edu.endYear ? edu.endYear : "",
-            }))
-          );
-        }
+        setProfileDetails({
+          ...response.data,
+          education: response.data.education.map((edu) => ({
+            institutionName: edu.institutionName ? edu.institutionName : "",
+            startYear: edu.startYear ? edu.startYear : "",
+            endYear: edu.endYear ? edu.endYear : "",
+          })),
+        });
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -66,46 +63,55 @@ export default function Settings() {
         });
       });
   };
+  console.log("update education: ", profileDetails.education);
 
-  const handleUpdate = () => {
-    console.log(education);
+  const handleUpdate = async () => {
+    try {
+      console.log("fetch: ", `${apiList.updateUser}/${getUser}`);
 
-    let updatedDetails = {
-      ...profileDetails,
-      education: education
-        .filter((obj) => obj.institutionName.trim() !== "")
-        .map((obj) => {
-          if (obj["endYear"] === "") {
-            delete obj["endYear"];
-          }
-          return obj;
-        }),
-    };
+      const updatedEducation = profileDetails.education
+        .filter((edu) => edu.institutionName.trim() !== "")
+        .map((edu) =>
+          edu.endYear === "" ? { ...edu, endYear: undefined } : edu
+        );
 
-    axios
-      .put(apiList.userId, updatedDetails, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        setPopup({
-          open: true,
-          icon: "success",
-          message: response.data.message,
-        });
-        setProfileDetails(updatedDetails);
-        getData();
-      })
-      .catch((err) => {
-        setPopup({
-          open: true,
-          icon: "error",
-          message: err.response.data.message,
-        });
-        console.log(err.response);
+      const updatedDetails = {
+        ...profileDetails,
+        education: updatedEducation,
+      };
+
+      console.log("updatedDetails:", updatedDetails);
+
+      const response = await axios.put(
+        `${apiList.updateUser}/${getUser}`,
+        updatedDetails,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      console.log("Server response:", response.data);
+
+      setPopup({
+        open: true,
+        icon: "success",
+        message: response.data.message,
       });
-    setOpen(false);
+
+      // Fetch updated data after the update
+      getData();
+      setOpen(false);
+    } catch (err) {
+      console.error("Update error:", err);
+
+      setPopup({
+        open: true,
+        icon: "error",
+        message: err.response?.data?.message || "Error occurred during update.",
+      });
+    }
   };
 
   const handleInput = (key, value) => {
@@ -164,18 +170,18 @@ export default function Settings() {
             setProfileDetails({ ...profileDetails, name: e.target.value })
           }
         />
-        {Object.keys(profileDetails.education).map((index) => (
+        {profileDetails.education.map((edu, index) => (
           <div className="flex justify-between" key={index}>
             <InputField
               type="text"
               label={`Institution Name ${index + 1}`}
-              value={profileDetails.education[index].institutionName}
+              value={edu.institutionName}
               onChange={(e) => {
-                const newEdu = [...profileDetails.education];
-                newEdu[index].institutionName = e.target.value;
+                const newEducation = [...profileDetails.education];
+                newEducation[index].institutionName = e.target.value;
                 setProfileDetails((prevDetails) => ({
                   ...prevDetails,
-                  education: newEdu,
+                  education: newEducation,
                 }));
               }}
               placeholder="Institution name"
@@ -183,13 +189,13 @@ export default function Settings() {
             <InputField
               type="number"
               label={`Start Year ${index + 1}`}
-              value={profileDetails.education.startYear}
+              value={edu.startYear}
               onChange={(e) => {
-                const newEdu = [...profileDetails.education];
-                newEdu[index].startYear = e.target.value;
+                const newEducation = [...profileDetails.education];
+                newEducation[index].startYear = e.target.value;
                 setProfileDetails((prevDetails) => ({
                   ...prevDetails,
-                  education: newEdu,
+                  education: newEducation,
                 }));
               }}
               placeholder="Start year"
@@ -197,20 +203,20 @@ export default function Settings() {
             <InputField
               type="number"
               label={`End Year ${index + 1}`}
-              value={profileDetails.education.endYear}
+              value={edu.endYear}
               onChange={(e) => {
-                const newEdu = [...profileDetails.education];
-                newEdu[index].endYear = e.target.value;
+                const newEducation = [...profileDetails.education];
+                newEducation[index].endYear = e.target.value;
                 setProfileDetails((prevDetails) => ({
                   ...prevDetails,
-                  education: newEdu,
+                  education: newEducation,
                 }));
               }}
               placeholder="End year"
             />
           </div>
         ))}
-        
+
         <div>
           <button
             className="block w-full border p-3 rounded mb-4 bg-yellow-300"
@@ -277,28 +283,6 @@ export default function Settings() {
             Save changes
           </button>
         </div>
-
-        {/* {loading ? (
-          <div
-            className="absolute inset-0 flex justify-center items-center z-10"
-            style={{ backgroundColor: "rgba(255, 255, 255, 0.85)" }}
-          >
-            {!saved ? (
-              <div>
-                <div className="animate-spin rounded-full mx-auto h-12 w-12 border-b-2 border-gray-900 mb-4"></div>{" "}
-                <p className="font-semibold text-lg">Saving changes...</p>
-              </div>
-            ) : (
-              <div className="text-center">
-                <FontAwesomeIcon
-                  className="text-5xl mb-3 text-money"
-                  icon={faCheck}
-                />
-                <p className="font-semibold text-lg">Changes saved!</p>
-              </div>
-            )}
-          </div>
-        ) : null} */}
       </div>
     </div>
   );

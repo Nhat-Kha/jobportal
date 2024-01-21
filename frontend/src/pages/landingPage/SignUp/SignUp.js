@@ -77,16 +77,69 @@ export default function SignUp() {
     },
   });
 
-  let allFieldsChecked =
-    signupDetails.name.trim().length > 0 &&
-    signupDetails.email.trim().length > 0 &&
-    signupDetails.password.trim().length > 0 &&
-    chips.some((item) => item.trim() !== "") &&
-    signupDetails.education.every(
-      (item) => item.institutionName.trim() !== ""
-    ) &&
-    signupDetails.profile.trim().length > 0 &&
-    typeof signupDetails.news === "boolean";
+  const isValidPhoneNumber = (phoneNumber) => {
+    const phoneRegex = /^\+\d{1,4}\d{6,}$/;
+
+    return phoneRegex.test(phoneNumber);
+  };
+  const removePhoneNumberPrefix = (phoneNumber) => {
+    const prefixRegex = /^\+\d{1,4}/;
+
+    return phoneNumber.replace(prefixRegex, "");
+  };
+
+  let allFieldsCheckedApplicant = false;
+  let allFieldsCheckedRecruiter = false;
+
+  if (signupDetails.type === "applicant") {
+    allFieldsCheckedApplicant =
+      signupDetails.name.trim().length > 0 &&
+      signupDetails.email.trim().length > 0 &&
+      signupDetails.password.trim().length > 0 &&
+      chips.some((item) => item.trim() !== "") &&
+      signupDetails.education.every(
+        (item) => item.institutionName.trim() !== ""
+      ) &&
+      signupDetails.profile.trim().length > 0 &&
+      typeof signupDetails.news === "boolean";
+
+    console.log("Name:", signupDetails.name.trim().length > 0);
+    console.log("Email:", signupDetails.email.trim().length > 0);
+    console.log("Password:", signupDetails.password.trim().length > 0);
+    console.log(
+      "Chip:",
+      chips.some((item) => item.trim() !== "")
+    );
+    console.log(
+      "Education:",
+      signupDetails.education.every(
+        (item) => item.institutionName.trim() !== ""
+      )
+    );
+    console.log("profile:", signupDetails.profile.trim().length > 0);
+  } else {
+    allFieldsCheckedRecruiter =
+      signupDetails.name.trim().length > 0 &&
+      signupDetails.email.trim().length > 0 &&
+      signupDetails.password.trim().length > 0 &&
+      signupDetails.bio.trim().length > 0 &&
+      (signupDetails.contactNumber.trim().length === 0 ||
+        isValidPhoneNumber(signupDetails.contactNumber)) &&
+      signupDetails.profile.trim().length > 0 &&
+      typeof signupDetails.news === "boolean";
+
+    console.log("Name:", signupDetails.name.trim().length > 0);
+    console.log("Email:", signupDetails.email.trim().length > 0);
+    console.log("Password:", signupDetails.password.trim().length > 0);
+    console.log("Bio:", signupDetails.bio.trim().length > 0);
+    console.log(
+      "Contact Number:",
+      signupDetails.contactNumber.trim().length === 0 ||
+        isValidPhoneNumber(signupDetails.contactNumber)
+    );
+    console.log("Profile:", signupDetails.profile.trim().length > 0);
+    console.log("News:", typeof signupDetails.news === "boolean");
+  }
 
   const handleInput = (key, value) => {
     setSignupDetails((prevDetails) => ({
@@ -260,8 +313,6 @@ export default function SignUp() {
     }
   };
 
-  console.log(signupDetails.education);
-
   const handleInputError = (key, status, message) => {
     setInputErrorHandler({
       ...inputErrorHandler,
@@ -287,7 +338,7 @@ export default function SignUp() {
 
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 bg-white">
-            Select an option
+            Select a type
           </label>
           <select
             className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -401,47 +452,6 @@ export default function SignUp() {
               onChange={handleChip}
               className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
             />
-
-            <div className="w-full mb-6">
-              <h2 className="font-semibold text-xl py-4">Hình ảnh</h2>
-              <div className="w-full">
-                <label
-                  className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
-                  htmlFor="file"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    Thêm ảnh
-                  </div>
-                </label>
-                <input
-                  onChange={uploadFile}
-                  hidden
-                  type="file"
-                  id="file"
-                  multiple
-                />
-                <div className="w-full">
-                  <h3 className="font-medium py-4">Ảnh đã chọn</h3>
-                  <div className="flex gap-4 items-center">
-                    {signupDetails.profile ? (
-                      <div className="relative w-1/3 h-1/3">
-                        <img
-                          src={
-                            Array.isArray(signupDetails.profile)
-                              ? signupDetails.profile[0]
-                              : signupDetails.profile
-                          }
-                          alt="preview"
-                          className="w-full h-full object-cover rounded-md"
-                        />
-                      </div>
-                    ) : (
-                      <p>No images selected</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
           </>
         ) : (
           <>
@@ -461,13 +471,55 @@ export default function SignUp() {
             />
             <div>
               <PhoneInput
-                country={"in"}
+                country={"vn"}
                 value={phone}
                 onChange={(phone) => setPhone(phone)}
               />
             </div>
           </>
         )}
+        <div className="w-full mb-6">
+          <h2 className="font-semibold text-xl py-4">
+            Avatar <span className="text-red-500">*</span>
+          </h2>
+          <div className="w-full">
+            <label
+              className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
+              htmlFor="file"
+            >
+              <div className="flex flex-col items-center justify-center">
+                Upload image
+              </div>
+            </label>
+            <input
+              onChange={uploadFile}
+              hidden
+              type="file"
+              id="file"
+              multiple
+            />
+            <div className="w-full">
+              <h3 className="font-medium py-4">Select image</h3>
+              <div className="flex gap-4 items-center">
+                {signupDetails.profile ? (
+                  <div className="relative w-1/3 h-1/3">
+                    <img
+                      src={
+                        Array.isArray(signupDetails.profile)
+                          ? signupDetails.profile[0]
+                          : signupDetails.profile
+                      }
+                      alt="preview"
+                      className="w-full h-full object-cover rounded-md"
+                    />
+                  </div>
+                ) : (
+                  <p>No images selected</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
 
         <label className="block text-black text-sm font-medium mt-8 focus:outline-none outline-none">
           <input
@@ -489,7 +541,8 @@ export default function SignUp() {
 
         <button
           className={`mt-2 w-full font-semibold px-4 py-3 rounded-lg text-sm ${
-            allFieldsChecked
+            (signupDetails.type === "applicant" && allFieldsCheckedApplicant) ||
+            (signupDetails.type === "recruiter" && allFieldsCheckedRecruiter)
               ? "bg-primary text-gray-500 hover:bg-[#F2994A] hover:text-black border-yellow-100 cursor-pointer"
               : "bg-yellow-100 text-yellow-800 cursor-not-allowed border-yellow-100"
           }`}
@@ -498,7 +551,11 @@ export default function SignUp() {
               ? handleLogin()
               : handleLoginRecruiter();
           }}
-          disabled={!allFieldsChecked}
+          disabled={
+            (signupDetails.type === "applicant" &&
+              !allFieldsCheckedApplicant) ||
+            (signupDetails.type === "recruiter" && !allFieldsCheckedRecruiter)
+          }
         >
           Create your account
         </button>
