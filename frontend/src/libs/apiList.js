@@ -13,13 +13,16 @@ const apiList = {
   applications: `${server}/applications/`,
   updateApplications: `${server}/applications/:id`,
   rating: `${server}/rating`,
-  user: `${server}/user/all`,
+  updateUser: `${server}/user`,
+  user: `${server}/user`,
+  users: `${server}/user/all`,
   userId: `${server}/user/:id`,
   applicants: `${server}/applicants`,
   OTP: `${server}/auth/verify_otp`,
   allApplicants: `${server}/user/allApplicant`,
   allRecruiter: `${server}/user/allRecruiter`,
   getIdRecruiter: `${server}/user/allRecruiter/:id`,
+  getIdApplicant: `${server}/user/allApplicant/:id`,
 };
 
 export default apiList;
