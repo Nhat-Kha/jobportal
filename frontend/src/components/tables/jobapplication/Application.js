@@ -205,61 +205,57 @@ const ApplicationTile = (props) => {
   };
 
   return (
-    <div>
-      <div className="container">
-        <div className="flex justify-center items-center">
-          <img
-            src={`${application.jobApplicant.profile}`}
-            alt={`${application.jobApplicant.name}'s profile`}
-            className="w-4 h-4"
-          />
-        </div>
-        <div className="container">
-          <div>
-            <Typography variant="h5">
-              {application.jobApplicant.name}
-            </Typography>
-          </div>
-          <div>
-            <Rating
-              value={
-                application.jobApplicant.rating !== -1
-                  ? application.jobApplicant.rating
-                  : null
-              }
-              readOnly
-            />
-          </div>
-          <div>Applied On: {appliedOn.toLocaleDateString()}</div>
-          <div>
-            Education:{" "}
-            {application.jobApplicant.education
-              .map((edu) => {
-                return `${edu.institutionName} (${edu.startYear}-${
-                  edu.endYear ? edu.endYear : "Ongoing"
-                })`;
-              })
-              .join(", ")}
-          </div>
+    <tr className="flex">
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex-1 w-[30rem]">
+        <img
+          src={`${application.jobApplicant.profile}`}
+          alt={`${application.jobApplicant.name}'s profile`}
+          className="w-[10rem] h-[10rem]"
+        />
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex-1 w-[30rem]">
+        <div>
+          <Typography variant="h5">{application.jobApplicant.name}</Typography>
         </div>
         <div>
-          <div>
-            <button
-              className="w-full h-full flex items-center justify-center uppercase bg-gray-400"
-              onClick={() => getResume()}
-            >
-              Download Resume
-            </button>
-          </div>
-          <div className="flex container">{buttonSet[application.status]}</div>
+          <Rating
+            value={
+              application.jobApplicant.rating !== -1
+                ? application.jobApplicant.rating
+                : null
+            }
+            readOnly
+          />
         </div>
-      </div>
+        <div>Applied On: {appliedOn.toLocaleDateString()}</div>
+        <div>
+          Education:{" "}
+          {application.jobApplicant.education
+            .map((edu) => {
+              return `${edu.institutionName} (${edu.startYear}-${
+                edu.endYear ? edu.endYear : "Ongoing"
+              })`;
+            })
+            .join(", ")}
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <div>
+          <button
+            className="w-full h-full flex items-center justify-center uppercase bg-gray-400"
+            onClick={() => getResume()}
+          >
+            Download Resume
+          </button>
+        </div>
+        <div className="flex container">{buttonSet[application.status]}</div>
+      </td>
       <Modal>
         <div className="p-[20px] outline-none flex flex-col justify-center min-w-[30%] items-center">
           <button className="p-[10px 50px]">Submit</button>
         </div>
       </Modal>
-    </div>
+    </tr>
   );
 };
 

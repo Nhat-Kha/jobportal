@@ -1,8 +1,29 @@
 import "editor.css";
 import icon from "assets/icon.jpg";
 import { Rating } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { getId } from "libs/isAuth";
+import { useParams } from "react-router-dom";
+import apiList from "libs/apiList";
 export default function JobAd({ job, tags, about, edit }) {
-  console.log(job);
+  console.log("job:", about);
+  const [recruiters, setRecruiters] = useState([]);
+
+  useEffect(() => {
+    if (about) {
+      const userID = about.userId;
+      console.log("user id: ", userID);
+      axios.get(`${apiList.allRecruiter}`).then((response) => {
+        const filteredRecruiters = response.data.allUser.filter(
+          (recruiter) => recruiter.userId === userID
+        );
+        setRecruiters(filteredRecruiters);
+      });
+    }
+  }, [about]);
+  console.log(recruiters);
+
   return (
     <>
       {job && (
@@ -143,11 +164,14 @@ export default function JobAd({ job, tags, about, edit }) {
         <div className="rounded-xl bg-[#f6f6f6] pd:pt-1 pt-1 shadow-sm">
           <div className="w-11/12 mx-auto mt-10 pb-4">
             <div className="flex">
-              <img
-                alt="company logo"
-                className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
-                src={icon}
-              />
+              {recruiters.map((recruiter, index) => (
+                <img
+                  key={index}
+                  alt="company logo"
+                  className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
+                  src={recruiter.profile}
+                />
+              ))}
 
               <div>
                 <h1 className="font-semibold lg:text-4xl text-4xl mt-3">

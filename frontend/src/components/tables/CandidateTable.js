@@ -110,19 +110,17 @@ export default function CandidateTable() {
 
   return (
     <>
-      <div className="flex container flex-col	w-full items-stretch">
+      <tbody className="divide-y divide-gray-300 divide-dashed w-full">
         {applications.length > 0 ? (
           applications.map((obj, index) => (
-            <div key={index}>
-              <ApplicationTile application={obj} getData={getData} />
-            </div>
+            <ApplicationTile key={index} application={obj} getData={getData} />
           ))
         ) : (
           <Typography style={{ textAlign: "center" }}>
             No Applications Found
           </Typography>
         )}
-      </div>
+      </tbody>
     </>
   );
 }

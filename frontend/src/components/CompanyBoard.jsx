@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import icon from "assets/icon.jpg";
-import Loader from "./Loader";
 import axios from "axios";
 import apiList from "../libs/apiList";
+import Recruiter from "./Recruiter";
 
 export default function CompanyBoard() {
   const [companies, setCompanies] = useState([]);
@@ -21,9 +19,6 @@ export default function CompanyBoard() {
       });
   }, []);
 
-  if (companies.length === 0) {
-    return <Loader />;
-  }
   return (
     <>
       <div className="bg-light">
@@ -32,40 +27,13 @@ export default function CompanyBoard() {
             Recruiter
           </h1>
           <div className="grid lg:grid-cols-3 md:gap-6 gap-10 grid-cols-1 ">
-            {companies.map((company, id) => (
-              <div
-                key={id}
-                className="transform ease-in duration-100 hover:-translate-y-2 
-                hover:shadow-lg w-full bg-white rounded-2xl p-6 text-left"
-              >
-                <div className="flex items-center text-left pb-4">
-                  <img
-                    className="w-16 h-16 rounded-2xl mr-4"
-                    src={icon}
-                    alt="Company logo"
-                  />
-                  <div>
-                    <p className="text-2xl font-semibold text-gray-900 leading-none">
-                      {company.name}
-                    </p>
-                  </div>
-                </div>
-                <p className="pl-1 pb-1">
-                  <span className="text-lg">{company.bio}</span>
-                </p>
-
-                <div className="flex items-center pt-6">
-                  <Link
-                    className="hover:opacity-80 flex cursor-pointer items-center 
-                    font-semibold text-md justify-center px-8 py-3 bg-primary 
-                    rounded-xl text-black"
-                    to={`/companies/${company._id}`}
-                  >
-                    Read more
-                  </Link>
-                </div>
-              </div>
-            ))}
+            {companies.length > 0 ? (
+              companies.map((company) => {
+                return <Recruiter recruiter={company} key={company.userId} />;
+              })
+            ) : (
+              <h5 style={{ textAlign: "center" }}>No recruiter found</h5>
+            )}
           </div>
         </div>
       </div>

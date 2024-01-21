@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import apiList from "../../libs/apiList";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import unorm from "unorm";
 
 const times = ["Newest first", "Oldest first"];
@@ -16,6 +16,9 @@ export default function JobTable({ jobs }) {
   let [displayedJobs, setDisplayedJobs] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [currentInput, setCurrentInput] = useState("");
+  const { id } = useParams();
+
+  const userId = id || localStorage.getItem("id");
 
   let [selectedTime, setSelectedTime] = useState(times[0]);
 
@@ -160,48 +163,50 @@ export default function JobTable({ jobs }) {
 
           {displayedJobs.length !== 0 ? (
             <tbody className="divide-y divide-gray-300 divide-dashed">
-              {displayedJobs.map((currentJob, index) => (
-                <tr key={index} className="hover:bg-light">
-                  <td
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(currentJob._id)}
-                  >
-                    {currentJob.title}
-                  </td>
-                  <td
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(currentJob._id)}
-                  >
-                    {currentJob.jobType}
-                  </td>
-                  <td
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(currentJob._id)}
-                  >
-                    <div className="flex gap-1">
-                      {currentJob.skillsets.map((tag, index) => (
-                        <div
-                          key={index}
-                          class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+              {displayedJobs
+                .filter((currentJob) => currentJob.userId === userId)
+                .map((currentJob, index) => (
+                  <tr key={index} className="hover:bg-light">
+                    <td
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
+                      onClick={() => handleClick(currentJob._id)}
+                    >
+                      {currentJob.title}
+                    </td>
+                    <td
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
+                      onClick={() => handleClick(currentJob._id)}
+                    >
+                      {currentJob.jobType}
+                    </td>
+                    <td
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
+                      onClick={() => handleClick(currentJob._id)}
+                    >
+                      <div className="flex gap-1">
+                        {currentJob.skillsets.map((tag, index) => (
+                          <div
+                            key={index}
+                            class="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
-                        >
-                          <span class="">{tag}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                  {/* <ReferralCount
+                          >
+                            <span class="">{tag}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                    {/* <ReferralCount
                     id={currentJob._id}
                     handleClick={handleClick}
                   /> */}
-                  <td
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
-                    onClick={() => handleClick(currentJob._id)}
-                  >
-                    {calculateDays(new Date(currentJob.dateOfPosting))}
-                  </td>
-                </tr>
-              ))}
+                    <td
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
+                      onClick={() => handleClick(currentJob._id)}
+                    >
+                      {calculateDays(new Date(currentJob.dateOfPosting))}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           ) : (
             ""

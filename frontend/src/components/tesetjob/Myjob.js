@@ -23,6 +23,7 @@ const Myjob = (props, index) => {
   const { job } = props;
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
+  const [recruiters, setRecruiters] = useState([]);
   const [hasAcceptedJob, setHasAcceptedJob] = useState(false);
   const [sop, setSop] = useState("");
   const handleClose = () => {
@@ -102,6 +103,22 @@ const Myjob = (props, index) => {
     checkAcceptedJob();
   }, []);
 
+  console.log("job:", job);
+
+  useEffect(() => {
+    if (job) {
+      const userID = job.userId;
+      axios.get(`${apiList.allRecruiter}`).then((response) => {
+        const filteredRecruiters = response.data.allUser.filter(
+          (recruiter) => recruiter.userId === userID
+        );
+        setRecruiters(filteredRecruiters);
+      });
+    }
+  }, [job]);
+
+  console.log(recruiters);
+
   const deadline = new Date(job.deadline).toLocaleDateString();
   return (
     <div index={index}>
@@ -111,11 +128,14 @@ const Myjob = (props, index) => {
       bg-white rounded-2xl p-6 text-left cursor-default"
       >
         <div className="flex items-center text-left pb-4">
-          <img
-            className="w-14 h-14 rounded-2xl mr-4"
-            src={icon}
-            alt="Company logo"
-          />
+          {recruiters.map((recruiter, index) => (
+            <img
+              className="w-14 h-14 rounded-2xl mr-4"
+              key={index}
+              src={recruiter.profile}
+              alt="Company logo"
+            />
+          ))}
           <div>
             <p className="text-2xl font-bold text-gray-900 leading-none">
               {job.title}

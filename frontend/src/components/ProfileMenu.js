@@ -52,9 +52,10 @@ export default function ProfileMenu() {
               />
             ) : (
               <div className="h-10 w-10 rounded-full bg-secondary">
-                <FontAwesomeIcon
-                  icon={faUser}
-                  className="text-white absolute bottom-3 left-3"
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src={user.profile}
+                  alt=""
                 />
               </div>
             )}
