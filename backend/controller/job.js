@@ -19,6 +19,7 @@ const addJob = async (req, res) => {
   // Create a new job instance
   let job = new Job({
     userId: user._id,
+    profile: user.profile,
     title: data.title,
     maxApplicants: data.maxApplicants,
     maxPositions: data.maxPositions,

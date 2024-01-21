@@ -52,6 +52,7 @@ const SignUp = async (req, res) => {
                 name: data.name,
                 contactNumber: data.contactNumber,
                 bio: data.bio,
+                profile: data.profile,
               })
             : new JobApplicant({
                 userId: user._id,

@@ -11,6 +11,7 @@ router.get("/allRecruiter", userCtrl.getAllUserRecruiter);
 router.get("/", jwtAuth, userCtrl.getUser);
 router.get("/:id", userCtrl.getUserId);
 router.get("/allRecruiter/:id", userCtrl.getIdRecruiter);
-router.put("/", jwtAuth, userCtrl.updateUser);
+router.get("/allApplicant/:id", userCtrl.getIdApplicant);
+router.put("/:id", jwtAuth, userCtrl.updateUser);
 
 module.exports = router;

@@ -104,85 +104,99 @@ const getUserId = async (req, res) => {
 
 // update user details
 const updateUser = async (req, res) => {
-  const user = req.user;
-  const data = req.body;
-  if (user.type == "recruiter") {
-    Recruiter.findOne({ userId: user._id })
-      .then((recruiter) => {
-        if (recruiter == null) {
-          res.status(404).json({
-            message: "User does not exist",
-          });
-          return;
-        }
-        if (data.name) {
-          recruiter.name = data.name;
-        }
-        if (data.contactNumber) {
-          recruiter.contactNumber = data.contactNumber;
-        }
-        if (data.profile) {
-          recruiter.profile = data.profile;
-        }
-        if (data.bio) {
-          recruiter.bio = data.bio;
-        }
-        if (data.banner) {
-          recruiter.banner = data.banner;
-        }
-        recruiter
-          .save()
-          .then(() => {
-            res.json({
-              message: "User information updated successfully",
+  try {
+    console.log("Received Update Request");
+
+    const user = req.user;
+    const data = req.body;
+
+    console.log("User:", user);
+    console.log("Update Data:", data);
+
+    if (user.type == "recruiter") {
+      Recruiter.findOne({ userId: user._id })
+        .then((recruiter) => {
+          if (recruiter == null) {
+            res.status(404).json({
+              message: "User does not exist",
             });
-          })
-          .catch((err) => {
-            res.status(400).json(err);
-          });
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  } else {
-    JobApplicant.findOne({ userId: user._id })
-      .then((jobApplicant) => {
-        if (jobApplicant == null) {
-          res.status(404).json({
-            message: "User does not exist",
-          });
-          return;
-        }
-        if (data.name) {
-          jobApplicant.name = data.name;
-        }
-        if (data.education) {
-          jobApplicant.education = data.education;
-        }
-        if (data.skills) {
-          jobApplicant.skills = data.skills;
-        }
-        if (data.resume) {
-          jobApplicant.resume = data.resume;
-        }
-        if (data.profile) {
-          jobApplicant.profile = data.profile;
-        }
-        console.log(jobApplicant);
-        jobApplicant
-          .save()
-          .then(() => {
-            res.json({
-              message: "User information updated successfully",
+            return;
+          }
+
+          if (data.name) {
+            recruiter.name = data.name;
+          }
+          if (data.contactNumber) {
+            recruiter.contactNumber = data.contactNumber;
+          }
+          if (data.profile) {
+            recruiter.profile = data.profile;
+          }
+          if (data.bio) {
+            recruiter.bio = data.bio;
+          }
+          if (data.banner) {
+            recruiter.banner = data.banner;
+          }
+
+          return recruiter.save();
+        })
+        .then(() => {
+          console.log("Recruiter Updated Successfully");
+          // If there is additional processing, you can perform it here
+        })
+        .catch((err) => {
+          console.error("Error updating recruiter:", err);
+          res.status(400).json(err);
+        });
+    } else {
+      JobApplicant.findOne({ userId: user._id })
+        .then((jobApplicant) => {
+          if (jobApplicant == null) {
+            res.status(404).json({
+              message: "User does not exist",
             });
-          })
-          .catch((err) => {
-            res.status(400).json(err);
-          });
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
+            return;
+          }
+
+          if (data.name) {
+            jobApplicant.name = data.name;
+          }
+          if (data.education && Array.isArray(data.education)) {
+            jobApplicant.education = data.education;
+          }
+          if (data.skills) {
+            jobApplicant.skills = data.skills;
+          }
+          if (data.resume) {
+            jobApplicant.resume = data.resume;
+          }
+          if (data.profile) {
+            jobApplicant.profile = data.profile;
+          }
+
+          return jobApplicant.save();
+        })
+        .then(() => {
+          console.log("Job Applicant Updated Successfully");
+          // If there is additional processing, you can perform it here
+        })
+        .catch((err) => {
+          console.error("Error updating job applicant:", err);
+          res.status(400).json(err);
+        });
+    }
+
+    console.log("User Updated Successfully");
+
+    res.json({
+      message: "User information updated successfully",
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
   }
 };
 
@@ -197,6 +211,23 @@ const getAllUserApplicant = async (req, res) => {
     console.log(error.message);
     res.status(400).json({ message: error.message });
   }
+};
+const getIdApplicant = async (req, res) => {
+  const { _id } = req.params;
+
+  JobApplicant.findOne(_id)
+    .then((jobapplicant) => {
+      if (jobapplicant === null) {
+        res.status(404).json({
+          message: "User recruiter does not exist",
+        });
+        return;
+      }
+      res.json(jobapplicant);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 };
 
 const getAllUserRecruiter = async (req, res) => {
@@ -213,9 +244,8 @@ const getAllUserRecruiter = async (req, res) => {
 };
 
 const getIdRecruiter = async (req, res) => {
-  const { _id } = req.params;
-
-  Recruiter.findOne(_id)
+  let userId = req.params.userId; // Ensure userId is a string
+  Recruiter.findOne({ userId: userId })
     .then((recruiter) => {
       if (recruiter === null) {
         res.status(404).json({
@@ -343,6 +373,7 @@ module.exports = {
   getAllUser,
   getUserId,
   getIdRecruiter,
+  getIdApplicant,
   updateUser,
   getAllUserApplicant,
   getAllUserRecruiter,
