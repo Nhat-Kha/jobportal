@@ -31,6 +31,8 @@ const Myjob = (props, index) => {
     setSop("");
   };
 
+  console.log(job);
+
   const userApply = () => {
     return (
       (job && job.status === "accepted") || (job && job.status === "finished")
