@@ -10,11 +10,11 @@ export default function SocialMedia() {
       <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center pb-3">
         Follow us
       </h1>
-      <p className="text-lg text-center mb-12 px-3">
+      <p className="text-lg text-center mb-12 px-3 font-normal">
         Follow us on{" "}
         <a
-          className="font-semibold border-black hover:text-secondary"
-          href="https://www.instagram.com/joingreet/"
+          className="font-bold border-black hover:text-secondary"
+          href="https://www.instagram.com/kha_martin/"
           target="_blank"
           rel="noreferrer"
         >
@@ -22,19 +22,19 @@ export default function SocialMedia() {
         </a>{" "}
         and{" "}
         <a
-          className="font-semibold  border-black hover:text-secondary"
-          href="https://www.linkedin.com/company/joingreet/"
+          className="font-bold  border-black hover:text-secondary"
+          href="https://www.facebook.com/profile.php?id=100011056752898"
           target="_blank"
           rel="noreferrer"
         >
-          LinkedIn{" "}
+          Facebook{" "}
         </a>
         to get updates on new jobs, companies and other fun stuff.
       </p>
       <div className="w-10/12 mx-auto grid md:grid-cols-5 grid-cols-2 gap-5 ">
         <a
           className="transform ease-in duration-100 hover:-translate-y-2 "
-          href="https://www.instagram.com/p/CVYRGT1IQVH/"
+          href="https://www.facebook.com/profile.php?id=100011056752898"
           target="_blank"
           rel="noreferrer"
         >
@@ -47,7 +47,7 @@ export default function SocialMedia() {
 
         <a
           className="md:block hidden transform ease-in duration-100 hover:-translate-y-2"
-          href="https://www.instagram.com/p/CVDg7J-oa0c/"
+          href="https://www.instagram.com/kha_martin/"
           target="_blank"
           rel="noreferrer"
         >
@@ -60,7 +60,7 @@ export default function SocialMedia() {
 
         <a
           className="transform ease-in duration-100 hover:-translate-y-2"
-          href="https://www.instagram.com/p/CVDjVNGoEPf/"
+          href="https://www.instagram.com/kha_martin/"
           target="_blank"
           rel="noreferrer"
         >
@@ -72,7 +72,7 @@ export default function SocialMedia() {
         </a>
         <a
           className="transform ease-in duration-100 hover:-translate-y-2"
-          href="https://www.instagram.com/p/CT71yM3ozHu/"
+          href="https://www.instagram.com/kha_martin/"
           target="_blank"
           rel="noreferrer"
         >
@@ -85,7 +85,7 @@ export default function SocialMedia() {
 
         <a
           className="transform ease-in duration-100 hover:-translate-y-2 "
-          href="https://www.instagram.com/p/CT71To_I5dc/"
+          href="https://www.instagram.com/kha_martin/"
           target="_blank"
           rel="noreferrer"
         >
