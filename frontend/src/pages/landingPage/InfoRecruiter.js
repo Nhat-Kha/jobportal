@@ -204,7 +204,7 @@ export default function InfoRecruiter() {
                       <div className="flex items-center text-left pb-4">
                         <img
                           className="w-14 h-14 rounded-2xl mr-4"
-                          src={icon}
+                          src={company?.profile}
                           alt="Company logo"
                         />
                         <div>

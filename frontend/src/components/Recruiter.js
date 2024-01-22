@@ -24,7 +24,7 @@ export default function Recruiter(props) {
             </div>
           </div>
           <p className="pl-1 pb-1">
-            <span className="text-lg">{recruiter.bio}</span>
+            <span className="text-lg">{recruiter.banner}</span>
           </p>
 
           <div className="flex items-center pt-6">

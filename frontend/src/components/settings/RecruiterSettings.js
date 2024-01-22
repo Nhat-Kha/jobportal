@@ -1,24 +1,57 @@
+import { SetPopupContext } from "App";
+import axios from "axios";
 import InputField from "components/InputField";
+import apiList from "libs/apiList";
+import { getId } from "libs/isAuth";
 import { apiUploadImages } from "libs/uploadImage";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function CompanySettings({ profile, user }) {
+  const setPopup = useContext(SetPopupContext);
+  const getUser = getId();
+
   const [tmpProfile, setTmpProfile] = useState();
   const [originalProfile] = useState(profile);
-
   const [imagesPreview, setImagesPreview] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [profileDetails, setProfileDetails] = useState({
     name: "",
     bio: "",
     profile: "",
     contactNumber: "",
+    banner: "",
   });
 
   useEffect(() => {
     setTmpProfile(profile);
   }, [profile]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    axios
+      .get(`http://localhost:5000/api/user/${getUser}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setProfileDetails(response.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: "Error",
+        });
+      });
+  };
 
   const uploadBanner = (e) => {
     e.preventDefault();
@@ -49,6 +82,47 @@ export default function CompanySettings({ profile, user }) {
         ...prevDetail,
         profile: images,
       }));
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      console.log("fetch: ", `${apiList.updateUser}/${getUser}`);
+
+      const updatedDetails = {
+        ...profileDetails,
+      };
+
+      console.log("updatedDetails:", updatedDetails);
+
+      const response = await axios.put(
+        `${apiList.updateUser}/${getUser}`,
+        updatedDetails,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      console.log("Server response:", response.data);
+
+      setPopup({
+        open: true,
+        icon: "success",
+        message: response.data.message,
+      });
+
+      getData();
+      setOpen(false);
+    } catch (err) {
+      console.error("Update error:", err);
+
+      setPopup({
+        open: true,
+        icon: "error",
+        message: err.response?.data?.message || "Error occurred during update.",
+      });
     }
   };
 
@@ -101,9 +175,9 @@ export default function CompanySettings({ profile, user }) {
           className="col-span-2"
           label="Name"
           type="text"
-          value={tmpProfile?.founded}
+          value={profileDetails?.name}
           onChange={(e) => {
-            setTmpProfile({
+            setProfileDetails({
               ...tmpProfile,
               founded: e.target.value,
             });
@@ -115,11 +189,11 @@ export default function CompanySettings({ profile, user }) {
           className="col-span-2"
           label="Contact number"
           type="number"
-          value={tmpProfile?.employees}
+          value={profileDetails?.contactNumber}
           onChange={(e) => {
-            setTmpProfile({
-              ...tmpProfile,
-              employees: e.target.value,
+            setProfileDetails({
+              ...profileDetails,
+              contactNumber: e.target.value,
             });
           }}
           placeholder="Number phone"
@@ -133,48 +207,24 @@ export default function CompanySettings({ profile, user }) {
         className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
         rows="8"
         placeholder="Text about your company goes here."
-        value={tmpProfile?.about}
+        value={profileDetails?.bio}
         onChange={(e) =>
-          setTmpProfile({
-            ...tmpProfile,
-            about: e.target.value,
+          setProfileDetails({
+            ...profileDetails,
+            bio: e.target.value,
           })
         }
       />
-
-      <div className="flex mb-12 gap-3 relative mt-12">
-        <img
-          alt="banner"
-          className="w-1/3 h-auto md:mr-6 mr-4 rounded-md"
-          src={tmpProfile?.banner}
-        />
-
-        <div>
-          <label class="uppercase tracking-wide text-black text-xs font-bold mb-2 mt-8">
-            Banner
-          </label>
-
-          <form onSubmit={uploadBanner}>
-            <input type="file" />
-            <button
-              type="submit"
-              className="hover:opacity-80  cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
-            >
-              Upload
-            </button>
-          </form>
-        </div>
-      </div>
 
       <InputField
         className="col-span-2"
         label="Banner caption"
         type="text"
-        value={tmpProfile?.caption}
+        value={profileDetails?.banner}
         onChange={(e) => {
-          setTmpProfile({
-            ...tmpProfile,
-            caption: e.target.value,
+          setProfileDetails({
+            ...profileDetails,
+            banner: e.target.value,
           });
         }}
         placeholder="Banner caption"
@@ -182,7 +232,7 @@ export default function CompanySettings({ profile, user }) {
       <div className="flex items-center pt-6">
         <div
           className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
-          //   onClick={() => handleSave()}
+          onClick={() => handleUpdate()}
         >
           Save
         </div>
