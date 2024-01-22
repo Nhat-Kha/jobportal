@@ -11,6 +11,7 @@ import {
   faIdCard,
   faHandsHelping,
 } from "@fortawesome/free-solid-svg-icons";
+import { userType } from "libs/isAuth";
 
 export default function ForRecruiter() {
   return (
@@ -26,12 +27,14 @@ export default function ForRecruiter() {
             headhunters from the equation.
           </p>
 
-          <Link
-            to="new-recruiter"
-            className="mx-auto w-46 hover:opacity-80 cursor-pointer items-center font-semibold text-md justify-center px-8 py-4 bg-primary rounded-xl text-black"
-          >
-            Sign up
-          </Link>
+          {userType() === "" ? (
+            <Link
+              to="new-recruiter"
+              className="mx-auto w-46 hover:opacity-80 cursor-pointer items-center font-semibold text-md justify-center px-8 py-4 bg-primary rounded-xl text-black"
+            >
+              Sign up
+            </Link>
+          ) : null}
 
           <img
             alt="pricing example chart"

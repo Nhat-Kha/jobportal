@@ -225,6 +225,8 @@ export default function JobBoard({ title, props }) {
                   />
                 </div>
               </div>
+              
+              <span></span>
 
               <div className="flex justify-center items-center">
                 <FilterPopup
@@ -242,7 +244,7 @@ export default function JobBoard({ title, props }) {
             </div>
           )}
           {title === false ? (
-            <div className="flex flex-row	flex-wrap	justify-between	gap-10">
+            <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 ">
               {limitedJobs.length > 0 ? (
                 limitedJobs.map((job, index) => {
                   return (

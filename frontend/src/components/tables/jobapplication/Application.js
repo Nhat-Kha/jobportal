@@ -56,6 +56,9 @@ const ApplicationTile = (props) => {
   };
 
   const updateStatus = (status) => {
+    console.log(`Update status: ${status}`);
+    console.log(`Application status: ${application.status}`);
+
     const address = `${apiList.applications}/${application._id}`;
     const statusData = {
       status: status,
@@ -68,6 +71,7 @@ const ApplicationTile = (props) => {
         },
       })
       .then((response) => {
+        console.log("Update status successful:", response.data.message);
         setPopup({
           open: true,
           icon: "success",
@@ -275,11 +279,18 @@ const ApplicationTile = (props) => {
           {buttonSet[application.status]}
         </div>
       </td>
-      <Modal>
+      {/* <Modal>
         <div className="p-[20px] outline-none flex flex-col justify-center min-w-[30%] items-center">
-          <button className="p-[10px 50px]">Submit</button>
+          <button
+            className="p-[10px 50px]"
+            onClick={() => {
+              console.log("Submit button clicked");
+            }}
+          >
+            Submit
+          </button>
         </div>
-      </Modal>
+      </Modal> */}
     </tr>
   );
 };

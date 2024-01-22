@@ -11,6 +11,7 @@ import {
   faSearch,
   faMoneyBillWave,
 } from "@fortawesome/free-solid-svg-icons";
+import { userType } from "libs/isAuth";
 
 export default function ForApplicant() {
   return (
@@ -83,12 +84,14 @@ export default function ForApplicant() {
               opportunities.
             </p>
 
-            <Link
-              to="/sign-up/new-applicant"
-              className="mx-auto w-46 hover:opacity-80 cursor-pointer items-center font-semibold text-md justify-center px-8 py-4 bg-primary rounded-xl text-black"
-            >
-              Sign up
-            </Link>
+            {userType() === "" ? (
+              <Link
+                to="/sign-up/new-applicant"
+                className="mx-auto w-46 hover:opacity-80 cursor-pointer items-center font-semibold text-md justify-center px-8 py-4 bg-primary rounded-xl text-black"
+              >
+                Sign up
+              </Link>
+            ) : null}
           </div>
           <img
             alt="pricing example chart"
@@ -98,8 +101,8 @@ export default function ForApplicant() {
         </div>
       </div>
       <FAQ
-        questionOne="How many can I refer?"
-        answerOne="You can refer how many friends you want. What are you waiting for?"
+        questionOne="Do I have a limitation on the number of job applications?"
+        answerOne="You can submit as many applications as you like, but when one is accepted, the others will be canceled."
         questionTwo="When and how much do I get paid?"
         answerTwo="It varies. On each job ad you can find the specified hiring bonus and the interview bonus. You get paid when your candidate get an interview or get hired."
         questionThree="Do I have to sign up for a Greeter account to refer my friends?"

@@ -35,13 +35,13 @@ export default function Jumbotron() {
           <div className="w-11/12 flex flex-wrap mx-auto">
             <div className="lg:text-left text-center lg:w-7/12 w-12/12 lg:pt-24 pt-12 lg:pb-40 pb-16 mx-auto">
               <h1 className="text-black lg:text-6xl text-4xl sm:mt-5 font-bold sm:max-w-xl sm:mx-auto md:mt-5 lg:mx-0">
-                Get rewarded to refer your friends to tech jobs in Sweden
+                Welcome to Recruiter home
                 <br />
               </h1>
               <p className="mt-3 text-xl text-black sm:mt-5 sm:max-w-xl sm:mx-auto md:mt-5 lg:mx-0">
-                Greet let's you introduce your friend to their dream job in
-                tech. As a reward, you get paid if they get interviewed or
-                hired.
+                With profound knowledge in the IT field and specialized skills,
+                we can assist you in accessing and recruiting the best IT
+                candidates.
               </p>
               <div className="mt-4 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <Link
@@ -74,7 +74,7 @@ export default function Jumbotron() {
             </div>
             <div className="lg:text-left text-center lg:w-7/12 w-12/12 lg:pt-24 pt-12 lg:pb-40 pb-16 mx-auto">
               <h1 className="text-black lg:text-6xl text-4xl sm:mt-5 font-bold sm:max-w-xl sm:mx-auto md:mt-5 lg:mx-0">
-                applicant
+                Welcome to Applicant home
                 <br />
               </h1>
               <p className="mt-3 text-xl text-black sm:mt-5 sm:max-w-xl sm:mx-auto md:mt-5 lg:mx-0">
@@ -239,7 +239,7 @@ export default function Jumbotron() {
               >
                 <div className="inline-block w-full max-w-lg md:p-6 p-3 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <h1 className="text-center text-3xl font-semibold">
-                    See job board
+                    See recruiter board
                   </h1>
                   <div className="relative bg-white p-2 mt-6">
                     <Link
@@ -303,10 +303,11 @@ export default function Jumbotron() {
               >
                 <div className="inline-block w-full max-w-lg md:p-6 p-3 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <h1 className="text-center text-3xl font-semibold">
-                    Refer a friend
+                    Choose to see
                   </h1>
                   <p className="text-center text-lg">
-                    Refer your friend to a specific job or to the talent pool.
+                    Select the recruiter board to view employers or the job
+                    board to see available jobs.
                   </p>
 
                   <div className="relative bg-white p-2 mt-6">
