@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import apiList from "../libs/apiList";
 import Recruiter from "./Recruiter";
+import Loader from "./Loader";
 
 export default function CompanyBoard() {
   const [companies, setCompanies] = useState([]);
@@ -32,7 +33,9 @@ export default function CompanyBoard() {
                 return <Recruiter recruiter={company} key={company.userId} />;
               })
             ) : (
-              <h5 style={{ textAlign: "center" }}>No recruiter found</h5>
+              <h5 style={{ textAlign: "center" }}>
+                <Loader />
+              </h5>
             )}
           </div>
         </div>

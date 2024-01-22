@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Loader from "components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,12 +16,76 @@ import icon from "assets/icon.jpg";
 import axios from "axios";
 import apiList from "../../libs/apiList";
 import { Rating } from "@material-tailwind/react";
+import { userType } from "libs/isAuth";
+import { SetPopupContext } from "App";
 
 export default function InfoRecruiter() {
+  const [hasAcceptedJob, setHasAcceptedJob] = useState(false);
   const [company, setCompany] = useState();
+  const [open, setOpen] = useState(false);
   const [jobs, setJobs] = useState([]);
+  const [sop, setSop] = useState("");
+  const handleClose = () => {
+    setOpen(false);
+    setSop("");
+  };
 
+  const setPopup = useContext(SetPopupContext);
+  let history = useNavigate();
   const { id } = useParams();
+
+  const userApply = () => {
+    return (
+      (jobs && jobs.status === "accepted") ||
+      (jobs && jobs.status === "finished")
+    );
+  };
+
+  const handleApply = () => {
+    if (userApply()) {
+      setPopup({
+        open: true,
+        icon: "success",
+        message:
+          "You already have an accepted job. Cannot apply for another job.",
+      });
+      return;
+    }
+    let address = apiList.jobs;
+    const jobId = jobs[0]?._id;
+
+    axios
+      .post(
+        `${address}/${jobId}/applications`,
+        {
+          sop: sop,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        history(`/jobs/${jobId}/refer`);
+        setPopup({
+          open: true,
+          icon: "success",
+          message: response.data.message,
+        });
+        handleClose();
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: err.response.data.message,
+        });
+        handleClose();
+      });
+  };
+
   useEffect(() => {
     let address = apiList.user;
     console.log(`${address}/${id}`);
@@ -37,21 +101,45 @@ export default function InfoRecruiter() {
   }, []);
 
   useEffect(() => {
-    let address = apiList.jobs;
-    axios
-      .get(`${address}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
+    const fetchJobs = async () => {
+      try {
+        let address = apiList.jobs;
+        const response = await axios.get(`${address}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         console.log(response.data);
         setJobs(response.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      });
+      }
+    };
+
+    fetchJobs();
   }, []);
+
+  useEffect(() => {
+    const checkAcceptedJob = async () => {
+      try {
+        const response = await axios.get(
+          `${apiList.jobs}/${jobs._id}/check-accepted`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setHasAcceptedJob(response.data.hasAcceptedJob);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (jobs.length > 0) {
+      checkAcceptedJob();
+    }
+  }, [jobs]);
 
   return (
     <>
@@ -84,7 +172,11 @@ export default function InfoRecruiter() {
               <p className="md:text-xl text-md">{company?.contactNumber}</p>
             </div>
             <div className="col-span-3">
-              <img src={icon} alt="company" />
+              <img
+                src={company?.profile}
+                alt="company"
+                className="w-[30%] h-[100%] rounded-md"
+              />
             </div>
           </div>
         </div>
@@ -221,15 +313,27 @@ export default function InfoRecruiter() {
                       </div>
 
                       <div className="flex items-center pt-6">
-                        <Link
-                          to={`/jobs/${job.id}/refer`}
-                          className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
-                        >
-                          Refer
-                        </Link>
+                        {userType() === "applicant" ? (
+                          <Link
+                            className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
+                            text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
+                              hasAcceptedJob
+                                ? "opacity-50 cursor-not-allowed"
+                                : ""
+                            }`}
+                            onClick={() => handleApply()}
+                            title={
+                              hasAcceptedJob
+                                ? "You already have an accepted job"
+                                : ""
+                            }
+                          >
+                            {hasAcceptedJob ? "Job accepted!" : "Apply"}
+                          </Link>
+                        ) : null}
 
                         <Link
-                          to={`/jobs/${job.id}`}
+                          to={`/jobs/${job._id}`}
                           className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-light px-3 py-3 rounded-xl border-none"
                         >
                           About the job
