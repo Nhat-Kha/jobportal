@@ -188,6 +188,16 @@ const updateStatusApplication = async (req, res) => {
           });
         }
 
+        if (
+          status === "rejected" ||
+          status === "cancelled" ||
+          status === "delete"
+        ) {
+          await Application.deleteOne({
+            _id: application._id,
+          });
+        }
+
         // Respond with success message
         return res.json({
           message:

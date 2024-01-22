@@ -29,6 +29,8 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4",
     "uuid": "^9.0.1"
   }
 }
