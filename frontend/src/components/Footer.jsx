@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "assets/images/logo.png";
+import github from "assets/github.png";
+import instagram from "assets/Instagram.webp";
 
 export default function Footer() {
   return (
@@ -22,6 +24,10 @@ export default function Footer() {
           >
             nhatkha06299@gmail.com
           </a>
+          <span className="font-light">
+            Copyright © 2023 <span className="font-normal"> Nhat kha</span>{" "}
+            Design.
+          </span>
         </div>
         <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6">
           <h1 className="text-2xl font-semibold">Welcome</h1>
@@ -114,20 +120,20 @@ export default function Footer() {
         <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6">
           <h1 className="text-2xl font-semibold">Follow us</h1>
           <a
-            className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
+            className="w-28 font-semibold text-lg"
             href="https://www.instagram.com/kha_martin/"
             target="_blank"
             rel="noreferrer"
           >
-            Instagram
+            <img src={instagram} className="w-12 h-12" />
           </a>
           <a
-            className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
+            className="w-28 opacity-80 hover:opacity-100 font-semibold text-lg"
             href="https://github.com/Nhat-Kha"
             target="_blank"
             rel="noreferrer"
           >
-            GitHub
+            <img src={github} className="w-12 h-12" />
           </a>
         </div>
       </div>
