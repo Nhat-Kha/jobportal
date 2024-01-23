@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SetPopupContext } from "App";
 import InputField from "components/InputField";
 import apiList from "../../../libs/apiList";
 import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export const Reset = () => {
-  const { token } = useParams;
+  const { token } = useParams();
+  const history = useNavigate();
+  const setPopup = useContext(SetPopupContext);
   const [payload, setPayload] = useState({ password: "", confirmPassword: "" });
 
   const [inputErrorHandler, setInputErrorHandler] = useState({
@@ -25,9 +27,18 @@ export const Reset = () => {
     });
     if (verified) {
       const data = { ...payload, token };
-      const response = await axios.put(apiList.reset, { data });
-      console.log(response);
-      // console.log(data);
+      try {
+        const response = await axios.put(apiList.reset, data);
+        setPopup({
+          open: true,
+          icon: "success",
+          message: "Changed password successfully",
+        });
+        console.log(response);
+        history("/sign-in");
+      } catch (error) {
+        console.error("Error resetting password:", error);
+      }
     }
   };
 

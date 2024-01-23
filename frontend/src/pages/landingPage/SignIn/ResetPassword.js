@@ -11,6 +11,7 @@ export default function ResetPassword({ forgotPassword }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
 
+  const setPopup = useContext(SetPopupContext);
   const [inputErrorHandler, setInputErrorHandler] = useState({
     email: {
       error: false,
@@ -45,8 +46,19 @@ export default function ResetPassword({ forgotPassword }) {
     if (verified) {
       try {
         const response = await axios.post(apiList.forgot, { email });
+        setPopup({
+          open: true,
+          icon: "success",
+          message: "Successfully",
+        });
         console.log(response);
-      } catch (err) {}
+      } catch (err) {
+        setPopup({
+          open: true,
+          icon: "error",
+          message: err.message || "An error occurred",
+        });
+      }
     }
   };
 

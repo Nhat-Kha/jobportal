@@ -88,6 +88,21 @@ export default function SignIn({ login }) {
     }
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (allFieldsChecked) {
+      handleLogin();
+      console.log("Input valid on form submission:", loginDetails);
+    } else {
+      setPopup({
+        open: true,
+        icon: "warn",
+        message: "Please fill in all required fields",
+      });
+    }
+  };
+
   const type = userType();
   let history = useNavigate();
 
@@ -102,67 +117,70 @@ export default function SignIn({ login }) {
   return loggedin ? (
     <Navigate to="/" />
   ) : (
-    <div className="min-h-screen bg-[#f8e5d4] md:pt-24 pt-12">
-      <div className="bg-white rounded-2xl pt-10 md:px-8 px-6 pb-8 text-left md:w-4/12 w-11/12 mx-auto">
-        <h2 className="text-4xl font-semibold text-gray-900 leading-none">
-          Sign in
-        </h2>
-        <p className="text-md text-gray-600 pb-8">
-          Please enter your details below to sign in.
-        </p>
+    <form onSubmit={handleSubmit}>
+      <div className="min-h-screen bg-[#f8e5d4] md:pt-24 pt-12">
+        <div className="bg-white rounded-2xl pt-10 md:px-8 px-6 pb-8 text-left md:w-4/12 w-11/12 mx-auto">
+          <h2 className="text-4xl font-semibold text-gray-900 leading-none">
+            Sign in
+          </h2>
+          <p className="text-md text-gray-600 pb-8">
+            Please enter your details below to sign in.
+          </p>
 
-        <InputField
-          type="email"
-          label="Email"
-          value={loginDetails.email}
-          onChange={(e) => handleInput("email", e.target.value)}
-          inputErrorHandler={inputErrorHandler}
-          handleInputError={handleInputError}
-          placeholder="email@example.com"
-        />
+          <InputField
+            type="email"
+            label="Email"
+            value={loginDetails.email}
+            onChange={(e) => handleInput("email", e.target.value)}
+            inputErrorHandler={inputErrorHandler}
+            handleInputError={handleInputError}
+            placeholder="email@example.com"
+          />
 
-        <InputField
-          type="password"
-          label="Password"
-          value={loginDetails.password}
-          onChange={(e) => handleInput("password", e.target.value)}
-          placeholder="**********"
-        />
+          <InputField
+            type="password"
+            label="Password"
+            value={loginDetails.password}
+            onChange={(e) => handleInput("password", e.target.value)}
+            placeholder="**********"
+          />
 
-        <p className="text-xs text-center mt-6 mb-3 text-red-500">
-          {errorMessage}
-        </p>
+          <p className="text-xs text-center mt-6 mb-3 text-red-500">
+            {errorMessage}
+          </p>
 
-        <button
-          type="submit"
-          className={`mt-2 w-full font-semibold px-4 py-3 rounded-lg text-sm ${
-            allFieldsChecked
-              ? "bg-primary text-gray-500 hover:bg-[#F2994A] hover:text-black border-yellow-100 cursor-pointer"
-              : "bg-yellow-100 text-yellow-800 cursor-not-allowed border-yellow-100"
-          }`}
-          onClick={() => {
-            if (allFieldsChecked) {
-              handleLogin();
-              console.log("Input valid on button:", loginDetails);
-            } else {
-              setPopup({
-                open: true,
-                icon: "warn",
-                message: "Please fill in all required fields",
-              });
-            }
-          }}
-        >
-          Sign in
-        </button>
-        <Link
-          className="block text-xs text-center mt-6 hover:underline text-semibold cursor-pointer
+          <button
+            type="submit"
+            className={`mt-2 w-full font-semibold px-4 py-3 rounded-lg text-sm ${
+              allFieldsChecked
+                ? "bg-primary text-gray-500 hover:bg-[#F2994A] hover:text-black border-yellow-100 cursor-pointer"
+                : "bg-yellow-100 text-yellow-800 cursor-not-allowed border-yellow-100"
+            }`}
+            // onClick={() => {
+            //   if (allFieldsChecked) {
+            //     handleLogin();
+            //     console.log("Input valid on button:", loginDetails);
+            //   } else {
+            //     setPopup({
+            //       open: true,
+            //       icon: "warn",
+            //       message: "Please fill in all required fields",
+            //     });
+            //   }
+            // }}
+          >
+            Sign in
+          </button>
+
+          <Link
+            className="block text-xs text-center mt-6 hover:underline text-semibold cursor-pointer
           hover:text-[#91b4bd]"
-          to="/sign-in/forgot-password"
-        >
-          Forgot your password?
-        </Link>
+            to="/sign-in/forgot-password"
+          >
+            Forgot your password?
+          </Link>
+        </div>
       </div>
-    </div>
+    </form>
   );
 }

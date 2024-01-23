@@ -80,7 +80,6 @@ export default function App() {
           <Route exact path="/sign-in" element={<SignIn />} />
           <Route exact path="/password/reset/:token" element={<Reset />} />
           <Route exact path="/reset-recovered" element={<Recovered />} />
-          <Route exact path="/OTP" element={<OTPInput />} />
           <Route exact path="/referrals" element={<Referrals />} type={type} />
           <Route exact path="/jobs" element={<Jobs />} />
           <Route exact path="/for-recruiter" element={<ForRecruiter />} />
