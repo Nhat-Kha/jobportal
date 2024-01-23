@@ -9,13 +9,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import unorm from "unorm";
 
 const times = ["Newest first", "Oldest first"];
-const th = ["Job", "Job type", "Skill", "Date upload", "Status"];
+const th = ["Job", "Job type", "Skill", "Date upload", "Headcount"];
 
 export default function JobTable({ jobs }) {
   let history = useNavigate();
   let [displayedJobs, setDisplayedJobs] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [currentInput, setCurrentInput] = useState("");
+  const [applicantsCount, setApplicantsCount] = useState({});
   const { id } = useParams();
 
   const userId = id || localStorage.getItem("id");
@@ -41,9 +42,32 @@ export default function JobTable({ jobs }) {
           },
         });
 
+        // const ApplicantCount = response.data.map((job) => ({...job, }))
+
         console.log(response.data);
         setOriginalData(response.data);
         setDisplayedJobs(response.data);
+
+        const counts = {};
+        for (const job of response.data) {
+          let countAddress = `${apiList.applicants}?jobId=${job._id}`;
+          let countResponse;
+
+          try {
+            countResponse = await axios.get(countAddress, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            });
+
+            counts[job._id] = countResponse.data.length;
+          } catch (error) {
+            console.error(`Error fetching count for job ${job._id}`, error);
+            counts[job._id] = 0;
+          }
+        }
+
+        setApplicantsCount(counts);
       } catch (err) {
         console.log(err);
       }
@@ -187,10 +211,10 @@ export default function JobTable({ jobs }) {
                         {currentJob.skillsets.map((tag, index) => (
                           <div
                             key={index}
-                            class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                            className="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
                           >
-                            <span class="">{tag}</span>
+                            <span className="">{tag}</span>
                           </div>
                         ))}
                       </div>
@@ -204,6 +228,11 @@ export default function JobTable({ jobs }) {
                       onClick={() => handleClick(currentJob._id)}
                     >
                       {calculateDays(new Date(currentJob.dateOfPosting))}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+                      <div className="ml-3 ">
+                        {applicantsCount[currentJob._id]} people
+                      </div>
                     </td>
                   </tr>
                 ))}

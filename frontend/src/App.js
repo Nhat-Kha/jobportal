@@ -30,7 +30,7 @@ import CookiePolicy from "pages/landingPage/AboutUs/CookiePolicy";
 import OTPInput from "pages/landingPage/SignIn/EmailVerify/OTPInput";
 import AdminJob from "pages/admin/AdminJob";
 import TalentPool from "pages/admin/TalentPool";
-import { ToastContainer, toast } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InfoRecruiter from "pages/landingPage/InfoRecruiter";
 
@@ -54,6 +54,7 @@ export default function App() {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
+        transition: Slide,
       });
 
       setPopup({
@@ -113,7 +114,7 @@ export default function App() {
         </Routes>
         <Footer />
       </Router>
-      <ToastContainer />
+      <ToastContainer limit={2} />
     </SetPopupContext.Provider>
   );
 }

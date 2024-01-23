@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const MessagePopup = (props) => {
@@ -11,6 +11,7 @@ const MessagePopup = (props) => {
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
+      transition: Slide,
     });
   };
 
