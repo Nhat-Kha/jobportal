@@ -287,29 +287,39 @@ const forgotPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  const { password, token } = req.body;
-  if (!password || !token) throw new Error("Missing Input");
-  const passwordResetToken = crypto
-    .createHash("sha256")
-    .update(token)
-    .digest("hex");
-  const user = await User.findOne({
-    passwordResetToken,
-    passwordResetExpires: { $gt: Date.now() },
-  });
-  // if (!user) throw new Error("Invalid Reset Token");
-  if (!user) {
-    return res.status(400).json({ error: "Invalid Reset Token" });
+  try {
+    const { password, token } = req.body;
+    if (!password || !token) {
+      return res.status(400).json({ error: "Missing Input" });
+    }
+
+    const passwordResetToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      passwordResetToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid Reset Token" });
+    }
+
+    user.password = password;
+    user.passwordResetToken = undefined;
+    user.passwordChangedAt = Date.now();
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      msg: "Password updated successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
-  user.password = password;
-  user.passwordResetToken = undefined;
-  user.passwordChangedAt = Date.now();
-  user.passwordResetExpires = undefined;
-  await user.save();
-  res.status(200).json({
-    success: user ? true : false,
-    msg: user ? "Update Password" : "Something went wrong",
-  });
 };
 
 module.exports = {
