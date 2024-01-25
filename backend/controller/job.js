@@ -310,7 +310,10 @@ const applyJob = async (req, res) => {
     },
   })
     .then((acceptedJob) => {
-      if (acceptedJob !== null) {
+      if (
+        (acceptedJob !== null && acceptedJob.status === "finished") ||
+        (acceptedJob !== null && acceptedJob.status === "accepted")
+      ) {
         res.status(400).json({
           message:
             "You already have an accepted job. Hence you cannot apply for a new one.",
@@ -325,12 +328,15 @@ const applyJob = async (req, res) => {
         userId: user._id,
         jobId: jobId,
         status: {
-          $nin: ["deleted", "accepted", "cancelled"],
+          $nin: ["deleted", "cancelled"],
         },
       })
         .then((appliedApplication) => {
           console.log(appliedApplication);
-          if (appliedApplication !== null) {
+          if (
+            appliedApplication !== null &&
+            appliedApplication.status === "applied"
+          ) {
             res.status(400).json({
               message: "You have already applied for this job",
             });
@@ -450,6 +456,17 @@ const checkApply = async (req, res) => {
       status: {
         $nin: ["accepted", "finished"],
       },
+    }).then((acceptedJob) => {
+      if (
+        acceptedJob.status === "finished" ||
+        acceptedJob.status === "accepted"
+      ) {
+        res.status(400).json({
+          message:
+            "You already have an accepted job. Hence you cannot apply for a new one.",
+        });
+        return;
+      }
     });
 
     res.json({
