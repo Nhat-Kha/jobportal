@@ -239,14 +239,16 @@ export default function Settings() {
         </div>
 
         <div className="w-full mb-6">
-          <h2 className="font-semibold text-xl py-4">Hình ảnh</h2>
+          <h2 className="font-semibold text-xl py-4">
+            Avatar <span className="text-red-500">*</span>
+          </h2>
           <div className="w-full">
             <label
               className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md"
               htmlFor="file"
             >
               <div className="flex flex-col items-center justify-center">
-                Thêm ảnh
+                Upload image
               </div>
             </label>
             <input
@@ -257,7 +259,7 @@ export default function Settings() {
               multiple
             />
             <div className="w-full">
-              <h3 className="font-medium py-4">Ảnh đã chọn</h3>
+              <h3 className="font-medium py-4">Select image</h3>
               <div className="flex gap-4 items-center">
                 {profileDetails.profile ? (
                   <div className="relative w-1/3 h-1/3 ">

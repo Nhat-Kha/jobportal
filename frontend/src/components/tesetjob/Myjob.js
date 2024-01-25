@@ -17,6 +17,7 @@ import { SetPopupContext } from "App";
 import icon from "assets/icon.jpg";
 
 import { userType } from "libs/isAuth";
+import ConfettiGenerator from "confetti-js";
 
 const Myjob = (props, index) => {
   let history = useNavigate();
@@ -66,7 +67,7 @@ const Myjob = (props, index) => {
         }
       )
       .then((response) => {
-        history(`/jobs/${job._id}/refer`);
+        // history(`/jobs/${job._id}/refer`);
         setPopup({
           open: true,
           icon: "success",
@@ -96,7 +97,15 @@ const Myjob = (props, index) => {
             },
           }
         );
-        setHasAcceptedJob(response.data.hasAcceptedJob);
+        console.log("res:", response.data);
+        if (
+          (job && job.status === "accepted") ||
+          (job && job.status === "finished")
+        ) {
+          return setHasAcceptedJob(response.data.hasAcceptedJob);
+        } else {
+          return false;
+        }
       } catch (error) {
         console.error(error);
       }
@@ -232,18 +241,18 @@ const Myjob = (props, index) => {
           ) : null}
         </div>
         <div className="flex items-center pt-6">
-          {userType() === "applicant" ? (
+          {userType() === "applicant" && (
             <Link
               className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
-                text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
-                  hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+              text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
+                hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               onClick={() => handleApply()}
               title={hasAcceptedJob ? "You already have an accepted job" : ""}
             >
               {hasAcceptedJob ? "Job accepted!" : "Apply"}
             </Link>
-          ) : null}
+          )}
 
           <Link
             className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-gray-100 hover:bg-gray-200 ease-out duration-300 px-3 py-3 rounded-xl border-none"

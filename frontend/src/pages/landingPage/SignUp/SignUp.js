@@ -11,8 +11,10 @@ import FileUploadInput from "libs/FileUploadInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { apiUploadImages } from "libs/uploadImage";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const history = useNavigate();
   const setPopup = useContext(SetPopupContext);
   const [loggedin, setLoggedin] = useState(isAuth());
   const [phone, setPhone] = useState("");
@@ -195,6 +197,7 @@ export default function SignUp() {
             icon: "success",
             message: "Logged in successfully",
           });
+          history("/");
           console.log("export" + response);
           console.log(response?.data.type);
         })

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import apiList from "../libs/apiList";
 import Recruiter from "./Recruiter";
 import Loader from "./Loader";
+import { SetPopupContext } from "App";
 
 export default function CompanyBoard() {
+  const setPopup = useContext(SetPopupContext);
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
@@ -17,8 +19,17 @@ export default function CompanyBoard() {
       })
       .catch((err) => {
         console.log(err.message);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: err.message,
+        });
       });
   }, []);
+
+  if (!companies) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -33,9 +44,14 @@ export default function CompanyBoard() {
                 return <Recruiter recruiter={company} key={company.userId} />;
               })
             ) : (
-              <h5 style={{ textAlign: "center" }}>
-                <Loader />
-              </h5>
+              <div>
+                <h5
+                  className="flex justify-center items-center"
+                  // style={{ textAlign: "center" }}
+                >
+                  <Loader />
+                </h5>
+              </div>
             )}
           </div>
         </div>
