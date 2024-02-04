@@ -127,8 +127,9 @@ export default function PrivacyPolicy() {
 
         <h2 className="text-3xl mb-4 mt-10">Contact information</h2>
         <p>
-          If you have any questions or wish to exercise any of your rights
-          mentioned above. Please contact Nhật Kha at nhatkha06299@gmail.com
+          If you have any questions, please contact{" "}
+          <span className="font-bold">Ricky(Kha)</span> by email at{" "}
+          <span className="font-bold">nhatkha06299@gmail.com</span>
         </p>
       </div>
     </div>

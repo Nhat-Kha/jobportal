@@ -17,7 +17,7 @@ function Home() {
       <CompanyBanner type={userType} />
       <SocialMedia />
       <Banner
-        title="Ready to refer someone?"
+        title="Ready to apply job?"
         button="Explore the job board"
         link="/jobs"
         type={userType}

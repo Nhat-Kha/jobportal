@@ -28,7 +28,10 @@ export default function CookiePolicy() {
             device or any other device by a website, containing details of your
             browsing history on that website among its many uses.
           </li>
-          <li>Website refers to Greet, accessible from www.joingreet.com</li>
+          <li>
+            Website refers to Greet, accessible from{" "}
+            <span className="font-semibold">jobportal-blush.vercel.app</span>
+          </li>
           <li>“You” means the individual accessing or using the Website.</li>
         </ul>
 
