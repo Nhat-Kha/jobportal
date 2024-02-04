@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import icon from "assets/icon.jpg";
+import introduce from "assets/introduce.png";
+import cooperate from "assets/coop.png";
 import { userType } from "libs/isAuth";
 
 export function CompanyBanner() {
@@ -24,17 +26,10 @@ export function CompanyBanner() {
                 and makes it faster to fill in a referral.
               </p>
 
-              <div className="flex items-center pt-10">
-                <Link
-                  to="/sign-up"
-                  className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
-                >
-                  Sign up
-                </Link>
-
+              <div className="flex items-center pt-10 ">
                 <Link
                   to="/for-applicant"
-                  className="ml-4 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-gray-300 px-3 py-3 rounded-xl border-none"
+                  className="ml-4 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-gray-50  hover:bg-gray-200   px-3 py-3 rounded-xl border-none"
                 >
                   Read more
                 </Link>
@@ -44,7 +39,7 @@ export function CompanyBanner() {
             <div className="md:w-7/12 w-12/12 md:block hidden md:pt-20 pb-20 md:pl-10 pl-0 mx-auto">
               <img
                 className=" mt-0 w-4/5 lg:float-right float-none mx-auto rounded-3xl"
-                src={icon}
+                src={introduce}
                 alt="company"
               />
             </div>
@@ -106,16 +101,16 @@ export function CompanyBanner() {
 
                 <Link
                   to="/for-recruiter"
-                  className="ml-4 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-gray-300 px-3 py-3 rounded-xl border-none"
+                  className="ml-4 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-gray-50  hover:bg-gray-200 px-3 py-3 rounded-xl border-none"
                 >
                   Read more
                 </Link>
               </div>
 
-              <div className="md:w-10/12 w-12/12 mx-auto">
+              <div className="md:w-5/12  mx-auto">
                 <img
                   className="w-full rounded-3xl mt-3"
-                  src={icon}
+                  src={cooperate}
                   alt="company"
                 />
               </div>

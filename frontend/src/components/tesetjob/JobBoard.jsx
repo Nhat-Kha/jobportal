@@ -225,7 +225,7 @@ export default function JobBoard({ title, props }) {
                   />
                 </div>
               </div>
-              
+
               <span></span>
 
               <div className="flex justify-center items-center">

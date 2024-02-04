@@ -7,8 +7,8 @@ import { getId } from "libs/isAuth";
 import { useParams } from "react-router-dom";
 import apiList from "libs/apiList";
 export default function JobAd({ job, tags, about, edit }) {
-  console.log("job:", about);
   const [recruiters, setRecruiters] = useState([]);
+  const [recruiter, setRecruiter] = useState([]);
 
   useEffect(() => {
     if (about) {
@@ -22,7 +22,15 @@ export default function JobAd({ job, tags, about, edit }) {
       });
     }
   }, [about]);
-  console.log(recruiters);
+
+  // useEffect(() => {
+  //   axios.get(`${apiList.allRecruiter}`, {
+  //     headers: {
+  //     localStorage.getItem("id")}
+  //   }).then((response) => {
+
+  //   });
+  // }, []);
 
   return (
     <>
