@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import About from "pages/landingPage/About";
+import About from "pages/landingPage/AboutUs/About";
 import Home from "pages/landingPage/Home";
 import { React, createContext, useEffect, useState } from "react";
 import PrivacyPolicy from "pages/landingPage/AboutUs/PrivacyPolicy";
