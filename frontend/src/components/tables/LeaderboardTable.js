@@ -61,19 +61,15 @@ export default function LeaderboardTable({ user }) {
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="">
-                      <div className="text-sm font-bold text-gray-900">
-                        {User.title}
+                  <Link to={`/jobs/${User._id}`}>
+                    <div className="flex items-center ">
+                      <div>
+                        <div className="text-sm font-bold text-gray-900">
+                          {User.title}
+                        </div>
                       </div>
-                      {/* <div className="text-sm text-gray-500">
-                        <Rating
-                          value={User.rating !== -1 ? User.rating : null}
-                          readonly
-                        />{" "}
-                      </div> */}
                     </div>
-                  </div>
+                  </Link>
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
