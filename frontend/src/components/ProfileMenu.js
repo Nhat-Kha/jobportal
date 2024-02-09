@@ -77,62 +77,100 @@ export default function ProfileMenu() {
         >
           <Menu.Items className="absolute right-0 w-56 mt-8 z-50 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             {type === "applicant" ? (
-              <div className="p-3 ">
-                <Menu.Item>
-                  <Link
-                    to="/referrals"
-                    className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                  >
-                    <FontAwesomeIcon icon={faUsers} className="mr-3" />
-                    My referrals
-                  </Link>
-                </Menu.Item>
+              <>
+                <div className="p-3 flex">
+                  <Menu.Item>
+                    <span className="flex items-center justify-center text-left p-2  text-lg font-normal text-gray-900">
+                      {user.name}
+                    </span>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <div className="flex items-center justify-center gap-1">
+                      <div
+                        class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                          bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                      >
+                        <span>Applicant</span>
+                      </div>
+                    </div>
+                  </Menu.Item>
+                </div>
+                <div className="p-3">
+                  <Menu.Item>
+                    <Link
+                      to="/referrals"
+                      className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                    >
+                      <FontAwesomeIcon icon={faUsers} className="mr-3" />
+                      My referrals
+                    </Link>
+                  </Menu.Item>
 
-                <Menu.Item>
-                  <Link
-                    to="/applicant/settings"
-                    className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                  >
-                    <FontAwesomeIcon icon={faCogs} className="mr-3" />
-                    Settings
-                  </Link>
-                </Menu.Item>
-              </div>
+                  <Menu.Item>
+                    <Link
+                      to="/applicant/settings"
+                      className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                    >
+                      <FontAwesomeIcon icon={faCogs} className="mr-3" />
+                      Settings
+                    </Link>
+                  </Menu.Item>
+                </div>
+              </>
             ) : (
-              <div className="p-3">
-                <Menu.Item>
-                  <Link
-                    to="/admin"
-                    className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                  >
-                    <FontAwesomeIcon icon={faPoll} className="mr-3" />
-                    My jobs
-                  </Link>
-                </Menu.Item>
+              <>
+                <div className="p-3 flex">
+                  <Menu.Item>
+                    <span className="flex items-center justify-center text-left p-2  text-lg font-normal text-gray-900">
+                      {user.name}
+                    </span>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <div className="flex items-center justify-center gap-1">
+                      <div
+                        class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                          bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                      >
+                        <span>Recruiter</span>
+                      </div>
+                    </div>
+                  </Menu.Item>
+                </div>
+                <div className="p-3">
+                  <Menu.Item>
+                    <Link
+                      to="/admin"
+                      className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                    >
+                      <FontAwesomeIcon icon={faPoll} className="mr-3" />
+                      My jobs
+                    </Link>
+                  </Menu.Item>
 
-                <Menu.Item>
-                  <Link
-                    to="/talent-pool"
-                    className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                  >
-                    <FontAwesomeIcon
-                      icon={faSwimmingPool}
-                      className="mr-1.5 -ml-0.5"
-                    />
-                    Talent pool
-                  </Link>
-                </Menu.Item>
+                  <Menu.Item>
+                    <Link
+                      to="/talent-pool"
+                      className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                    >
+                      <FontAwesomeIcon
+                        icon={faSwimmingPool}
+                        className="mr-1.5 -ml-0.5"
+                      />
+                      Talent pool
+                    </Link>
+                  </Menu.Item>
 
-                <Menu.Item>
-                  <Link
-                    to="/admin/settings"
-                    className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                  >
-                    <FontAwesomeIcon icon={faCog} className="mr-3" />
-                    Settings
-                  </Link>
-                </Menu.Item>
-              </div>
+                  <Menu.Item>
+                    <Link
+                      to="/admin/settings"
+                      className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                    >
+                      <FontAwesomeIcon icon={faCog} className="mr-3" />
+                      Settings
+                    </Link>
+                  </Menu.Item>
+                </div>
+              </>
             )}
 
             <div className="px-3 py-3">
