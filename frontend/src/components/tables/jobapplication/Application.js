@@ -256,10 +256,10 @@ const ApplicationTile = (props) => {
               {application.jobApplicant.skills.map((tag, index) => (
                 <div
                   key={index}
-                  class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                  className="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
                 >
-                  <span class="">{tag}</span>
+                  <span className="">{tag}</span>
                 </div>
               ))}
             </div>

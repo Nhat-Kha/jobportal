@@ -2,7 +2,7 @@ import ReferralsTable from "components/tables/ReferralsTable";
 import { useState, useEffect, useContext, useRef } from "react";
 import NoReferrals from "components/emptyStates/NoReferrals";
 import { userType } from "libs/isAuth";
-import apiList from "libs/apiList";
+import apiList from "../../libs/apiList";
 import axios from "axios";
 import { SetPopupContext } from "App";
 import { getId } from "libs/isAuth";
@@ -19,8 +19,6 @@ export default function Referrals() {
   }, [setPopup]);
 
   useEffect(() => {
-    console.log("data: ", apiList.applications);
-
     axios
       .get(apiList.applications, {
         headers: {
@@ -44,6 +42,8 @@ export default function Referrals() {
 
   const filteredReferrals = referrals.filter((obj) => obj.userId === UserId);
 
+  console.log(filteredReferrals);
+
   if (type === "none") {
     return <NoReferrals />;
   }
@@ -60,7 +60,7 @@ export default function Referrals() {
         </h2>
 
         <div className="md:block hidden">
-          <ReferralsTable referrals={referrals} />
+          <ReferralsTable referrals={filteredReferrals} />
         </div>
 
         {/* <div className="block md:hidden pt-8">

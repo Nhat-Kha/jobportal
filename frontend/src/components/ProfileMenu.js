@@ -78,7 +78,7 @@ export default function ProfileMenu() {
           <Menu.Items className="absolute right-0 w-56 mt-8 z-50 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             {type === "applicant" ? (
               <>
-                <div className="p-3 flex">
+                <div className="p-3 flex bg-slate-200">
                   <Menu.Item>
                     <span className="flex items-center justify-center text-left p-2  text-lg font-normal text-gray-900">
                       {user.name}
@@ -87,7 +87,7 @@ export default function ProfileMenu() {
                   <Menu.Item>
                     <div className="flex items-center justify-center gap-1">
                       <div
-                        class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                        className="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
                       >
                         <span>Applicant</span>
@@ -119,7 +119,7 @@ export default function ProfileMenu() {
               </>
             ) : (
               <>
-                <div className="p-3 flex">
+                <div className="p-3 flex bg-slate-200">
                   <Menu.Item>
                     <span className="flex items-center justify-center text-left p-2  text-lg font-normal text-gray-900">
                       {user.name}
