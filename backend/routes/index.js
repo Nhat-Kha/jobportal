@@ -7,10 +7,6 @@ const uploadRouter = require("./upload");
 const downloadRouter = require("./download");
 const applicantRouter = require("./applicant");
 
-/**
- *
- * @param {*} app
- */
 const initRouter = (app) => {
   app.use("/api/auth", authRouter);
   app.use("/api/user", userRouter);
