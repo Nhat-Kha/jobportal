@@ -19,10 +19,10 @@ let schema = new mongoose.Schema(
         msg: "Phone number is invalid!",
       },
     },
-    profile: {
+    bio: {
       type: String,
     },
-    bio: {
+    profile: {
       type: String,
     },
     banner: {

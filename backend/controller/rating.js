@@ -7,194 +7,74 @@ const Job = require("../model/job");
 const addRating = async (req, res) => {
   const user = req.user;
   const data = req.body;
-  console.log("Authenticated User:", user);
-  console.log("Request Data:", data);
+  const isRecruiter = user.type === "recruiter";
 
   try {
-    if (user.type === "recruiter") {
-      // Logic for recruiter rating
-      const rating = await Rating.findOne({
-        senderId: user._id,
-        receiverId: new mongoose.Types.ObjectId(data.applicantId),
-        category: "applicant",
+    let rating = await Rating.findOne({
+      senderId: user._id,
+      receiverId: isRecruiter ? data.applicantId : data.jobId,
+      category: isRecruiter ? "applicant" : "job",
+    });
+
+    if (!rating) {
+      const queryCriteria = isRecruiter
+        ? { userId: data.applicantId, recruiterId: user._id }
+        : { userId: user._id, jobId: data.jobId };
+
+      const acceptedApplicant = await Application.countDocuments({
+        ...queryCriteria,
+        status: { $in: ["accepted", "finished"] },
       });
 
-      if (!rating) {
-        const acceptedApplicant = await Application.countDocuments({
-          userId: new mongoose.Types.ObjectId(data.applicantId),
-          recruiterId: user._id,
-          status: { $in: ["accepted", "finished"] },
+      if (acceptedApplicant === 0) {
+        return res.status(400).json({
+          message: isRecruiter
+            ? "Applicant didn't work under you. Hence you cannot give a rating."
+            : "You haven't worked for this job. Hence you cannot give a rating.",
         });
-
-        if (acceptedApplicant > 0) {
-          const newRating = new Rating({
-            category: "applicant",
-            receiverId: new mongoose.Types.ObjectId(data.applicantId),
-            senderId: user._id,
-            rating: data.rating,
-          });
-
-          await newRating.save();
-
-          const result = await Rating.aggregate([
-            {
-              $match: {
-                receiverId: new mongoose.Types.ObjectId(data.applicantId),
-                category: "applicant",
-              },
-            },
-            {
-              $group: {
-                _id: {},
-                average: { $avg: "$rating" },
-              },
-            },
-          ]);
-
-          if (!result || result.length === 0) {
-            throw new Error("Error while calculating rating");
-          }
-
-          const avg = result[0].average;
-
-          await JobApplicant.findOneAndUpdate(
-            { userId: mongoose.Types.ObjectId(data.applicantId) },
-            { $set: { rating: avg } }
-          );
-
-          return res.json({ message: "Rating added successfully" });
-        } else {
-          return res.status(400).json({
-            message:
-              "Applicant didn't work under you. Hence you cannot give a rating.",
-          });
-        }
-      } else {
-        rating.rating = data.rating;
-        await rating.save();
-
-        const result = await Rating.aggregate([
-          {
-            $match: {
-              receiverId: new mongoose.Types.ObjectId(data.applicantId),
-              category: "applicant",
-            },
-          },
-          {
-            $group: {
-              _id: {},
-              average: { $avg: "$rating" },
-            },
-          },
-        ]);
-
-        if (!result || result.length === 0) {
-          throw new Error("Error while calculating rating");
-        }
-
-        const avg = result[0].average;
-
-        await JobApplicant.findOneAndUpdate(
-          { userId: mongoose.Types.ObjectId(data.applicantId) },
-          { $set: { rating: avg } }
-        );
-
-        return res.json({ message: "Rating updated successfully" });
       }
+
+      // Create new rating
+      rating = new Rating({
+        category: isRecruiter ? "applicant" : "job",
+        receiverId: isRecruiter ? data.applicantId : data.jobId,
+        senderId: user._id,
+        rating: data.rating,
+      });
+
+      await rating.save();
     } else {
-      // Logic for applicant rating
-      const rating = await Rating.findOne({
-        senderId: user._id,
-        receiverId: new mongoose.Types.ObjectId(data.jobId),
-        category: "job",
-      });
-
-      if (!rating) {
-        const acceptedApplicationCount = await Application.countDocuments({
-          userId: user._id,
-          jobId: new mongoose.Types.ObjectId(data.jobId),
-          status: { $in: ["accepted", "finished"] },
-        });
-
-        if (acceptedApplicationCount > 0) {
-          const newRating = new Rating({
-            category: "job",
-            receiverId: new mongoose.Types.ObjectId(data.jobId),
-            senderId: user._id,
-            rating: data.rating,
-          });
-
-          await newRating.save();
-
-          const result = await Rating.aggregate([
-            {
-              $match: {
-                receiverId: new mongoose.Types.ObjectId(data.jobId),
-                category: "job",
-              },
-            },
-            {
-              $group: {
-                _id: {},
-                average: { $avg: "$rating" },
-              },
-            },
-          ]);
-
-          if (!result || result.length === 0) {
-            throw new Error("Error while calculating rating");
-          }
-
-          const avgRating = result[0].average;
-
-          await Job.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(data.jobId) },
-            { $set: { rating: avgRating } }
-          );
-
-          return res.json({ message: "Rating added successfully" });
-        } else {
-          return res.status(400).json({
-            message:
-              "You haven't worked for this job. Hence you cannot give a rating.",
-          });
-        }
-      } else {
-        rating.rating = data.rating;
-        await rating.save();
-
-        const result = await Rating.aggregate([
-          {
-            $match: {
-              receiverId: new mongoose.Types.ObjectId(data.jobId),
-              category: "job",
-            },
-          },
-          {
-            $group: {
-              _id: {},
-              average: { $avg: "$rating" },
-            },
-          },
-        ]);
-
-        if (!result || result.length === 0) {
-          throw new Error("Error while calculating rating");
-        }
-
-        const avgRating = result[0].average;
-
-        await Job.findOneAndUpdate(
-          { _id: new mongoose.Types.ObjectId(data.jobId) },
-          { $set: { rating: avgRating } }
-        );
-
-        return res.json({ message: "Rating updated successfully" });
-      }
+      // Update existing rating
+      rating.rating = data.rating;
+      await rating.save();
     }
-  } catch (err) {
-    console.error("Error:", err);
-    return res.status(500).json({ message: "Internal Server Error" });
+
+    // Calculate and update average rating
+    const aggregatePipeline = [
+      {
+        $match: {
+          receiverId: new mongoose.Types.ObjectId(rating.receiverId),
+          category: rating.category,
+        },
+      },
+      { $group: { _id: null, average: { $avg: "$rating" } } },
+    ];
+
+    const result = await Rating.aggregate(aggregatePipeline);
+    const avg = result[0]?.average || 0;
+
+    if (isRecruiter) {
+      await JobApplicant.updateOne(
+        { userId: rating.receiverId },
+        { rating: avg }
+      );
+    } else {
+      await Job.updateOne({ _id: rating.receiverId }, { rating: avg });
+    }
+
+    res.json({ message: "Rating added successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
