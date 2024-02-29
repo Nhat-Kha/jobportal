@@ -88,7 +88,6 @@ export default function InfoRecruiter() {
 
   useEffect(() => {
     let address = apiList.user;
-    console.log(`${address}/${id}`);
     axios
       .get(`${address}/${id}`)
       .then((response) => {
@@ -109,7 +108,6 @@ export default function InfoRecruiter() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log(response.data);
         setJobs(response.data);
       } catch (err) {
         console.log(err);

@@ -151,7 +151,6 @@ export default function JobBoard({ title, props }) {
         },
       })
       .then((response) => {
-        console.log(response.data);
         const newData = response.data.filter((job) => {
           const normalizedTitle = normalizeText(job.title);
           const normalizedQuery = normalizeText(searchOptions.query);

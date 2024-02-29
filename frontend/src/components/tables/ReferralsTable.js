@@ -103,7 +103,6 @@ export default function ReferralsTable(props) {
       fetchRating();
       setOpen(false);
     } catch (err) {
-      console.log(err.response);
       setPopup({
         open: true,
         icon: "error",
@@ -188,7 +187,6 @@ export default function ReferralsTable(props) {
                                       setSelectedReferral(obj);
                                       fetchRating(obj);
                                       setOpen(true);
-                                      console.log("id before: ", obj.jobId);
                                     }}
                                   >
                                     Rate Job
@@ -248,8 +246,6 @@ export default function ReferralsTable(props) {
             value={rating === -1 ? null : rating}
             onChange={(newValue) => {
               setRating(newValue);
-              console.log(newValue);
-              console.log("id : ", selectedReferral?.jobId);
             }}
           />
           <Modal.Footer className="bg-gray-200 rounded-b-2xl">
@@ -259,7 +255,6 @@ export default function ReferralsTable(props) {
               style={{ padding: "10px 50px" }}
               onClick={() => {
                 changeRating(selectedReferral?.jobId);
-                console.log("id after: ", selectedReferral?.jobId);
               }}
             >
               Submit

@@ -32,8 +32,6 @@ const Myjob = (props, index) => {
     setSop("");
   };
 
-  console.log(job);
-
   const userApply = () => {
     return (
       (job && job.status === "accepted") || (job && job.status === "finished")
@@ -127,8 +125,6 @@ const Myjob = (props, index) => {
       });
     }
   }, [job]);
-
-  console.log(recruiters);
 
   const deadline = new Date(job.deadline).toLocaleDateString();
   return (

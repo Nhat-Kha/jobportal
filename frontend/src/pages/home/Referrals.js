@@ -30,7 +30,6 @@ export default function Referrals() {
         },
       })
       .then((response) => {
-        console.log(response.data.applications);
         setReferrals(response.data.applications);
       })
       .catch((err) => {

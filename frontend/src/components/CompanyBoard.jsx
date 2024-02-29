@@ -14,7 +14,6 @@ export default function CompanyBoard() {
     axios
       .get(recruiter)
       .then((response) => {
-        console.log(response?.data.allUser);
         setCompanies(response?.data.allUser);
       })
       .catch((err) => {
