@@ -54,32 +54,34 @@ export default function LeaderboardTable({ user }) {
 
         <tbody className="divide-y divide-gray-300 divide-dashed">
           {user && Object.keys(user) && user.length > 0 ? (
-            user.map((User, id) => (
-              <tr key={id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
-                  <strong>{generateIcon(id + 1)}</strong>
-                </td>
+            user
+              .sort((a, b) => b.rating - a.rating)
+              .map((User, id) => (
+                <tr key={id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900">
+                    <strong>{generateIcon(id + 1)}</strong>
+                  </td>
 
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <Link to={`/jobs/${User._id}`}>
-                    <div className="flex items-center ">
-                      <div>
-                        <div className="text-sm font-bold text-gray-900">
-                          {User.title}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <Link to={`/jobs/${User._id}`}>
+                      <div className="flex items-center ">
+                        <div>
+                          <div className="text-sm font-bold text-gray-900">
+                            {User.title}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </td>
+                    </Link>
+                  </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <Rating
-                    value={User.rating !== -1 ? User.rating : null}
-                    readonly
-                  />{" "}
-                </td>
-              </tr>
-            ))
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Rating
+                      value={User.rating !== -1 ? User.rating : null}
+                      readonly
+                    />{" "}
+                  </td>
+                </tr>
+              ))
           ) : (
             <p>No data available</p>
           )}

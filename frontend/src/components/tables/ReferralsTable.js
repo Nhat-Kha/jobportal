@@ -6,18 +6,27 @@ import { Link } from "react-router-dom";
 import { Rating, Typography } from "@material-tailwind/react";
 import { Button, Modal } from "flowbite-react";
 import { getId } from "libs/isAuth";
+import { computeHeadingLevel } from "@testing-library/react";
 
 const th = ["Title", "Name", "job type", "Status", "Day apply and join"];
 
-export default function ReferralsTable({ referrals }) {
+export default function ReferralsTable(props) {
   const setPopup = useContext(SetPopupContext);
-  const [rating, setRating] = useState(
-    referrals?.job?.rating !== undefined ? referrals.job.rating : -1
-  );
-
-  const [open, setOpen] = useState(false);
-
   const UserId = getId();
+  const { referrals } = props;
+  const [rating, setRating] = useState(-1);
+  const [open, setOpen] = useState(false);
+  const [selectedReferral, setSelectedReferral] = useState(null);
+
+  useEffect(() => {
+    const newRatings = referrals.map((referral) => referral.job.rating);
+    if (newRatings.some((rating) => rating != null)) {
+      const firstNonNullRating = newRatings.find((rating) => rating != null);
+      setRating(firstNonNullRating);
+    }
+  }, [referrals]);
+
+  console.log("rating first: ", rating);
 
   const appliedOn =
     referrals.length > 0 ? new Date(referrals[0].dateOfApplication) : null;
@@ -36,10 +45,10 @@ export default function ReferralsTable({ referrals }) {
   };
 
   const fetchRating = async (referral) => {
-    if (referral && referral._id) {
+    if (referral && referral.job._id) {
       try {
         const response = await axios.get(
-          `${apiList.rating}?id=${referral._id}`,
+          `${apiList.rating}?id=${referral.job._id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -49,11 +58,12 @@ export default function ReferralsTable({ referrals }) {
 
         const fetchedRating = response.data.rating;
 
-        const index = referrals.findIndex((item) => item._id === referral._id);
+        const index = referrals.findIndex(
+          (item) => item._id === referral.job._id
+        );
         if (index !== -1) {
           referrals[index].rating = fetchedRating;
           setRating(fetchedRating);
-          console.log("Rating updated:", fetchedRating);
         }
       } catch (err) {
         console.log(err);
@@ -66,16 +76,15 @@ export default function ReferralsTable({ referrals }) {
     }
   };
 
-  const changeRating = async () => {
+  const changeRating = async (jobId) => {
+    console.log("job id: ", jobId);
     try {
       if (referrals.length === 0) {
         console.log("No referrals found");
         return;
       }
 
-      const jobId = referrals[0].jobId; // Lấy jobId từ referrals
-
-      const response = await axios.put(
+      await axios.put(
         apiList.rating,
         { rating: rating, jobId: jobId },
         {
@@ -85,25 +94,21 @@ export default function ReferralsTable({ referrals }) {
         }
       );
 
-      console.log(response.data);
       setPopup({
         open: true,
         icon: "success",
         message: "Rating updated successfully",
       });
 
-      // Sau khi cập nhật rating thành công, cần fetch lại rating
-      fetchRating(referrals[0]);
+      fetchRating();
       setOpen(false);
-      setRating(0); // Reset rating về 0 sau khi đã submit
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
       setPopup({
         open: true,
         icon: "error",
-        message: err.response,
+        message: err.response.data.message,
       });
-      fetchRating(referrals[0]);
       setOpen(false);
     }
   };
@@ -111,10 +116,6 @@ export default function ReferralsTable({ referrals }) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    console.log("Rating updated:", rating);
-  }, [rating]);
 
   return (
     <>
@@ -136,9 +137,9 @@ export default function ReferralsTable({ referrals }) {
             <tbody className="divide-y divide-gray-300 divide-dashed">
               {referrals && referrals.length > 0 ? (
                 <>
-                  {referrals.map(
-                    (obj, index) =>
-                      obj.userId === UserId && (
+                  {referrals.map((obj, index) => {
+                    if (obj.userId === UserId) {
+                      return (
                         <React.Fragment key={index}>
                           <tr>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -184,8 +185,10 @@ export default function ReferralsTable({ referrals }) {
                                     color="primary"
                                     className="w-full h-full flex items-center justify-center uppercase"
                                     onClick={() => {
+                                      setSelectedReferral(obj);
                                       fetchRating(obj);
                                       setOpen(true);
+                                      console.log("id before: ", obj.jobId);
                                     }}
                                   >
                                     Rate Job
@@ -205,48 +208,10 @@ export default function ReferralsTable({ referrals }) {
                               ) : null}
                             </td>
                           </tr>
-                          <Modal
-                            show={open}
-                            onClose={handleClose}
-                            className="h-full flex items-center justify-center"
-                          >
-                            <Modal.Header className="bg-gray-200 border-none rounded-t-2xl">
-                              Select
-                            </Modal.Header>
-                            <div
-                              style={{
-                                padding: "20px",
-                                outline: "none",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                minWidth: "30%",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Rating
-                                name="simple-controlled"
-                                style={{ marginBottom: "30px" }}
-                                value={rating === -1 ? null : rating}
-                                onChange={(event, newValue) => {
-                                  setRating(newValue);
-                                }}
-                              />
-                              <Modal.Footer className="bg-gray-200 rounded-b-2xl">
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  style={{ padding: "10px 50px" }}
-                                  onClick={() => changeRating()}
-                                >
-                                  Submit
-                                </Button>
-                              </Modal.Footer>
-                            </div>
-                          </Modal>
                         </React.Fragment>
-                      )
-                  )}
+                      );
+                    }
+                  })}
                 </>
               ) : (
                 <Typography style={{ textAlign: "center" }}>
@@ -257,6 +222,51 @@ export default function ReferralsTable({ referrals }) {
           </table>
         </div>
       </div>
+
+      <Modal
+        show={open}
+        onClose={handleClose}
+        className="h-full flex items-center justify-center"
+      >
+        <Modal.Header className="bg-gray-200 border-none rounded-t-2xl">
+          Select
+        </Modal.Header>
+        <div
+          style={{
+            padding: "20px",
+            outline: "none",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            minWidth: "30%",
+            alignItems: "center",
+          }}
+        >
+          <Rating
+            name="simple-controlled"
+            style={{ marginBottom: "30px" }}
+            value={rating === -1 ? null : rating}
+            onChange={(newValue) => {
+              setRating(newValue);
+              console.log(newValue);
+              console.log("id : ", selectedReferral?.jobId);
+            }}
+          />
+          <Modal.Footer className="bg-gray-200 rounded-b-2xl">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ padding: "10px 50px" }}
+              onClick={() => {
+                changeRating(selectedReferral?.jobId);
+                console.log("id after: ", selectedReferral?.jobId);
+              }}
+            >
+              Submit
+            </Button>
+          </Modal.Footer>
+        </div>
+      </Modal>
     </>
   );
 }

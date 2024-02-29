@@ -19,6 +19,10 @@ export default function Referrals() {
   }, [setPopup]);
 
   useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
     axios
       .get(apiList.applications, {
         headers: {
@@ -32,16 +36,15 @@ export default function Referrals() {
       .catch((err) => {
         // console.log(err.response);
         console.log(err.response.data);
-        setPopupRef.current({
+        setPopup({
           open: true,
-          icon: "error",
+          severity: "error",
           message: "Error",
         });
       });
-  }, []);
+  };
 
   const filteredReferrals = referrals.filter((obj) => obj.userId === UserId);
-
   console.log(filteredReferrals);
 
   if (type === "none") {
@@ -60,7 +63,9 @@ export default function Referrals() {
         </h2>
 
         <div className="md:block hidden">
-          <ReferralsTable referrals={filteredReferrals} />
+          {referrals.length > 0 ? (
+            <ReferralsTable referrals={filteredReferrals} />
+          ) : null}
         </div>
 
         {/* <div className="block md:hidden pt-8">
