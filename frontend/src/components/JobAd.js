@@ -3,12 +3,9 @@ import icon from "assets/icon.jpg";
 import { Rating } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getId } from "libs/isAuth";
-import { useParams } from "react-router-dom";
 import apiList from "libs/apiList";
 export default function JobAd({ job, tags, about, edit }) {
   const [recruiters, setRecruiters] = useState([]);
-  const [recruiter, setRecruiter] = useState([]);
 
   useEffect(() => {
     if (about) {
