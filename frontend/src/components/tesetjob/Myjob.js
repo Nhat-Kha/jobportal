@@ -66,7 +66,7 @@ const Myjob = (props, index) => {
         }
       )
       .then((response) => {
-        history(`/jobs/${job._id}/refer`);
+        // history(`/jobs/${job._id}/refer`);
         setPopup({
           open: true,
           icon: "success",
@@ -173,6 +173,18 @@ const Myjob = (props, index) => {
             </span>
           </span>
         </p>
+        <p className="pl-1">
+          <FontAwesomeIcon
+            icon={faMapMarkerAlt}
+            className="text-xl text-red-500 mr-3.5 ml-1"
+          />
+          <span className="text-base font-semibold tracking-wide">
+            Location:{" "}
+            <span className="font-medium text-xl">
+              {job.location !== 0 ? `${job.location}` : null}
+            </span>
+          </span>
+        </p>
 
         <p className="pl-1">
           <FontAwesomeIcon
@@ -207,7 +219,7 @@ const Myjob = (props, index) => {
           </span>
         </p>
         <div className="flex items-baseline">
-          {job.skillsets && job.skillsets.length > 0 ? (
+          {job.skillsets && job.skillsets.length >= 0 ? (
             <>
               <FontAwesomeIcon
                 icon={faAward}

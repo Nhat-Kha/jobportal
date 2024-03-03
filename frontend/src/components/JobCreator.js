@@ -66,6 +66,7 @@ export default function JobCreator({ jobToEdit, props }) {
       skillsets: [],
       duration: 0,
       jobType: "Full Time",
+      location: "",
       status: "Open",
       description: "",
     }
@@ -80,7 +81,7 @@ export default function JobCreator({ jobToEdit, props }) {
     job.skillsets.length > 0 &&
     job.duration.length > 0 &&
     job.jobType.length > 0 &&
-    job.jobType.length > 0 &&
+    job.locations.length > 0 &&
     job.description.length > 0;
 
   const modules = {
@@ -211,6 +212,19 @@ export default function JobCreator({ jobToEdit, props }) {
             setJob({
               ...job,
               maxApplicants: e.target.value,
+            });
+          }}
+        />
+        <InputField
+          className="mt-8 hover:border-black"
+          type="text"
+          label="location"
+          placeholder="25 000"
+          value={job.jobType}
+          onChange={(e) => {
+            setJob({
+              ...job,
+              jobType: e.target.value,
             });
           }}
         />

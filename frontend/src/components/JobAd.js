@@ -31,6 +31,10 @@ export default function JobAd({ job, tags, about, edit }) {
 
   //   });
   // }, []);
+  const deadline =
+    about && about.deadline
+      ? new Date(about.deadline).toLocaleDateString()
+      : "";
 
   return (
     <>
@@ -91,6 +95,10 @@ export default function JobAd({ job, tags, about, edit }) {
               <tr>
                 <td className="text-bold">maxPositions</td>
                 <td className="text-right">{job.maxPositions || ""}</td>
+              </tr>
+              <tr>
+                <td className="text-bold">Location: </td>
+                <td className="text-right">{job.location || ""}</td>
               </tr>
             </tbody>
           </table>
@@ -160,6 +168,10 @@ export default function JobAd({ job, tags, about, edit }) {
                 <td className="text-bold">maxPositions</td>
                 <td className="text-right">{edit.maxPositions || ""}</td>
               </tr>
+              <tr>
+                <td className="text-bold">Location: </td>
+                <td className="text-right">{edit.location || ""}</td>
+              </tr>
             </tbody>
           </table>
           <div className="my-8">
@@ -210,7 +222,7 @@ export default function JobAd({ job, tags, about, edit }) {
                 </tr>
                 <tr>
                   <td className="text-bold">deadline</td>
-                  <td className="text-right">{about.deadline || ""}</td>
+                  <td className="text-right">{deadline || ""}</td>
                 </tr>
                 <tr>
                   <td className="text-bold">maxApplicants</td>
@@ -236,6 +248,10 @@ export default function JobAd({ job, tags, about, edit }) {
                       ))}
                     </div>
                   </td>
+                </tr>
+                <tr>
+                  <td className="text-bold">Location: </td>
+                  <td className="text-right">{about.location || ""}</td>
                 </tr>
               </tbody>
             </table>

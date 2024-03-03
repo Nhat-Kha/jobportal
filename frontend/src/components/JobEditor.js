@@ -52,6 +52,7 @@ export default function JobEditor({ jobToEdit, props }) {
       jobType: "Full Time",
       status: "Open",
       description: "",
+      locations: "",
     }
   );
   const [jobDetails, setJobDetails] = useState(job);
@@ -236,6 +237,19 @@ export default function JobEditor({ jobToEdit, props }) {
               setJobs({
                 ...jobs,
                 duration: e.target.value,
+              });
+            }}
+          />
+          <InputField
+            className="mt-8 hover:border-black"
+            type="text"
+            label="location"
+            placeholder="TP.Ho Chi Minh"
+            value={jobs.location}
+            onChange={(e) => {
+              setJobs({
+                ...jobs,
+                location: e.target.value,
               });
             }}
           />
