@@ -23,6 +23,7 @@
     - home/
     - landingPage/
   - utils/
+  - libs/apiList
 - README.md
 
 # Features
