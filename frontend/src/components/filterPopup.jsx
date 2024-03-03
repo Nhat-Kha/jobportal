@@ -11,7 +11,11 @@ import { Button, List, ListItem, Modal } from "flowbite-react";
 import { useState } from "react";
 import MultiRangeSlider from "./MultiRangeSlider/MultiRangeSlider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowDown,
+  faArrowUp,
+  faFilter,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function FilterPopup(props) {
   const {
@@ -34,11 +38,11 @@ export default function FilterPopup(props) {
     <>
       <Button
         onClick={() => setOpenModal(true)}
-        className="bg-white border-gray-500"
+        className="flex items-center bg-white border-gray-500"
         variant="gradient"
       >
         <FontAwesomeIcon icon={faFilter} className="text-black" />
-        <span className="text-black">Filter</span>
+        <span className="text-black ml-2">Filter</span>
       </Button>
       <Modal
         show={openModal}
@@ -49,9 +53,9 @@ export default function FilterPopup(props) {
           Select
         </Modal.Header>
         <Modal.Body className="bg-gray-100">
-          <div className=" grid grid-rows-3 space-y-6">
+          <div className="grid grid-rows-3 space-y-6">
             <div className="flex flex-rows justify-around items-center">
-              <p className="flex justify-start">Job Type</p>
+              <p className="flex justify-center">Job Type</p>
               <div className="flex gap-4 w-3/4">
                 <label
                   htmlFor="horizontal-list-react"
@@ -76,13 +80,13 @@ export default function FilterPopup(props) {
                   <ListItemPrefix className="mr-2">
                     <input
                       type="checkbox"
-                      id="fullTimeCheckbox"
+                      id="partTimeCheckbox"
                       checked={searchOptions.jobType.partTime}
                       onChange={() => {
                         handleJobTypeChange("partTime");
                       }}
                     />
-                    <label htmlFor="fullTimeCheckbox">Part time</label>
+                    <label htmlFor="partTimeCheckbox">Part time</label>
                   </ListItemPrefix>
                 </label>
                 <label
@@ -92,13 +96,13 @@ export default function FilterPopup(props) {
                   <ListItemPrefix className="mr-2">
                     <input
                       type="checkbox"
-                      id="fullTimeCheckbox"
+                      id="wfhCheckbox"
                       checked={searchOptions.jobType.wfh}
                       onChange={() => {
                         handleJobTypeChange("wfh");
                       }}
                     />
-                    <label htmlFor="fullTimeCheckbox">Full time</label>
+                    <label htmlFor="wfhCheckbox">Work at home</label>
                   </ListItemPrefix>
                 </label>
               </div>
@@ -106,35 +110,40 @@ export default function FilterPopup(props) {
             <div className="flex flex-rows justify-around items-center">
               <p className="flex justify-start">Salary</p>
               <div className="w-96">
-                {/* <input
-                  type="range"
-                  value={values[0]}
-                  onChange={changeWidth}
-                  min={1}
-                  max={400}
-                  className="w-96"
-                />
-                <input
-                  type="range"
-                  value={values}
-                  onChange={changeWidth}
-                  min={1}
-                  max={400}
-                  className="w-96"
-                />
-                <div>Start:{values}</div>
-                <div>Start:{values}</div> */}
-                {/* <MultiRangeSlider
-                  min={0}
-                  max={10000}
-                  value={searchOptions.salary}
-                  onChange={(event, value, min, max) =>
-                    setSearchOptions({
-                      ...searchOptions,
-                      salary: value,
-                    })
-                  }
-                /> */}
+                <div className="w-full">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={searchOptions.salary[0]}
+                    step="1"
+                    onChange={(event) =>
+                      setSearchOptions({
+                        ...searchOptions,
+                        salary: [event.target.value, searchOptions.salary[1]],
+                      })
+                    }
+                    className="slider"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={searchOptions.salary[1]}
+                    step="1"
+                    onChange={(event) =>
+                      setSearchOptions({
+                        ...searchOptions,
+                        salary: [searchOptions.salary[0], event.target.value],
+                      })
+                    }
+                    className="slider"
+                  />
+                  <output className="text-sm text-gray-500">
+                    {searchOptions.salary[0] * (100000 / 100)} -{" "}
+                    {searchOptions.salary[1] * (100000 / 100)}
+                  </output>
+                </div>
               </div>
             </div>
             <div className="flex flex-rows justify-around items-center">
@@ -177,9 +186,152 @@ export default function FilterPopup(props) {
                 </select>
               </div>
             </div>
+            <div className=" grid-cols-3 flex flex-rows justify-around items-center">
+              <div className="flex justify-start">Sort</div>
+              <div className="col-span-3 md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border border-gray-300 rounded p-2 flex items-center justify-center">
+                  <input
+                    type="checkbox"
+                    name="salary"
+                    checked={searchOptions.sort.salary.status}
+                    onChange={(event) =>
+                      setSearchOptions({
+                        ...searchOptions,
+                        sort: {
+                          ...searchOptions.sort,
+                          salary: {
+                            ...searchOptions.sort.salary,
+                            status: event.target.checked,
+                          },
+                        },
+                      })
+                    }
+                    id="salary"
+                    className="mr-2"
+                  />
+                  <label htmlFor="salary" className="cursor-pointer">
+                    Salary
+                  </label>
+                  <button
+                    disabled={!searchOptions.sort.salary.status}
+                    onClick={() => {
+                      setSearchOptions({
+                        ...searchOptions,
+                        sort: {
+                          ...searchOptions.sort,
+                          salary: {
+                            ...searchOptions.sort.salary,
+                            desc: !searchOptions.sort.salary.desc,
+                          },
+                        },
+                      });
+                    }}
+                    className="ml-1"
+                  >
+                    {searchOptions.sort.salary.desc ? (
+                      <FontAwesomeIcon icon={faArrowDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faArrowUp} />
+                    )}
+                  </button>
+                </div>
+                <div className="border border-gray-300 rounded p-2 flex items-center justify-center">
+                  <input
+                    type="checkbox"
+                    name="duration"
+                    checked={searchOptions.sort.duration.status}
+                    onChange={(event) =>
+                      setSearchOptions({
+                        ...searchOptions,
+                        sort: {
+                          ...searchOptions.sort,
+                          duration: {
+                            ...searchOptions.sort.duration,
+                            status: event.target.checked,
+                          },
+                        },
+                      })
+                    }
+                    id="duration"
+                    className="mr-2"
+                  />
+                  <label htmlFor="duration" className="cursor-pointer">
+                    Duration
+                  </label>
+                  <button
+                    disabled={!searchOptions.sort.duration.status}
+                    onClick={() => {
+                      setSearchOptions({
+                        ...searchOptions,
+                        sort: {
+                          ...searchOptions.sort,
+                          duration: {
+                            ...searchOptions.sort.duration,
+                            desc: !searchOptions.sort.duration.desc,
+                          },
+                        },
+                      });
+                    }}
+                    className="ml-2"
+                  >
+                    {searchOptions.sort.duration.desc ? (
+                      <FontAwesomeIcon icon={faArrowDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faArrowUp} />
+                    )}
+                  </button>
+                </div>
+                <div className="border border-gray-300 rounded p-2 flex items-center justify-center">
+                  <input
+                    type="checkbox"
+                    name="rating"
+                    checked={searchOptions.sort.rating.status}
+                    onChange={(event) =>
+                      setSearchOptions({
+                        ...searchOptions,
+                        sort: {
+                          ...searchOptions.sort,
+                          rating: {
+                            ...searchOptions.sort.rating,
+                            status: event.target.checked,
+                          },
+                        },
+                      })
+                    }
+                    id="rating"
+                    className="mr-2"
+                  />
+                  <label htmlFor="rating" className="cursor-pointer">
+                    Rating
+                  </label>
+                  <button
+                    disabled={!searchOptions.sort.rating.status}
+                    onClick={() => {
+                      setSearchOptions({
+                        ...searchOptions,
+                        sort: {
+                          ...searchOptions.sort,
+                          rating: {
+                            ...searchOptions.sort.rating,
+                            desc: !searchOptions.sort.rating.desc,
+                          },
+                        },
+                      });
+                    }}
+                    className="ml-1"
+                  >
+                    {searchOptions.sort.rating.desc ? (
+                      <FontAwesomeIcon icon={faArrowDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faArrowUp} />
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </Modal.Body>
-        <Modal.Footer className="bg-gray-200 rounded-b-2xl">
+        <Modal.Footer className="bg-gray-200 rounded-b-2xl flex justify-end">
           <Button
             onClick={() => {
               getData();

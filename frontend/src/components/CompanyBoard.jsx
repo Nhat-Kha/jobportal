@@ -37,17 +37,14 @@ export default function CompanyBoard() {
           <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12">
             Recruiter
           </h1>
-          <div className="grid lg:grid-cols-3 md:gap-6 gap-10 grid-cols-1 ">
+          <div className="grid md:grid-cols-3 md:gap-6 gap-10 grid-cols-1 ">
             {companies.length > 0 ? (
               companies.map((company) => {
                 return <Recruiter recruiter={company} key={company.userId} />;
               })
             ) : (
               <div>
-                <h5
-                  className="flex justify-center items-center"
-                  // style={{ textAlign: "center" }}
-                >
+                <h5 className="flex justify-center items-center">
                   <Loader />
                 </h5>
               </div>
