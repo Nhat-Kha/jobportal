@@ -101,8 +101,6 @@ export default function Job(props) {
       });
   }, []);
 
-  // console.log(job.userId);
-
   return (
     <>
       <div className="lg:w-6/12 w-11/12 mx-auto md:mt-20 mt-10 pb-10">
