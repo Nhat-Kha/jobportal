@@ -231,7 +231,13 @@ export default function JobBoard({ title, props }) {
                 <FilterPopup
                   open={filterOpen}
                   searchOptions={searchOptions}
-                  setSearchOptions={setSearchOptions}
+                  setSearchOptions={(newSearchOptions) => {
+                    setSearchOptions(newSearchOptions);
+                    setSearchOptions({
+                      ...newSearchOptions,
+                      salary: newSearchOptions.salary,
+                    });
+                  }}
                   handleClose={() => setFilterOpen(false)}
                   getData={() => {
                     getData();
