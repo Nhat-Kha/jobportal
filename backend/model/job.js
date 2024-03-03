@@ -117,6 +117,10 @@ let schema = new mongoose.Schema(
         },
       ],
     },
+    location: {
+      type: String,
+      required: true,
+    },
     rating: {
       type: Number,
       max: 5.0,
