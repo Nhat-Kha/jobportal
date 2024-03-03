@@ -6,9 +6,15 @@ import { Link } from "react-router-dom";
 import { Rating, Typography } from "@material-tailwind/react";
 import { Button, Modal } from "flowbite-react";
 import { getId } from "libs/isAuth";
-import { computeHeadingLevel } from "@testing-library/react";
 
-const th = ["Title", "Name", "job type", "Status", "Day apply and join"];
+const th = [
+  "Title",
+  "Name",
+  "job type",
+  "Status",
+  "Day apply and join",
+  "rating",
+];
 
 export default function ReferralsTable(props) {
   const setPopup = useContext(SetPopupContext);
@@ -164,7 +170,7 @@ export default function ReferralsTable(props) {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                               {obj.job.jobType}
                             </td>
-                            <td className="w-[5.75rem] py-4 whitespace-nowrap text-sm text-gray-500 flex flex-col-reverse">
+                            <td className="w-[5.75rem] py-4 whitespace-nowrap text-sm text-gray-500 flex flex-col-reverse gap-y-1">
                               <div>
                                 <div
                                   className="w-full h-full flex items-center justify-center uppercase rounded-xl"
@@ -182,7 +188,7 @@ export default function ReferralsTable(props) {
                                   <button
                                     variant="contained"
                                     color="primary"
-                                    className="w-full h-full flex items-center justify-center uppercase"
+                                    className="w-full h-full flex items-center justify-center uppercase font-semibold"
                                     onClick={() => {
                                       setSelectedReferral(obj);
                                       fetchRating(obj);
@@ -192,7 +198,11 @@ export default function ReferralsTable(props) {
                                     Rate Job
                                   </button>
                                 </div>
-                              ) : null}
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center">
+                                  Job No Rate
+                                </div>
+                              )}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                               <div>
@@ -203,7 +213,25 @@ export default function ReferralsTable(props) {
                                 <div>
                                   Joined On: {joinedOn.toLocaleDateString()}
                                 </div>
-                              ) : null}
+                              ) : (
+                                <div>
+                                  <span className="font-semibold">
+                                    Job rejection
+                                  </span>
+                                </div>
+                              )}
+                            </td>
+                            <td>
+                              <div>
+                                <Rating
+                                  value={
+                                    obj.job.rating !== -1
+                                      ? obj.job.rating
+                                      : null
+                                  }
+                                  readonly
+                                />
+                              </div>
                             </td>
                           </tr>
                         </React.Fragment>
@@ -224,42 +252,45 @@ export default function ReferralsTable(props) {
       <Modal
         show={open}
         onClose={handleClose}
-        className="h-full flex items-center justify-center"
+        className="bg-overlay-70"
+        size="md"
       >
-        <Modal.Header className="bg-gray-200 border-none rounded-t-2xl">
-          Select
-        </Modal.Header>
-        <div
-          style={{
-            padding: "20px",
-            outline: "none",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            minWidth: "30%",
-            alignItems: "center",
-          }}
-        >
-          <Rating
-            name="simple-controlled"
-            style={{ marginBottom: "30px" }}
-            value={rating === -1 ? null : rating}
-            onChange={(newValue) => {
-              setRating(newValue);
-            }}
-          />
-          <Modal.Footer className="bg-gray-200 rounded-b-2xl">
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ padding: "10px 50px" }}
-              onClick={() => {
-                changeRating(selectedReferral?.jobId);
-              }}
-            >
-              Submit
-            </Button>
-          </Modal.Footer>
+        <div className="fixed w-[25%] top-[25%]">
+          <Modal.Header className="bg-slate-200 border-none rounded-t-2xl font-bold">
+            Select
+          </Modal.Header>
+          <div>
+            <Modal.Body className="bg-gray-100 p-5 outline-none flex flex-col justify-center min-w-[30%] items-center gap-4">
+              <div>
+                <span className="font-bold">Job name</span>:
+                <span className="font-semibold">
+                  {" "}
+                  {selectedReferral?.job?.title}
+                </span>
+              </div>
+              <Rating
+                name="simple-controlled"
+                value={rating === -1 ? null : rating}
+                onChange={(newValue) => {
+                  setRating(newValue);
+                }}
+                className="text-yellow-300 mb-[10px]"
+              />
+            </Modal.Body>
+            <Modal.Footer className="bg-gray-100 flex justify-center rounded-b-2xl">
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ padding: "10px 50px" }}
+                onClick={() => {
+                  changeRating(selectedReferral?.jobId);
+                }}
+                className="bg-gray-200 hover:bg-slate-300 transition duration-300"
+              >
+                <span className="font-semibold">Submit</span>
+              </Button>
+            </Modal.Footer>
+          </div>
         </div>
       </Modal>
     </>
