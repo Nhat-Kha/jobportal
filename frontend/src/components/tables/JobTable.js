@@ -87,7 +87,17 @@ export default function JobTable({ jobs }) {
       return "Today";
     } else if (daysAgo < 2) {
       return daysAgo + " day ago";
-    } else return daysAgo + " days ago";
+    } else if (daysAgo < 7) {
+      return daysAgo + " days ago";
+    } else if (daysAgo < 14) {
+      return "1 week ago";
+    } else if (daysAgo < 30) {
+      return Math.floor(daysAgo / 7) + " weeks ago";
+    } else if (daysAgo < 60) {
+      return "1 month ago";
+    } else {
+      return Math.floor(daysAgo / 30) + " months ago";
+    }
   }
 
   function time(input) {

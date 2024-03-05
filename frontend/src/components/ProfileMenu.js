@@ -117,7 +117,7 @@ export default function ProfileMenu() {
                   </Menu.Item>
                 </div>
               </>
-            ) : (
+            ) : type === "applicant" ? (
               <>
                 <div className="p-3 flex bg-slate-200">
                   <Menu.Item>
@@ -167,6 +167,40 @@ export default function ProfileMenu() {
                     >
                       <FontAwesomeIcon icon={faCog} className="mr-3" />
                       Settings
+                    </Link>
+                  </Menu.Item>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="p-3 flex bg-slate-200">
+                  <Menu.Item>
+                    <span className="flex items-center justify-center text-left p-2  text-lg font-normal text-gray-900">
+                      Admin
+                    </span>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <div className="flex items-center justify-center gap-1">
+                      <div
+                        class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                          bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                      >
+                        <span>Admin</span>
+                      </div>
+                    </div>
+                  </Menu.Item>
+                </div>
+                <div className="p-3">
+                  <Menu.Item>
+                    <Link
+                      to="/dashboard"
+                      className="flex items-center text-left p-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                    >
+                      <FontAwesomeIcon
+                        icon={faSwimmingPool}
+                        className="mr-1.5 -ml-0.5"
+                      />
+                      Dashboard
                     </Link>
                   </Menu.Item>
                 </div>

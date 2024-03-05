@@ -20,18 +20,30 @@ export default function JobAd({ job, tags, about, edit }) {
     }
   }, [about]);
 
-  // useEffect(() => {
-  //   axios.get(`${apiList.allRecruiter}`, {
-  //     headers: {
-  //     localStorage.getItem("id")}
-  //   }).then((response) => {
-
-  //   });
-  // }, []);
   const deadline =
     about && about.deadline
       ? new Date(about.deadline).toLocaleDateString()
       : "";
+
+  function calculateDays(date) {
+    let daysAgo = Math.floor((new Date() - date) / (1000 * 3600 * 24));
+
+    if (daysAgo < 1) {
+      return "Today";
+    } else if (daysAgo < 2) {
+      return daysAgo + " day ago";
+    } else if (daysAgo < 7) {
+      return daysAgo + " days ago";
+    } else if (daysAgo < 14) {
+      return "1 week ago";
+    } else if (daysAgo < 30) {
+      return Math.floor(daysAgo / 7) + " weeks ago";
+    } else if (daysAgo < 60) {
+      return "1 month ago";
+    } else {
+      return Math.floor(daysAgo / 30) + " months ago";
+    }
+  }
 
   return (
     <>
@@ -219,7 +231,9 @@ export default function JobAd({ job, tags, about, edit }) {
                 </tr>
                 <tr>
                   <td className="text-bold">deadline</td>
-                  <td className="text-right">{deadline || ""}</td>
+                  <td className="text-right">
+                    {calculateDays(new Date(about.dateOfPosting))}
+                  </td>
                 </tr>
                 <tr>
                   <td className="text-bold">maxApplicants</td>

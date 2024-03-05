@@ -33,6 +33,7 @@ import TalentPool from "pages/admin/TalentPool";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InfoRecruiter from "pages/landingPage/InfoRecruiter";
+import { Dashboard } from "pages/Admin1/Dashboard";
 
 export const SetPopupContext = createContext();
 
@@ -92,6 +93,12 @@ export default function App() {
             exact
             path="/sign-in/forgot-password"
             element={<ResetPassword />}
+          />
+          <Route
+            exact
+            path="/dashboard/*"
+            element={<Dashboard />}
+            type={type}
           />
           <Route exact path="/admin" element={<AdminJobs />} type={type} />
           <Route exact path="/admin/:id" element={<AdminJob />} type={type} />

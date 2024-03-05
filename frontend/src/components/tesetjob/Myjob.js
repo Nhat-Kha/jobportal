@@ -14,13 +14,11 @@ import React from "react";
 import { Rating } from "@material-tailwind/react";
 import apiList from "../../libs/apiList";
 import { SetPopupContext } from "App";
-import icon from "assets/icon.jpg";
 
 import { userType } from "libs/isAuth";
 
-const Myjob = (props, index) => {
+const Myjob = ({ job }, index) => {
   let history = useNavigate();
-  const { job } = props;
   const setPopup = useContext(SetPopupContext);
   const [open, setOpen] = useState(false);
   const [recruiters, setRecruiters] = useState([]);
@@ -121,7 +119,27 @@ const Myjob = (props, index) => {
 
   console.log(recruiters);
 
-  const deadline = new Date(job.deadline).toLocaleDateString();
+  // const deadline = new Date(job.deadline).toLocaleDateString();
+
+  function calculateDays(date) {
+    let daysAgo = Math.floor((new Date() - date) / (1000 * 3600 * 24));
+
+    if (daysAgo < 1) {
+      return "Today";
+    } else if (daysAgo < 2) {
+      return daysAgo + " day ago";
+    } else if (daysAgo < 7) {
+      return daysAgo + " days ago";
+    } else if (daysAgo < 14) {
+      return "1 week ago";
+    } else if (daysAgo < 30) {
+      return Math.floor(daysAgo / 7) + " weeks ago";
+    } else if (daysAgo < 60) {
+      return "1 month ago";
+    } else {
+      return Math.floor(daysAgo / 30) + " months ago";
+    }
+  }
   return (
     <div index={index}>
       <div
@@ -147,9 +165,11 @@ const Myjob = (props, index) => {
             </p>
           </div>
         </div>
-        <div className="pl-1 pb-1">
-          <Rating value={job.rating !== -1 ? job.rating : null} readonly />
-        </div>
+        {job.rating !== -1 && (
+          <div className="pl-1 pb-1">
+            <Rating value={job.rating || null} readonly />
+          </div>
+        )}
         <p className="pl-1 pb-1">
           <FontAwesomeIcon
             icon={faMoneyBillWave}
@@ -193,7 +213,9 @@ const Myjob = (props, index) => {
           />
           <span className="text-base font-semibold tracking-wide">
             Date Of Posting:{" "}
-            <span className="font-medium text-xl">{deadline}</span>
+            <span className="font-medium text-xl">
+              {calculateDays(new Date(job.dateOfPosting))}
+            </span>
           </span>
         </p>
         <p className="pl-1">
