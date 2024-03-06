@@ -34,6 +34,20 @@ export default function FilterPopup(props) {
     setValues(event.target.value);
   };
 
+  const handleChangeMin = (event) => {
+    setSearchOptions({
+      ...searchOptions,
+      salary: [event.target.value, searchOptions.salary[1]],
+    });
+  };
+
+  const handleChangeMax = (event) => {
+    setSearchOptions({
+      ...searchOptions,
+      salary: [searchOptions.salary[0], event.target.value],
+    });
+  };
+
   return (
     <>
       <Button
@@ -117,12 +131,7 @@ export default function FilterPopup(props) {
                     max="100"
                     value={searchOptions.salary[0]}
                     step="1"
-                    onChange={(event) =>
-                      setSearchOptions({
-                        ...searchOptions,
-                        salary: [event.target.value, searchOptions.salary[1]],
-                      })
-                    }
+                    onChange={handleChangeMin}
                     className="slider"
                   />
                   <input
@@ -131,12 +140,7 @@ export default function FilterPopup(props) {
                     max="100"
                     value={searchOptions.salary[1]}
                     step="1"
-                    onChange={(event) =>
-                      setSearchOptions({
-                        ...searchOptions,
-                        salary: [searchOptions.salary[0], event.target.value],
-                      })
-                    }
+                    onChange={handleChangeMax}
                     className="slider"
                   />
                   <output className="text-sm text-gray-500">

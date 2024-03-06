@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+// MultiRangeSlider.jsx
+import React, { useEffect, useState, useRef } from "react";
 import "./MultiRangeSlider.css";
 
-const MultiRangeSlider = ({ min, max, onChange }) => {
+const MultiRangeSlider = ({ min, max, onChangeMin, onChangeMax }) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(null);
@@ -9,23 +10,20 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
   const range = useRef(null);
 
   // Convert to percentage
-  const getPercent = useCallback(
-    (value) => Math.round(((value - min) / (max - min)) * 100),
-    [min, max]
-  );
+  const getPercent = (value) => Math.round(((value - min) / (max - min)) * 100);
 
   // Set width of the range to decrease from the left side
   useEffect(() => {
     if (maxValRef.current) {
       const minPercent = getPercent(minVal);
-      const maxPercent = getPercent(+maxValRef.current.value); // Preceding with '+' converts the value from type string to type number
+      const maxPercent = getPercent(+maxValRef.current.value);
 
       if (range.current) {
         range.current.style.left = `${minPercent}%`;
         range.current.style.width = `${maxPercent - minPercent}%`;
       }
     }
-  }, [minVal, getPercent]);
+  }, [minVal]);
 
   // Set width of the range to decrease from the right side
   useEffect(() => {
@@ -37,12 +35,13 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         range.current.style.width = `${maxPercent - minPercent}%`;
       }
     }
-  }, [maxVal, getPercent]);
+  }, [maxVal]);
 
   // Get min and max values when their state changes
   useEffect(() => {
-    onChange({ value: minVal }, { value: maxVal });
-  }, [minVal, maxVal, onChange]);
+    onChangeMin({ target: { value: minVal } });
+    onChangeMax({ target: { value: maxVal } });
+  }, [minVal, maxVal, onChangeMin, onChangeMax]);
 
   return (
     <div className="container">
@@ -57,7 +56,7 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
           setMinVal(value);
           event.target.value = value.toString();
         }}
-        className={"thumb thumb--zindex-3"}
+        className="thumb thumb--zindex-3"
       />
       <input
         type="range"
