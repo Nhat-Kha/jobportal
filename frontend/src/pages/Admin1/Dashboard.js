@@ -9,6 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Recruiter from "./recruiter";
+import Job from "./Job";
 
 export function Dashboard() {
   const type = userType();
@@ -36,13 +37,23 @@ export function Dashboard() {
           >
             Recruiter
           </button>
+          <button
+            className={`${
+              active === 1 ? "border-b-2 border-money text-money" : ""
+            } font-medium cursor-pointer px-4 py-4 text-sm text-gray-400`}
+            onClick={() => setActive(2)}
+          >
+            Job
+          </button>
         </div>
 
         {active === 0 ? (
           <Applicant id={id} />
         ) : active === 1 ? (
           <Recruiter id={id} />
-        ) : null}
+        ) : (
+          <Job id={id} />
+        )}
       </div>
     </div>
   );
