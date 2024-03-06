@@ -117,7 +117,7 @@ export default function ProfileMenu() {
                   </Menu.Item>
                 </div>
               </>
-            ) : type === "applicant" ? (
+            ) : type === "recruiter" ? (
               <>
                 <div className="p-3 flex bg-slate-200">
                   <Menu.Item>
