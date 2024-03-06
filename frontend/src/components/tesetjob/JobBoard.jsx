@@ -80,7 +80,15 @@ export default function JobBoard({ title, props }) {
     });
   };
 
-  const limitedJobs = jobs.slice(0, maxJobsToShow);
+  const sortedJob = [...jobs].sort((a, b) => {
+    if (a.rating !== b.rating) {
+      return b.rating - a.rating;
+    }
+
+    return new Date(b.dateOfPosting) - new Date(a.dateOfPosting);
+  });
+
+  const limitedJobs = sortedJob.slice(0, maxJobsToShow);
 
   useEffect(() => {
     getData();
