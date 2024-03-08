@@ -18,13 +18,15 @@ export default function Recruiter(props) {
               alt="Company logo"
             />
             <div>
-              <p className="text-2xl font-semibold text-gray-900 leading-none">
+              <p className="text-2xl font-bold text-gray-700 leading-none">
                 {recruiter.name}
               </p>
             </div>
           </div>
           <p className="pl-1 pb-1">
-            <span className="text-lg">{recruiter.banner}</span>
+            <span className="text-lg text-gray-600 font-semibold">
+              {recruiter.banner}
+            </span>
           </p>
 
           <div className="flex items-center pt-6">

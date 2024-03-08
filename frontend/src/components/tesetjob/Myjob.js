@@ -168,8 +168,16 @@ const Myjob = ({ job }, index) => {
           </div>
         </div>
         {job.rating !== -1 && (
-          <div className="pl-1 pb-1">
-            <Rating value={job.rating || null} readonly />
+          <div className="pl-1 pb-1 flex gap-2">
+            <Rating
+              className="text-yellow-400"
+              value={job.rating || null}
+              readonly
+            />
+            <span className="font-semibold">-</span>
+            <h6 className="md:text-xl text-lg font-bold text-gray-500">
+              {job.rating}
+            </h6>
           </div>
         )}
         <p className="pl-1 pb-1">
