@@ -7,6 +7,7 @@ import {
   faUsers,
   faHand,
   faAward,
+  faHourglassHalf,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -184,8 +185,8 @@ const Myjob = ({ job }, index) => {
         </p>
         <p className="pl-1">
           <FontAwesomeIcon
-            icon={faMapMarkerAlt}
-            className="text-xl text-red-500 mr-3.5 ml-1"
+            icon={faHourglassHalf}
+            className="text-xl text-orange-400 mr-3.5 ml-1"
           />
           <span className="text-base font-semibold tracking-wide">
             Duration:{" "}
@@ -197,7 +198,7 @@ const Myjob = ({ job }, index) => {
         <p className="pl-1">
           <FontAwesomeIcon
             icon={faMapMarkerAlt}
-            className="text-xl text-red-500 mr-3.5 ml-1"
+            className="text-xl text-orange-400 mr-3.5 ml-1"
           />
           <span className="text-base font-semibold tracking-wide">
             Location:{" "}

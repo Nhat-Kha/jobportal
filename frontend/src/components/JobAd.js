@@ -4,6 +4,15 @@ import { Rating } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import apiList from "libs/apiList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFlag,
+  faHourglassHalf,
+  faLocationDot,
+  faSackDollar,
+  faSuitcase,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 export default function JobAd({ job, tags, about, edit }) {
   const [recruiters, setRecruiters] = useState([]);
 
@@ -209,48 +218,87 @@ export default function JobAd({ job, tags, about, edit }) {
                 <h6 className="md:text-xl text-lg ">{"Company"}</h6>
               </div>
             </div>
-            <div className="flex justify-start md:mt-10 mt-10 mb-3 gap-5">
+            <div className="flex justify-start md:mt-10 mt-10 mb-3 gap-2">
               {" "}
               <Rating
                 value={about.rating !== -1 ? about.rating : null}
+                className="text-yellow-300"
                 readonly
               />
-              <h6 className="md:text-xl text-lg font-semibold">
+              <span className="font-semibold">-</span>
+              <h6 className="md:text-xl text-lg font-bold text-gray-500">
                 {about.rating}
               </h6>
             </div>
             <hr className="my-8 border-gray-300" />
 
             <div className="flex justify-between md:mt-10 mt-10 mb-3">
-              <h1 className="text-3xl font-medium ">Summary</h1>
+              <h1 className="text-3xl font-bold">Summary</h1>
             </div>
             <table className="table-auto w-full mb-3">
               <tbody className="text-xl">
                 <tr>
-                  <td className="text-bold">Salary reward</td>
-                  <td className="text-right">{about.salary || ""} $</td>
-                </tr>
-                <tr>
-                  <td className="text-bold">duration</td>
-                  <td className="text-right">{about.duration || ""}</td>
-                </tr>
-                <tr>
-                  <td className="text-bold">deadline</td>
-                  <td className="text-right">
-                    {calculateDays(new Date(about.dateOfPosting))}
+                  <td className="text-bold font-semibold text-gray-500">
+                    Salary reward
+                  </td>
+                  <td className="text-right font-medium text-slate-600">
+                    {about.salary || ""}{" "}
+                    <FontAwesomeIcon
+                      className="text-green-500"
+                      icon={faSackDollar}
+                    />
                   </td>
                 </tr>
                 <tr>
-                  <td className="text-bold">maxApplicants</td>
-                  <td className="text-right">{about.maxApplicants || ""}</td>
+                  <td className="text-bold font-semibold text-gray-500">
+                    duration
+                  </td>
+                  <td className="text-right font-medium text-slate-600">
+                    {about.duration || ""}
+                    <FontAwesomeIcon
+                      className="text-orange-400"
+                      icon={faHourglassHalf}
+                    />
+                  </td>
                 </tr>
                 <tr>
-                  <td className="text-bold">maxPositions</td>
-                  <td className="text-right">{about.maxPositions || ""}</td>
+                  <td className="text-bold font-semibold text-gray-500">
+                    deadline
+                  </td>
+                  <td className="text-right font-medium text-slate-600">
+                    {calculateDays(new Date(about.dateOfPosting))}{" "}
+                    <FontAwesomeIcon
+                      icon={faFlag}
+                      className="text-orange-400"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-bold font-semibold text-gray-500">
+                    maxApplicants
+                  </td>
+                  <td className="text-right font-medium text-slate-600">
+                    {about.maxApplicants || ""}{" "}
+                    <FontAwesomeIcon className="text-blue-300" icon={faUsers} />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-bold font-semibold text-gray-500">
+                    maxPositions
+                  </td>
+                  <td className="text-right font-medium text-slate-600">
+                    {about.maxPositions || ""}{" "}
+                    <FontAwesomeIcon
+                      className="text-blue-300"
+                      icon={faSuitcase}
+                    />
+                  </td>
                 </tr>
 
                 <tr>
-                  <td className="text-bold">Skills</td>
+                  <td className="text-bold font-semibold text-gray-500">
+                    Skills
+                  </td>
                   <td className="text-right">
                     <div className="flex flex-row-reverse gap-1">
                       {about.skillsets.map((tag, index) => (
@@ -266,16 +314,25 @@ export default function JobAd({ job, tags, about, edit }) {
                   </td>
                 </tr>
                 <tr>
-                  <td className="text-bold">Location: </td>
-                  <td className="text-right">{about.location || ""}</td>
+                  <td className="text-bold font-semibold text-gray-500">
+                    Location:{" "}
+                  </td>
+                  <td className="text-right font-medium text-slate-600 ml-3">
+                    {about.location || ""}{" "}
+                    <FontAwesomeIcon
+                      className="text-gray-400"
+                      icon={faLocationDot}
+                    />
+                  </td>
                 </tr>
               </tbody>
             </table>
             <hr className="my-8 border-gray-300" />
             <div className="my-8">
-              <h1 className="text-3xl font-medium mb-2">About the job</h1>
+              <h1 className="text-3xl font-bold mb-2">About the job</h1>
               <div
                 dangerouslySetInnerHTML={{ __html: about.description }}
+                className="text-gray-500 font-semibold"
               ></div>
             </div>
           </div>
