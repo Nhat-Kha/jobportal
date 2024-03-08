@@ -11,6 +11,7 @@ import {
   faHand,
   faUsers,
   faCalendarDays,
+  faHourglassHalf,
 } from "@fortawesome/free-solid-svg-icons";
 import icon from "assets/icon.jpg";
 import axios from "axios";
@@ -214,11 +215,16 @@ export default function InfoRecruiter() {
                           </p>
                         </div>
                       </div>
-                      <div className="pl-1 pb-1">
+                      <div className="pl-1 pb-1 flex gap-2">
                         <Rating
+                          className="text-yellow-400"
                           value={job.rating !== -1 ? job.rating : null}
                           readonly
                         />
+                        <span className="font-semibold">-</span>
+                        <h6 className="md:text-xl text-lg font-bold text-gray-500">
+                          {job.rating}
+                        </h6>
                       </div>
                       <p className="pl-1 pb-1">
                         <FontAwesomeIcon
@@ -235,8 +241,8 @@ export default function InfoRecruiter() {
                       </p>
                       <p className="pl-1">
                         <FontAwesomeIcon
-                          icon={faMapMarkerAlt}
-                          className="text-xl text-red-500 mr-3.5 ml-1"
+                          icon={faHourglassHalf}
+                          className="text-xl text-orange-400 mr-3.5 ml-1"
                         />
                         <span className="text-base font-semibold tracking-wide">
                           Duration:{" "}
@@ -244,6 +250,18 @@ export default function InfoRecruiter() {
                             {job.duration !== 0
                               ? `${job.duration} month`
                               : `Flexible`}
+                          </span>
+                        </span>
+                      </p>
+                      <p className="pl-1">
+                        <FontAwesomeIcon
+                          icon={faMapMarkerAlt}
+                          className="text-xl text-orange-400 mr-3.5 ml-1"
+                        />
+                        <span className="text-base font-semibold tracking-wide">
+                          Location:{" "}
+                          <span className="font-medium text-xl">
+                            {job.location}
                           </span>
                         </span>
                       </p>
@@ -331,8 +349,8 @@ export default function InfoRecruiter() {
                         ) : null}
 
                         <Link
+                          className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-gray-100 hover:bg-gray-200 ease-out duration-300 px-3 py-3 rounded-xl border-none"
                           to={`/jobs/${job._id}`}
-                          className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black  hover:bg-light px-3 py-3 rounded-xl border-none"
                         >
                           About the job
                         </Link>
