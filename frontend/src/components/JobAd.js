@@ -50,11 +50,11 @@ export default function JobAd({ job, tags, about, edit }) {
       {job && (
         <div className="w-11/12 mx-auto mt-20 pb-8">
           <div className="flex">
-            <img
+            {/* <img
               alt="company logo"
               className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
               src={icon}
-            />
+            /> */}
 
             <div>
               <h1 className="font-semibold lg:text-4xl text-2xl mt-3">

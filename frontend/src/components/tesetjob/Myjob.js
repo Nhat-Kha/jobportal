@@ -95,6 +95,7 @@ const Myjob = ({ job }, index) => {
           }
         );
         setHasAcceptedJob(response.data.hasAcceptedJob);
+        console.log("response data: ", response.data);
       } catch (error) {
         console.error(error);
       }
@@ -200,9 +201,7 @@ const Myjob = ({ job }, index) => {
           />
           <span className="text-base font-semibold tracking-wide">
             Location:{" "}
-            <span className="font-medium text-xl">
-              {job.location !== 0 ? `${job.location}` : null}
-            </span>
+            <span className="font-medium text-xl">{job.location}</span>
           </span>
         </p>
 

@@ -81,7 +81,7 @@ export default function JobCreator({ jobToEdit, props }) {
     job.skillsets.length > 0 &&
     job.duration.length > 0 &&
     job.jobType.length > 0 &&
-    job.locations.length > 0 &&
+    job.location.length > 0 &&
     job.description.length > 0;
 
   const modules = {
@@ -122,6 +122,7 @@ export default function JobCreator({ jobToEdit, props }) {
           duration: "",
           salary: "",
           description: "",
+          location: "",
         });
         setPopup({
           open: true,
@@ -220,11 +221,11 @@ export default function JobCreator({ jobToEdit, props }) {
           type="text"
           label="location"
           placeholder="25 000"
-          value={job.jobType}
+          value={job.location}
           onChange={(e) => {
             setJob({
               ...job,
-              jobType: e.target.value,
+              location: e.target.value,
             });
           }}
         />
