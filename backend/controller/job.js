@@ -31,6 +31,7 @@ const addJob = async (req, res) => {
     salary: data.salary,
     rating: data.rating,
     description: data.description,
+    location: data.location,
   });
   console.log(data);
 
@@ -453,21 +454,22 @@ const checkApply = async (req, res) => {
   try {
     const acceptedJob = await Application.findOne({
       userId: user._id,
-      status: {
-        $nin: ["accepted", "finished"],
-      },
-    }).then((acceptedJob) => {
-      if (
-        acceptedJob.status === "finished" ||
-        acceptedJob.status === "accepted"
-      ) {
-        res.status(400).json({
-          message:
-            "You already have an accepted job. Hence you cannot apply for a new one.",
+      status: "accepted",
+    });
+
+    if (!acceptedJob) {
+      const finishedJob = await Application.findOne({
+        userId: user._id,
+        status: "finished",
+      });
+
+      if (finishedJob) {
+        res.json({
+          hasAcceptedJob: true,
         });
         return;
       }
-    });
+    }
 
     res.json({
       hasAcceptedJob: acceptedJob !== null,
