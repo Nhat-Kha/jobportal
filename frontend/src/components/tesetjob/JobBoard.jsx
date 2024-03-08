@@ -118,13 +118,13 @@ export default function JobBoard({ title, props }) {
     if (searchOptions.salary[0] !== 0) {
       searchParams = [
         ...searchParams,
-        `salaryMin=${searchOptions.salary[0] * 100}`,
+        `salaryMin=${searchOptions.salary[0] * 1000}`,
       ];
     }
     if (searchOptions.salary[1] !== 100) {
       searchParams = [
         ...searchParams,
-        `salaryMax=${searchOptions.salary[1] * 100}`,
+        `salaryMax=${searchOptions.salary[1] * 1000}`,
       ];
     }
     if (searchOptions.duration !== "0") {

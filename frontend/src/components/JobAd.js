@@ -209,13 +209,18 @@ export default function JobAd({ job, tags, about, edit }) {
                 <h6 className="md:text-xl text-lg ">{"Company"}</h6>
               </div>
             </div>
-            <div className="flex justify-between md:mt-10 mt-10 mb-3">
+            <div className="flex justify-start md:mt-10 mt-10 mb-3 gap-5">
               {" "}
               <Rating
                 value={about.rating !== -1 ? about.rating : null}
                 readonly
               />
+              <h6 className="md:text-xl text-lg font-semibold">
+                {about.rating}
+              </h6>
             </div>
+            <hr className="my-8 border-gray-300" />
+
             <div className="flex justify-between md:mt-10 mt-10 mb-3">
               <h1 className="text-3xl font-medium ">Summary</h1>
             </div>
