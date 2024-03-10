@@ -165,6 +165,7 @@ export default function JobBoard({ title, props }) {
           return normalizedTitle.includes(normalizedQuery);
         });
         setJobs(response.data);
+        console.log("Response data: ", response.data);
       })
       .catch((err) => {
         console.log(err);

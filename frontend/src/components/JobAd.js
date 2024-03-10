@@ -6,10 +6,14 @@ import axios from "axios";
 import apiList from "libs/apiList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCheck,
+  faCircleCheck,
+  faClipboardCheck,
   faFlag,
   faHourglassHalf,
   faLocationDot,
   faSackDollar,
+  faShield,
   faSuitcase,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
@@ -53,6 +57,8 @@ export default function JobAd({ job, tags, about, edit }) {
       return Math.floor(daysAgo / 30) + " months ago";
     }
   }
+
+  console.log(about);
 
   return (
     <>
@@ -199,141 +205,129 @@ export default function JobAd({ job, tags, about, edit }) {
         </div>
       )}
       {about && (
-        <div className="rounded-xl bg-[#f6f6f6] pd:pt-1 pt-1 shadow-sm">
-          <div className="w-11/12 mx-auto mt-10 pb-4">
-            <div className="flex">
-              {recruiters.map((recruiter, index) => (
-                <img
-                  key={index}
-                  alt="company logo"
-                  className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
-                  src={recruiter.profile}
-                />
-              ))}
+        <div>
+          {/* LEFT */}
+          <div className="rounded-xl bg-slate-50 pd:pt-1 pt-1 shadow-sm">
+            <div className="w-11/12 mx-auto mt-10 pb-4">
+              <div className="w-full flex items-center justify-between">
+                <div className="w-3/4 flex gap-2">
+                  {recruiters.map((recruiter, index) => (
+                    <img
+                      key={index}
+                      alt="company logo"
+                      className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
+                      src={recruiter.profile}
+                    />
+                  ))}
 
-              <div>
-                <h1 className="font-semibold lg:text-4xl text-4xl mt-3">
-                  {about?.title || "Job title"}
-                </h1>
-                <h6 className="md:text-xl text-lg ">{"Company"}</h6>
+                  <div className="flex flex-col">
+                    <p className="text-xl font-semibold text-gray-600">
+                      {about?.title}
+                    </p>
+                    <span className="text-base">{about?.location}</span>
+                    <span className="text-base text-blue-600">
+                      Posted By : {recruiters.length > 0 && recruiters[0].name}
+                    </span>
+                    <span className="text-gray-500 text-sm">
+                      {calculateDays(new Date(about.dateOfPosting))}{" "}
+                    </span>
+                    <span className="text-gray-500 text-sm"></span>
+                  </div>
+                </div>
+                <span>
+                  <FontAwesomeIcon
+                    icon={faCircleCheck}
+                    className="w-8 h-8 text-green-300"
+                  />
+                </span>
               </div>
-            </div>
-            <div className="flex justify-start md:mt-10 mt-10 mb-3 gap-2">
-              {" "}
-              <Rating
-                value={about.rating !== -1 ? about.rating : null}
-                className="text-yellow-300"
-                readonly
-              />
-              <span className="font-semibold">-</span>
-              <h6 className="md:text-xl text-lg font-bold text-gray-500">
-                {about.rating}
-              </h6>
-            </div>
-            <hr className="my-8 border-gray-300" />
-
-            <div className="flex justify-between md:mt-10 mt-10 mb-3">
-              <h1 className="text-3xl font-bold">Summary</h1>
-            </div>
-            <table className="table-auto w-full mb-3">
-              <tbody className="text-xl">
-                <tr>
-                  <td className="text-bold font-semibold text-gray-500">
-                    Salary reward
-                  </td>
-                  <td className="text-right font-medium text-slate-600">
-                    {about.salary || ""}{" "}
-                    <FontAwesomeIcon
-                      className="text-green-500"
-                      icon={faSackDollar}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-bold font-semibold text-gray-500">
-                    duration
-                  </td>
-                  <td className="text-right font-medium text-slate-600">
-                    {about.duration || ""}
-                    <FontAwesomeIcon
-                      className="text-orange-400"
-                      icon={faHourglassHalf}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-bold font-semibold text-gray-500">
-                    deadline
-                  </td>
-                  <td className="text-right font-medium text-slate-600">
-                    {calculateDays(new Date(about.dateOfPosting))}{" "}
-                    <FontAwesomeIcon
-                      icon={faFlag}
-                      className="text-orange-400"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-bold font-semibold text-gray-500">
-                    maxApplicants
-                  </td>
-                  <td className="text-right font-medium text-slate-600">
-                    {about.maxApplicants || ""}{" "}
-                    <FontAwesomeIcon className="text-blue-300" icon={faUsers} />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-bold font-semibold text-gray-500">
-                    maxPositions
-                  </td>
-                  <td className="text-right font-medium text-slate-600">
-                    {about.maxPositions || ""}{" "}
-                    <FontAwesomeIcon
-                      className="text-blue-300"
-                      icon={faSuitcase}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td className="text-bold font-semibold text-gray-500">
-                    Skills
-                  </td>
-                  <td className="text-right">
-                    <div className="flex flex-row-reverse gap-1">
-                      {about.skillsets.map((tag, index) => (
-                        <div
-                          key={index}
-                          className="relative grid select-none items-center whitespace-nowrap rounded-lg 
+              <div className="flex justify-start md:mt-10 mt-10 mb-3 gap-2">
+                {" "}
+                <Rating
+                  value={about.rating !== -1 ? about.rating : null}
+                  className="text-yellow-300"
+                  readonly
+                />
+                <span className="font-semibold">-</span>
+                <h6 className="md:text-xl text-lg font-bold text-gray-500">
+                  {about.rating}
+                </h6>
+              </div>
+              <div className="flex gap-3">
+                <div className="text-bold font-semibold text-gray-500">
+                  Skill:{" "}
+                </div>
+                <div className="flex flex-row-reverse gap-1">
+                  {about.skillsets.map((tag, index) => (
+                    <div
+                      key={index}
+                      className="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
-                        >
-                          <span className="">{tag}</span>
-                        </div>
-                      ))}
+                    >
+                      <span className="">{tag}</span>
                     </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-bold font-semibold text-gray-500">
-                    Location:{" "}
-                  </td>
-                  <td className="text-right font-medium text-slate-600 ml-3">
-                    {about.location || ""}{" "}
-                    <FontAwesomeIcon
-                      className="text-gray-400"
-                      icon={faLocationDot}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <hr className="my-8 border-gray-300" />
-            <div className="my-8">
-              <h1 className="text-3xl font-bold mb-2">About the job</h1>
-              <div
-                dangerouslySetInnerHTML={{ __html: about.description }}
-                className="text-gray-500 font-semibold"
-              ></div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="w-full flex flex-wrap md:flex-row gap-2 items-center justify-between my-10">
+                <div className="bg-[#bdf4c8] w-40 h-16 rounded-lg flex flex-col items-center justify-center">
+                  <span className="text-sm">Salary</span>
+                  <p className="text-lg font-semibold text-gray-700">
+                    $ {about?.salary}
+                  </p>
+                </div>
+
+                <div className="bg-[#bae5f4] w-40 h-16 rounded-lg flex flex-col items-center justify-center">
+                  <span className="text-sm">Job Type</span>
+                  <p className="text-lg font-semibold text-gray-700">
+                    {about.jobType}
+                  </p>
+                </div>
+
+                <div className="bg-[#fed0ab] w-40 h-16 px-6 rounded-lg flex flex-col items-center justify-center">
+                  <span className="text-sm">No. of Applicants</span>
+                  <p className="text-lg font-semibold text-gray-700">
+                    {about.maxApplicants}
+                  </p>
+                </div>
+
+                <div className="bg-[#cecdff] w-40 h-16 px-6 rounded-lg flex flex-col items-center justify-center">
+                  <span className="text-sm">No. of Vacancies</span>
+                  <p className="text-lg font-semibold text-gray-700">
+                    {about.maxPositions}
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-full flex gap-4 py-5">
+                <div
+                  title="Job Description"
+                  containerStyles={`w-full flex items-center justify-center py-3 px-5 outline-none rounded-full text-sm ${"bg-black text-white"}`}
+                />
+              </div>
+
+              <div className="my-6">
+                <>
+                  <p className="text-xl font-semibold">About the job</p>
+                  <div
+                    className="text-base"
+                    dangerouslySetInnerHTML={{ __html: about.description }}
+                  ></div>
+                </>
+                {/* <>
+                <div className="mb-6 flex flex-col">
+                  <p className="text-xl text-blue-600 font-semibold">
+                    {job?.company?.name}
+                  </p>
+                  <span className="text-base">{job?.company?.location}</span>
+                  <span className="text-sm">{job?.company?.email}</span>
+                </div>
+
+                <p className="text-xl font-semibold">About Company</p>
+                <span>{job?.company?.about}</span>
+              </> */}
+              </div>
             </div>
           </div>
         </div>
