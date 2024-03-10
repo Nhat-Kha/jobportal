@@ -168,7 +168,7 @@ export default function Job(props) {
                     onClick={handleClickJob}
                   >
                     <div
-                      className="w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
+                      className="w-full h-[30rem] md:w-[16rem] 2xl:w-[18rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
                       rounded-md px-3 py-5 "
                     >
                       <div className="flex gap-3">
@@ -190,13 +190,20 @@ export default function Job(props) {
 
                       <div className="py-3">
                         <p className="text-sm">
-                          {job.description ? (
-                            <div
+                          {job.recruiter.bio ? (
+                            <>
+                              {/* <div
                               className="text-base"
                               dangerouslySetInnerHTML={{
                                 __html: job.description,
                               }}
-                            ></div>
+                            ></div> */}
+                              {/* <span>{job.recruiter.bio}</span> */}
+                              <span>
+                                {" "}
+                                {job.recruiter.bio.slice(0, 150) + "..."}
+                              </span>
+                            </>
                           ) : (
                             <div className="text-base">No description yet</div>
                           )}

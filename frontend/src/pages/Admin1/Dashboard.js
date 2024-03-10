@@ -18,6 +18,7 @@ export function Dashboard() {
 
   return (
     <div className="bg-white">
+      <span>Welcome back, Are you ready to manage your dashboard?</span>
       <div className="pt-32 pb-56 w-10/12 mx-auto min-h-screen">
         <div className="flex mt-6 gap-4 border-b border-gray-300 ">
           <button
@@ -39,7 +40,7 @@ export function Dashboard() {
           </button>
           <button
             className={`${
-              active === 1 ? "border-b-2 border-money text-money" : ""
+              active === 2 ? "border-b-2 border-money text-money" : ""
             } font-medium cursor-pointer px-4 py-4 text-sm text-gray-400`}
             onClick={() => setActive(2)}
           >

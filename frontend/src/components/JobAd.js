@@ -17,6 +17,7 @@ import {
   faSuitcase,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 export default function JobAd({ job, tags, about, edit }) {
   const [recruiters, setRecruiters] = useState([]);
 
@@ -225,9 +226,14 @@ export default function JobAd({ job, tags, about, edit }) {
                       {about?.title}
                     </p>
                     <span className="text-base">{about?.location}</span>
-                    <span className="text-base text-blue-600">
-                      Posted By : {recruiters.length > 0 && recruiters[0].name}
-                    </span>
+                    {recruiters.map((recruiter, index) => (
+                      <Link to={`/companies/${recruiter.userId}`}>
+                        <span className="text-base text-blue-600">
+                          Posted By :{" "}
+                          {recruiters.length > 0 && recruiters[0].name}
+                        </span>
+                      </Link>
+                    ))}
                     <span className="text-gray-500 text-sm">
                       {calculateDays(new Date(about.dateOfPosting))}{" "}
                     </span>
@@ -300,11 +306,8 @@ export default function JobAd({ job, tags, about, edit }) {
                 </div>
               </div>
 
-              <div className="w-full flex gap-4 py-5">
-                <div
-                  title="Job Description"
-                  containerStyles={`w-full flex items-center justify-center py-3 px-5 outline-none rounded-full text-sm ${"bg-black text-white"}`}
-                />
+              <div className="w-full gap-4 py-5">
+                <hr className="my-8 border-gray-300" />
               </div>
 
               <div className="my-6">

@@ -76,6 +76,7 @@ export default function LeaderboardTable({ user }) {
 
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <Rating
+                      className="cursor-default"
                       value={User.rating !== -1 ? User.rating : null}
                       readonly
                     />{" "}

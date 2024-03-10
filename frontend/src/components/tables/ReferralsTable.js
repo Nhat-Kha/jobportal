@@ -188,7 +188,7 @@ export default function ReferralsTable(props) {
                                   <button
                                     variant="contained"
                                     color="primary"
-                                    className="w-full h-full flex items-center justify-center uppercase font-semibold"
+                                    className="w-full h-full flex items-center justify-center uppercase font-semibold transition ease-in-out duration-1000"
                                     onClick={() => {
                                       setSelectedReferral(obj);
                                       fetchRating(obj);
@@ -252,7 +252,9 @@ export default function ReferralsTable(props) {
       <Modal
         show={open}
         onClose={handleClose}
-        className="bg-overlay-70"
+        className={`transition-opacity ${
+          open ? "opacity-100 transition duration-300" : "opacity-0"
+        } bg-overlay-70`}
         size="md"
       >
         <div className="fixed w-[25%] top-[25%]">
