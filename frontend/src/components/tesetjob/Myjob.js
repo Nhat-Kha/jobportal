@@ -143,10 +143,10 @@ const Myjob = ({ job }, index) => {
     }
   }
   return (
-    <div index={index}>
+    <div>
       <div
         className="transform ease-in duration-100 
-        hover:-translate-y-2 hover:shadow-lg w-full 
+        hover:-translate-y-2 hover:shadow-lg w-full h-full
       bg-white rounded-2xl p-6 text-left cursor-default"
       >
         <div className="flex items-center text-left pb-4">
