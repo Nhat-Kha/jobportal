@@ -61,7 +61,10 @@ const addRating = async (req, res) => {
     ];
 
     const result = await Rating.aggregate(aggregatePipeline);
-    const avg = result[0]?.average || 0;
+    let avg = result[0]?.average || 0;
+
+    // Round the average rating to the nearest integer
+    avg = Math.round(avg);
 
     if (isRecruiter) {
       await JobApplicant.updateOne(

@@ -20,7 +20,7 @@ export default function ReferralsTable(props) {
   const setPopup = useContext(SetPopupContext);
   const UserId = getId();
   const { referrals } = props;
-  const [rating, setRating] = useState(-1);
+  const [rating, setRating] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedReferral, setSelectedReferral] = useState(null);
 
@@ -32,6 +32,7 @@ export default function ReferralsTable(props) {
     }
   }, [referrals]);
 
+  console.log("applicant: ", referrals);
   console.log("rating first: ", rating);
 
   const appliedOn =
@@ -226,16 +227,11 @@ export default function ReferralsTable(props) {
                               )}
                             </td>
                             <td>
-                              <div>
-                                <Rating
-                                  value={
-                                    obj.job.rating !== -1
-                                      ? obj.job.rating
-                                      : null
-                                  }
-                                  readonly
-                                />
-                              </div>
+                              {obj.job.rating !== -1 ? (
+                                <Rating value={obj.job.rating} readonly />
+                              ) : (
+                                <span>No Rating</span>
+                              )}
                             </td>
                           </tr>
                         </React.Fragment>
