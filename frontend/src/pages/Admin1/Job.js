@@ -84,14 +84,14 @@ export default function Job() {
   };
   return (
     <>
-      <div className="mt-12 overflow-x-auto bg-white">
+      <div className="mt-12 overflow-x-auto bg-white rounded-md">
         <table className="min-w-full z-0">
-          <thead className="border-b border-gray-500">
+          <thead className="border-b border-t rounded-md border-gray-400">
             <tr>
               {th.map((t) => (
                 <th
                   key={t}
-                  className="px-6 py-3 text-left text-xs text-gray-900 uppercase tracking-wider leading-tight font-semibold"
+                  className="border-l border-gray-200 px-6 py-3 text-left text-xs text-gray-900 uppercase tracking-wider leading-tight font-semibold"
                 >
                   {t}
                 </th>
@@ -102,7 +102,10 @@ export default function Job() {
           {job.length !== 0 ? (
             <tbody className="divide-y divide-gray-300 divide-dashed">
               {job.map((currentJob, index) => (
-                <tr key={index} className="hover:bg-light">
+                <tr
+                  key={index}
+                  className="hover:bg-light divide-x divide-gray-300 divide-dashed"
+                >
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
                     {currentJob.title}
                   </td>

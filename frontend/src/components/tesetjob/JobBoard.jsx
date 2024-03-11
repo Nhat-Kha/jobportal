@@ -107,10 +107,16 @@ export default function JobBoard({ title, props }) {
       searchParams = [...searchParams, `q=${searchOptions.query}`];
     }
     if (searchOptions.jobType.fullTime) {
-      searchParams = [...searchParams, `jobType=Full%20Time`];
+      searchParams = [
+        ...searchParams,
+        `jobType=Full%20Time` || `jobType=Full%20time`,
+      ];
     }
     if (searchOptions.jobType.partTime) {
-      searchParams = [...searchParams, `jobType=Part%20time`];
+      searchParams = [
+        ...searchParams,
+        `jobType=Part%20Time` || `jobType=Part%20time`,
+      ];
     }
     if (searchOptions.jobType.wfh) {
       searchParams = [...searchParams, `jobType=Work%20From%20Home`];

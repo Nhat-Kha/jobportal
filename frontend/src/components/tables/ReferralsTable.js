@@ -64,12 +64,16 @@ export default function ReferralsTable(props) {
 
         const fetchedRating = response.data.rating;
 
-        const index = referrals.findIndex(
-          (item) => item._id === referral.job._id
-        );
-        if (index !== -1) {
-          referrals[index].rating = fetchedRating;
-          setRating(fetchedRating);
+        if (!isNaN(fetchedRating)) {
+          const index = referrals.findIndex(
+            (item) => item._id === referral.job._id
+          );
+          if (index !== -1) {
+            referrals[index].rating = fetchedRating;
+            setRating(fetchedRating);
+          }
+        } else {
+          console.log("Rating không hợp lệ");
         }
       } catch (err) {
         console.log(err);

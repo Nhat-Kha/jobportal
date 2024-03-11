@@ -4,7 +4,7 @@ import useLeaderboard from "hooks/useLeaderboard";
 import { userType } from "libs/isAuth";
 
 export default function Leaderboard() {
-  const type = userType();
+  // const type = userType();
   const user = useLeaderboard();
 
   if (!user) {

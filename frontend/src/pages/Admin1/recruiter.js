@@ -11,6 +11,7 @@ export default function Recruiter() {
   const [all, setAll] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [selectedPage, setSelectedPage] = useState(1);
 
   useEffect(() => {
     const user = apiList.allRecruiter;
@@ -34,12 +35,20 @@ export default function Recruiter() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = all.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setSelectedPage(pageNumber);
+  };
+
   return (
-    <div className="min-h-screen bg-blue-gray-50/50">
+    <div className="min-h-screen pt-10">
+      <div className="pb-4">
+        <span className="font-semibold text-slate-500">ALL APPLICANT</span>
+        <span className="font-bold">({all.length})</span>
+      </div>
       <>
         {currentItems.map((recruiter, index) => (
-          <div key={index} className="flex items-center">
+          <div key={index} className="flex items-center bg-white rounded-md">
             <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex-1 w-[30rem]">
               <img
                 src={`${recruiter.profile}`}
@@ -62,6 +71,7 @@ export default function Recruiter() {
               <div className="text-bold">Number phone:</div>
               <span className="font-semibold">{recruiter.contactNumber}</span>
             </div>
+            <hr className="my-8 border-gray-300" />
           </div>
         ))}
         <div className="flex justify-center mt-4">
@@ -71,7 +81,11 @@ export default function Recruiter() {
               <button
                 key={i}
                 onClick={() => paginate(i + 1)}
-                className="mx-1 px-3 py-1 bg-blue-500 text-white rounded"
+                className={`mx-1 px-3 py-1 bg-${
+                  selectedPage === i + 1 ? "yellow" : "white"
+                } text-black border hover:border-yellow-300 rounded ${
+                  selectedPage === i + 1 ? "bg-yellow-200" : ""
+                }`}
               >
                 {i + 1}
               </button>

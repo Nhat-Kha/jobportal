@@ -17,9 +17,11 @@ export function Dashboard() {
   const { id } = useParams();
 
   return (
-    <div className="bg-white">
-      <span>Welcome back, Are you ready to manage your dashboard?</span>
-      <div className="pt-32 pb-56 w-10/12 mx-auto min-h-screen">
+    <div className="bg-slate-50">
+      <h2 className="text-4xl pt-10 font-semibold text-gray-900 leading-none text-center mb-2">
+        Welcome back, Are you ready to manage your dashboard?
+      </h2>
+      <div className="pt-10 pb-20 w-10/12 mx-auto min-h-screen">
         <div className="flex mt-6 gap-4 border-b border-gray-300 ">
           <button
             className={`${
