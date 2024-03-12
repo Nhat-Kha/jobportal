@@ -192,13 +192,6 @@ export default function Job(props) {
                         <p className="text-sm">
                           {job.recruiter.bio ? (
                             <>
-                              {/* <div
-                              className="text-base"
-                              dangerouslySetInnerHTML={{
-                                __html: job.description,
-                              }}
-                            ></div> */}
-                              {/* <span>{job.recruiter.bio}</span> */}
                               <span>
                                 {" "}
                                 {job.recruiter.bio.slice(0, 150) + "..."}
@@ -210,7 +203,7 @@ export default function Job(props) {
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between pb-2">
                         <p className="bg-[#1d4fd826] text-[#1d4fd8] py-0.5 px-1.5 rounded font-semibold text-sm">
                           {job.jobType}
                         </p>
