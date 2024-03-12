@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { userType } from "libs/isAuth";
 import axios from "axios";
 import { getId } from "libs/isAuth";
+import apiList from "libs/apiList";
 
 export default function ProfileMenu() {
   const type = userType();
@@ -29,7 +30,7 @@ export default function ProfileMenu() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/user/${getUser}`)
+      .get(`${apiList.userId}/${getUser}`)
       .then((response) => {
         console.log("type", response);
         setUser(response.data);

@@ -34,7 +34,7 @@ export default function CompanySettings({ profile, user }) {
 
   const getData = () => {
     axios
-      .get(`http://localhost:5000/api/user/${getUser}`, {
+      .get(`${apiList.userId}/${getUser}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
