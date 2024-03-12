@@ -168,16 +168,15 @@ export default function SignUp() {
 
     let updatedDetails = {
       ...signupDetails,
+      skills: chips.filter((item) => item.trim() !== ""),
       education: education
-        .filter((obj) => obj.institutionName.trim() !== "")
-        .map((obj) => {
-          if (obj["endYear"] === "") {
-            delete obj["endYear"];
-          }
-          return obj;
-        }),
+        .filter((edu) => edu.institutionName.trim() !== "")
+        .map((edu) => ({
+          institutionName: edu.institutionName,
+          startYear: edu.startYear,
+          endYear: edu.endYear,
+        })),
     };
-
     setSignupDetails(updatedDetails);
 
     const verified = !Object.keys(tmpErrorHandler).some((obj) => {
@@ -186,7 +185,7 @@ export default function SignUp() {
 
     if (!verified) {
       axios
-        .post(apiList.signup, signupDetails)
+        .post(apiList.signup, updatedDetails)
         .then((response) => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("type", response.data.type);
@@ -235,7 +234,15 @@ export default function SignUp() {
     });
 
     let updatedDetails = {
-      ...signupDetails,
+      type: signupDetails.type,
+      email: signupDetails.email,
+      password: signupDetails.password,
+      bio: signupDetails.bio,
+      contactNumber: isValidPhoneNumber(signupDetails.contactNumber)
+        ? `+${phone}`
+        : "",
+      profile: signupDetails.profile,
+      news: signupDetails.news,
     };
     if (phone !== "") {
       updatedDetails = {
