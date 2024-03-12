@@ -339,7 +339,7 @@ export default function SignUp() {
     <div className="min-h-screen bg-[#f8e5d4] md:py-24">
       <div className="bg-white rounded-2xl pt-10 md:px-8 px-6 pb-8 text-left md:w-4/12 w-11/12 mx-auto">
         <h2 className="text-4xl font-semibold text-gray-900 leading-none">
-          Welcome to applicant
+          Welcome to Job Portal
         </h2>
         <p className="text-md text-gray-600 pb-8">
           The information you add below is used to make your referrals more
