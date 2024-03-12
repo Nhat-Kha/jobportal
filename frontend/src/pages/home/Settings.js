@@ -38,7 +38,7 @@ export default function Settings() {
 
   const getData = () => {
     axios
-      .get(`${apiList.userId}/${getUser}`, {
+      .get(`${apiList.user}/${getUser}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
