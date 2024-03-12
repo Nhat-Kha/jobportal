@@ -30,7 +30,7 @@ export default function ProfileMenu() {
 
   useEffect(() => {
     axios
-      .get(`${apiList.userId}/${getUser}`)
+      .get(`${apiList.user}/${getUser}`)
       .then((response) => {
         console.log("type", response);
         setUser(response.data);
