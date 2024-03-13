@@ -27,7 +27,6 @@ import Refer from "pages/landingPage/Refer";
 import AdminJobs from "pages/admin/AdminJobs";
 import AdminSettings from "pages/admin/AdminSettings";
 import CookiePolicy from "pages/landingPage/AboutUs/CookiePolicy";
-import OTPInput from "pages/landingPage/SignIn/EmailVerify/OTPInput";
 import AdminJob from "pages/admin/AdminJob";
 import TalentPool from "pages/admin/TalentPool";
 import { Slide, ToastContainer, toast } from "react-toastify";
