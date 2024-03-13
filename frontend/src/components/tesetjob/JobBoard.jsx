@@ -315,21 +315,18 @@ export default function JobBoard({ title, props }) {
           <div className="mt-20 col-span-3 transform ease-in duration-100 w-full bg-primary rounded-2xl p-6 text-left relative">
             <div className="grid grid-cols-2 md:p-10 p-4 gap-6">
               <h1 className="text-black lg:text-6xl text-4xl font-bold  sm:mx-auto lg:mx-0 mb-4 md:col-span-1 col-span-2">
-                Not sure where to refer your friends? Don't worry.
+                Let’s find your IT Talents
               </h1>
 
               <div className="md:col-span-1 col-span-2">
                 <p className="text-xl text-black md:mb-8 mb-16 md:pt-4">
-                  By referring your friend to the talent pool, you submit your
-                  friend to a pool of talents that companies can pick from. And
-                  yes, of course you get paid. <strong>15 000 SEK</strong> for a
-                  hire, <strong>500 SEK </strong>for an interview.
+                  Leave your contact so our Customer Love team can support you
                 </p>
                 <Link
                   to={`/jobs/talent-pool/refer`}
                   className="hover:opacity-80  cursor-pointer font-semibold text-md justify-center px-8 py-4 bg-black rounded-xl text-white"
                 >
-                  Refer to the pool
+                  Contact for me
                 </Link>
               </div>
             </div>

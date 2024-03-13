@@ -79,6 +79,13 @@ export default function Footer() {
 
           <Link
             className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
+            to="/create-new-job"
+          >
+            Create job
+          </Link>
+
+          <Link
+            className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
             to="/sign-in"
           >
             Sign in
