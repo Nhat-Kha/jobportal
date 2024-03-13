@@ -88,11 +88,6 @@ export default function JobAd({ job, tags, about, edit }) {
       {job && (
         <div className="w-11/12 mx-auto mt-20 pb-8">
           <div className="flex">
-            {/* <img
-              alt="company logo"
-              className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
-              src={icon}
-            /> */}
             {recruiter.map((recruiter, index) => (
               <img
                 alt="company logo"
