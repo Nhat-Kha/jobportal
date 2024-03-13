@@ -242,24 +242,32 @@ export default function JobBoard({ title, props }) {
 
               <span></span>
 
-              <div className="flex justify-center items-center">
-                <FilterPopup
-                  open={filterOpen}
-                  searchOptions={searchOptions}
-                  setSearchOptions={(newSearchOptions) => {
-                    setSearchOptions(newSearchOptions);
-                    setSearchOptions({
-                      ...newSearchOptions,
-                      salary: newSearchOptions.salary,
-                    });
-                  }}
-                  handleClose={() => setFilterOpen(false)}
-                  getData={() => {
-                    getData();
-                    setFilterOpen(false);
-                  }}
-                  handleJobTypeChange={handleJobTypeChange}
-                />
+              <div className="flex justify-between items-center gap-4">
+                <div className="pl-4">
+                  <span className="font-semibold text-slate-600 text-2xl">
+                    {jobs.length} IT Jobs in Here
+                  </span>
+                </div>
+
+                <div className="flex justify-center items-center pr-4">
+                  <FilterPopup
+                    open={filterOpen}
+                    searchOptions={searchOptions}
+                    setSearchOptions={(newSearchOptions) => {
+                      setSearchOptions(newSearchOptions);
+                      setSearchOptions({
+                        ...newSearchOptions,
+                        salary: newSearchOptions.salary,
+                      });
+                    }}
+                    handleClose={() => setFilterOpen(false)}
+                    getData={() => {
+                      getData();
+                      setFilterOpen(false);
+                    }}
+                    handleJobTypeChange={handleJobTypeChange}
+                  />
+                </div>
               </div>
             </div>
           )}

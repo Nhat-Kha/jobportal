@@ -237,12 +237,12 @@ export default function JobAd({ job, tags, about, edit }) {
             <div className="w-11/12 mx-auto mt-10 pb-4">
               <div className="w-full flex items-center justify-between">
                 <div className="w-3/4 flex gap-2">
-                  {recruiters.map((recruiter, index) => (
+                  {recruiters.map((recruiter) => (
                     <img
                       alt="company logo"
                       className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
                       src={recruiter.profile}
-                      key={index}
+                      key={recruiter._id}
                     />
                   ))}
 
@@ -327,6 +327,20 @@ export default function JobAd({ job, tags, about, edit }) {
                   <span className="text-sm">No. of Vacancies</span>
                   <p className="text-lg font-semibold text-gray-700">
                     {about.maxPositions}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-center items-center">
+                <div
+                  className={`bg-${
+                    about.maxPositions - about.acceptedCandidates > 0
+                      ? "[#fffbd8]"
+                      : "gray-400"
+                  } w-42 h-16 px-6 rounded-lg flex flex-col items-center justify-center`}
+                >
+                  <span className="text-sm">Remaining Positions</span>
+                  <p className="text-lg font-semibold text-gray-700">
+                    {about.maxPositions - about.acceptedCandidates}
                   </p>
                 </div>
               </div>

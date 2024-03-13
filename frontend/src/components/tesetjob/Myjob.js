@@ -290,7 +290,7 @@ const Myjob = ({ job }, index) => {
                   {hasAcceptedJob ? "Job accepted!" : "Apply"}
                 </Link>
               ) : (
-                <p className="text-md justify-center px-8 py-3 bg-gray-400 rounded-xl text-black">
+                <p className="text-md justify-center px-8 py-3 bg-gray-400 rounded-xl text-black cursor-not-allowed">
                   Position Filled
                 </p>
               )}
