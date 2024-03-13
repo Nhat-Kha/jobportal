@@ -1,10 +1,8 @@
 import LeaderboardCard from "components/LeaderboardCard";
 import LeaderboardTable from "components/tables/LeaderboardTable";
 import useLeaderboard from "hooks/useLeaderboard";
-import { userType } from "libs/isAuth";
 
 export default function Leaderboard() {
-  // const type = userType();
   const user = useLeaderboard();
 
   if (!user) {

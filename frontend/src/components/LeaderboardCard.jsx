@@ -1,12 +1,6 @@
-import {
-  faAward,
-  faCrown,
-  faMedal,
-  faTrophy,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAward, faMedal, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Rating } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 
 export default function LeaderboardCard({ user }) {
   function generateIcon(index) {
@@ -56,7 +50,6 @@ export default function LeaderboardCard({ user }) {
                     readonly
                   />
                 </div>
-                {/* <div className="">{User}</div> */}
               </div>
             </div>
           </div>
@@ -66,11 +59,7 @@ export default function LeaderboardCard({ user }) {
       )}
 
       <p className="text-sm text-center mt-10 mb-3">
-        * The leaderboard only shows users who have signed up for a Greeter
-        account.{" "}
-        <Link to="/sign-up/new-greeter" className="text-money hover:underline">
-          Sign up
-        </Link>
+        * The leaderboard table only displays currently available jobs.{" "}
       </p>
     </div>
   );
