@@ -20,6 +20,7 @@ import {
 import { Link } from "react-router-dom";
 export default function JobAd({ job, tags, about, edit }) {
   const [recruiters, setRecruiters] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (about) {
@@ -38,6 +39,10 @@ export default function JobAd({ job, tags, about, edit }) {
     about && about.deadline
       ? new Date(about.deadline).toLocaleDateString()
       : "";
+
+  const handleReadMoreClick = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   function calculateDays(date) {
     let daysAgo = Math.floor((new Date() - date) / (1000 * 3600 * 24));
@@ -214,10 +219,10 @@ export default function JobAd({ job, tags, about, edit }) {
                 <div className="w-3/4 flex gap-2">
                   {recruiters.map((recruiter, index) => (
                     <img
-                      key={index}
                       alt="company logo"
                       className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
                       src={recruiter.profile}
+                      key={index}
                     />
                   ))}
 
@@ -226,7 +231,7 @@ export default function JobAd({ job, tags, about, edit }) {
                       {about?.title}
                     </p>
                     <span className="text-base">{about?.location}</span>
-                    {recruiters.map((recruiter, index) => (
+                    {recruiters.map((recruiter) => (
                       <Link to={`/companies/${recruiter.userId}`}>
                         <span className="text-base text-blue-600">
                           Posted By :{" "}
@@ -313,23 +318,26 @@ export default function JobAd({ job, tags, about, edit }) {
               <div className="my-6">
                 <>
                   <p className="text-xl font-semibold">About the job</p>
-                  <div
-                    className="text-base"
-                    dangerouslySetInnerHTML={{ __html: about.description }}
-                  ></div>
+                  <div className="text-base">
+                    {isExpanded ? (
+                      <div
+                        dangerouslySetInnerHTML={{ __html: about.description }}
+                      />
+                    ) : (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: about.description.slice(0, 1000) + "... ",
+                        }}
+                      />
+                    )}
+                    <span
+                      className="text-blue-500 hover:opacity-60 ease-in-out duration-150 cursor-pointer"
+                      onClick={handleReadMoreClick}
+                    >
+                      {isExpanded ? "Read less" : "Read more"}
+                    </span>
+                  </div>
                 </>
-                {/* <>
-                <div className="mb-6 flex flex-col">
-                  <p className="text-xl text-blue-600 font-semibold">
-                    {job?.company?.name}
-                  </p>
-                  <span className="text-base">{job?.company?.location}</span>
-                  <span className="text-sm">{job?.company?.email}</span>
-                </div>
-
-                <p className="text-xl font-semibold">About Company</p>
-                <span>{job?.company?.about}</span>
-              </> */}
               </div>
             </div>
           </div>

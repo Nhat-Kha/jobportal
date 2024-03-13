@@ -330,24 +330,31 @@ export default function InfoRecruiter() {
 
                       <div className="flex items-center pt-6">
                         {userType() === "applicant" ? (
-                          <Link
-                            className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
-                            text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
-                              hasAcceptedJob
-                                ? "opacity-50 cursor-not-allowed"
-                                : ""
-                            }`}
-                            onClick={() => handleApply()}
-                            title={
-                              hasAcceptedJob
-                                ? "You already have an accepted job"
-                                : ""
-                            }
-                          >
-                            {hasAcceptedJob ? "Job accepted!" : "Apply"}
-                          </Link>
+                          <>
+                            {job.maxPositions - job.acceptedCandidates > 0 ? (
+                              <Link
+                                className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
+                                text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
+                                  hasAcceptedJob
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                                }`}
+                                onClick={() => handleApply()}
+                                title={
+                                  hasAcceptedJob
+                                    ? "You already have an accepted job"
+                                    : ""
+                                }
+                              >
+                                {hasAcceptedJob ? "Job accepted!" : "Apply"}
+                              </Link>
+                            ) : (
+                              <p className="text-md justify-center px-8 py-3 bg-gray-400 rounded-xl text-black">
+                                Position Filled
+                              </p>
+                            )}
+                          </>
                         ) : null}
-
                         <Link
                           className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-gray-100 hover:bg-gray-200 ease-out duration-300 px-3 py-3 rounded-xl border-none"
                           to={`/jobs/${job._id}`}

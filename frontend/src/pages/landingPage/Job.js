@@ -168,8 +168,8 @@ export default function Job(props) {
                     onClick={handleClickJob}
                   >
                     <div
-                      className="w-full h-[30rem] md:w-[16rem] 2xl:w-[18rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
-                      rounded-md px-3 py-5 "
+                      className="w-full h-[30rem] md:w-[20rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
+                      rounded-md px-3 py-5 text-wrap"
                     >
                       <div className="flex gap-3">
                         <img
