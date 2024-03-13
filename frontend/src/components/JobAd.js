@@ -18,8 +18,10 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { getId } from "libs/isAuth";
 export default function JobAd({ job, tags, about, edit }) {
   const [recruiters, setRecruiters] = useState([]);
+  const [recruiter, setRecruiter] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
@@ -34,6 +36,21 @@ export default function JobAd({ job, tags, about, edit }) {
       });
     }
   }, [about]);
+
+  useEffect(() => {
+    if (job) {
+      const userID = getId();
+      console.log("user ID :", userID);
+      axios.get(`${apiList.allRecruiter}`).then((response) => {
+        const filteredRecruiters = response.data.allUser.filter(
+          (recruiter) => recruiter.userId === userID
+        );
+        setRecruiter(filteredRecruiters);
+      });
+    }
+  }, [job]);
+
+  console.log("recruiter:", recruiter);
 
   const deadline =
     about && about.deadline
@@ -76,6 +93,14 @@ export default function JobAd({ job, tags, about, edit }) {
               className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
               src={icon}
             /> */}
+            {recruiter.map((recruiter, index) => (
+              <img
+                alt="company logo"
+                className="md:h-24 md:w-24 w-20 h-20 md:mr-6 mr-4 rounded-md"
+                src={recruiter.profile}
+                key={index}
+              />
+            ))}
 
             <div>
               <h1 className="font-semibold lg:text-4xl text-2xl mt-3">
