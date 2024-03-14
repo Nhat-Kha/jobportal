@@ -360,7 +360,7 @@ export default function JobAd({ job, tags, about, edit }) {
                     ) : (
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: about.description.slice(0, 1000) + "... ",
+                          __html: about.description.slice(0, 600) + "... ",
                         }}
                       />
                     )}
