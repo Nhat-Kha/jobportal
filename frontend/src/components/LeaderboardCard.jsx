@@ -19,6 +19,13 @@ export default function LeaderboardCard({ user }) {
     } else return <h1>{index}.</h1>;
   }
 
+  const sortedJobs =
+    user && user.length > 0
+      ? user.sort(
+          (a, b) => new Date(a.dateOfPosting) - new Date(b.dateOfPosting)
+        )
+      : [];
+
   console.log(user);
 
   return (
@@ -30,8 +37,8 @@ export default function LeaderboardCard({ user }) {
         Helping your friends land their dream job deserves recognition 🎉
       </p>
 
-      {user && Object.keys(user) && user.length > 0 ? (
-        user.map((User, id) => (
+      {sortedJobs.length > 0 ? (
+        sortedJobs.map((User, id) => (
           <div
             key={id}
             className="px-3 py-5 relative border-b border-gray items-center text-left "

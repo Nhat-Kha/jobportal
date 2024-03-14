@@ -6,6 +6,7 @@ import { SetPopupContext } from "App";
 import apiList from "../../libs/apiList";
 import { getId } from "libs/isAuth";
 import { useParams } from "react-router-dom";
+import { MuiChipsInput } from "mui-chips-input";
 
 export default function Settings() {
   const setPopup = useContext(SetPopupContext);
@@ -16,6 +17,7 @@ export default function Settings() {
   const [imagesPreview, setImagesPreview] = useState("");
   const [userData, setUserData] = useState();
   const [open, setOpen] = useState(false);
+  const [chips, setChips] = useState([]);
 
   const [profileDetails, setProfileDetails] = useState({
     name: "",
@@ -47,6 +49,7 @@ export default function Settings() {
         console.log(response.data);
         setProfileDetails({
           ...response.data,
+          skills: response.data.skills || [],
           education: response.data.education.map((edu) => ({
             institutionName: edu.institutionName ? edu.institutionName : "",
             startYear: edu.startYear ? edu.startYear : "",
@@ -63,6 +66,7 @@ export default function Settings() {
         });
       });
   };
+
   console.log("update education: ", profileDetails.education);
 
   const handleUpdate = async () => {
@@ -78,6 +82,7 @@ export default function Settings() {
       const updatedDetails = {
         ...profileDetails,
         education: updatedEducation,
+        skills: chips.filter((item) => item.trim() !== ""),
       };
 
       console.log("updatedDetails:", updatedDetails);
@@ -151,6 +156,10 @@ export default function Settings() {
         message: "Error",
       });
     }
+  };
+
+  const handleChip = (newChips) => {
+    setChips(newChips);
   };
 
   return (
@@ -237,6 +246,13 @@ export default function Settings() {
             Add another institution details
           </button>
         </div>
+        <MuiChipsInput
+          label="Skill *"
+          helperText="Please enter to add skill"
+          value={chips}
+          onChange={handleChip}
+          className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
+        />
 
         <div className="w-full mb-6">
           <h2 className="font-semibold text-xl py-4">
