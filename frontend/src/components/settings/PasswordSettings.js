@@ -6,7 +6,7 @@ export default function PasswordSettings({ user }) {
   const [confirmPassword, setConfirmPassword] = useState();
 
   return (
-    <div className="md:mt-0 my-16">
+    <div className="md:mt-0 my-16 p-4 bg-white rounded-xl shadow-lg">
       <h3 className="text-2xl font-medium leading-6 text-gray-900">Password</h3>
       <p className="mt-1 text-sm text-gray-600">Change to a new password.</p>
 

@@ -9,12 +9,12 @@ export default function AdminSettings({ user }) {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-gray-100">
         <div className="grid grid-cols-12 py-32  w-11/12 mx-auto min-h-screen gap-16">
           <div className="col-span-3">
             <button
               className={`${
-                active === 0 ? "bg-light" : "bg-white text-gray-500"
+                active === 0 ? "bg-white" : "bg-gray-100 text-gray-600"
               } w-full text-left font-semibold cursor-pointer px-8 py-3 rounded-xl block`}
               onClick={() => setActive(0)}
             >
@@ -23,7 +23,7 @@ export default function AdminSettings({ user }) {
 
             <button
               className={`${
-                active === 1 ? "bg-light" : "bg-white text-gray-500"
+                active === 1 ? "bg-white" : "bg-gray-100 text-gray-600"
               } w-full text-left font-semibold cursor-pointer px-8 py-3 rounded-xl block`}
               onClick={() => setActive(1)}
             >
@@ -32,7 +32,7 @@ export default function AdminSettings({ user }) {
 
             <button
               className={`${
-                active === 2 ? "bg-light" : "bg-white text-gray-500"
+                active === 2 ? "bg-white" : "bg-gray-100 text-gray-600"
               } w-full text-left font-semibold cursor-pointer px-8 py-3 rounded-xl block`}
               onClick={() => setActive(2)}
             >

@@ -127,7 +127,7 @@ export default function CompanySettings({ profile, user }) {
   };
 
   return (
-    <div>
+    <div className="p-4 bg-white rounded-xl shadow-lg">
       <h3 className="text-2xl font-medium leading-6 text-gray-900">
         Edit public profile
       </h3>

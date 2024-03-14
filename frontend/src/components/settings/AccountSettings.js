@@ -15,7 +15,7 @@ export default function AccountSettings({ user, profile }) {
   }
 
   return (
-    <div className="md:mt-0 mt-16">
+    <div className="md:mt-0 mt-16 p-4 bg-white rounded-xl shadow-lg">
       <h3 className="text-2xl font-medium leading-6 text-gray-900">
         Account settings
       </h3>
