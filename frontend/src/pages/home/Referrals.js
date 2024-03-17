@@ -37,7 +37,7 @@ export default function Referrals() {
         console.log(err.response.data);
         setPopup({
           open: true,
-          severity: "error",
+          icon: "error",
           message: "Error",
         });
       });
