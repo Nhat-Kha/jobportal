@@ -274,26 +274,31 @@ const Myjob = ({ job }, index) => {
           ) : null}
         </div>
         <div className="flex items-center pt-6">
-          {userType() === "applicant" ? (
+          {userType() === "applicant" && job ? (
             <>
-              {job.maxPositions - job.acceptedCandidates > 0 ? (
-                <Link
-                  className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
-                  text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
-                    hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                  onClick={() => handleApply()}
-                  title={
-                    hasAcceptedJob ? "You already have an accepted job" : ""
-                  }
-                >
-                  {hasAcceptedJob ? "Job accepted!" : "Apply"}
-                </Link>
-              ) : (
-                <p className="text-md justify-center px-8 py-3 bg-gray-400 rounded-xl text-black cursor-not-allowed">
-                  Position Filled
-                </p>
-              )}
+              {job.maxPositions !== undefined &&
+              job.acceptedCandidates !== undefined ? (
+                <>
+                  {job.maxPositions - job.acceptedCandidates > 0 ? (
+                    <Link
+                      className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
+                        text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
+                          hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                      onClick={() => handleApply()}
+                      title={
+                        hasAcceptedJob ? "You already have an accepted job" : ""
+                      }
+                    >
+                      {hasAcceptedJob ? "Job accepted!" : "Apply"}
+                    </Link>
+                  ) : (
+                    <p className="text-md justify-center px-8 py-3 bg-gray-400 rounded-xl cursor-not-allowed text-black">
+                      Position Filled
+                    </p>
+                  )}
+                </>
+              ) : null}
             </>
           ) : null}
           <Link

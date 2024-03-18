@@ -278,6 +278,7 @@ export default function SignUp() {
             message: "Logged in successfully",
           });
           console.log(response);
+          history("/");
         })
         .catch((err) => {
           setPopup({

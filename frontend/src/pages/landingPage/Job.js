@@ -15,8 +15,11 @@ export default function Job(props) {
   const [allJob, setAllJob] = useState();
   const [hasAcceptedJob, setHasAcceptedJob] = useState(false);
   const [open, setOpen] = useState(false);
+  const [sop, setSop] = useState("");
+
   const handleClose = () => {
     setOpen(false);
+    setSop("");
   };
 
   const userApply = () => {
@@ -27,6 +30,7 @@ export default function Job(props) {
 
   const handleApply = () => {
     console.log(job._id);
+    console.log(sop);
 
     if (userApply()) {
       setPopup({
@@ -36,22 +40,22 @@ export default function Job(props) {
           "You already have an accepted job. Cannot apply for another job.",
       });
       return;
-    } else {
-      setPopup({
-        open: true,
-        icon: "warn",
-        message: "You already have an accepted job",
-      });
     }
 
     axios
-      .post(`${apiList.jobs}/${job._id}/applications`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      .post(
+        `${apiList.jobs}/${job._id}/applications`,
+        {
+          sop: sop,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then((response) => {
-        history(`/jobs/${job._id}/refer`);
+        // history(`/jobs/${job._id}/refer`);
         setPopup({
           open: true,
           icon: "success",
@@ -60,7 +64,6 @@ export default function Job(props) {
         handleClose();
       })
       .catch((err) => {
-        console.log(err.response);
         setPopup({
           open: true,
           icon: "error",
@@ -148,9 +151,9 @@ export default function Job(props) {
                     {job.maxPositions - job.acceptedCandidates > 0 ? (
                       <Link
                         className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
-                text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
-                  hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                        text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
+                          hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                         onClick={() => handleApply()}
                         title={
                           hasAcceptedJob
