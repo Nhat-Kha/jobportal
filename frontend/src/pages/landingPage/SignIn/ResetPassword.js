@@ -43,22 +43,28 @@ export default function ResetPassword({ forgotPassword }) {
     const verified = !Object.keys(inputErrorHandler).some((obj) => {
       return inputErrorHandler[obj].error;
     });
-    if (verified) {
-      try {
+    try {
+      if (verified) {
         const response = await axios.post(apiList.forgot, { email });
         setPopup({
           open: true,
           icon: "success",
-          message: "Successfully",
+          message: "Successfully sent email",
         });
         console.log(response);
-      } catch (err) {
+      } else {
         setPopup({
           open: true,
-          icon: "error",
-          message: err.message || "An error occurred",
+          icon: "warn",
+          message: "Sent Email Fail",
         });
       }
+    } catch (err) {
+      setPopup({
+        open: true,
+        icon: "error",
+        message: err.message || "An error occurred",
+      });
     }
   };
 
