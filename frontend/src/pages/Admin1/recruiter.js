@@ -43,7 +43,7 @@ export default function Recruiter() {
   return (
     <div className="min-h-screen pt-10">
       <div className="pb-4">
-        <span className="font-semibold text-slate-500">ALL APPLICANT</span>
+        <span className="font-semibold text-slate-500">ALL RECRUITER</span>
         <span className="font-bold">({all.length})</span>
       </div>
       <>
@@ -67,7 +67,7 @@ export default function Recruiter() {
                 </span>
               </div>
             </div>
-            <div className="mt-2">
+            <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex-1 w-[30rem]">
               <div className="text-bold">Number phone:</div>
               <span className="font-semibold">{recruiter.contactNumber}</span>
             </div>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "assets/images/logo.png";
-import github from "assets/github.png";
+import LinkedIn from "assets/LinkedIn.png";
 import instagram from "assets/Instagram.webp";
 
 export default function Footer() {
@@ -140,7 +140,7 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
-            <img src={github} className="w-12 h-12" />
+            <img src={LinkedIn} className="w-12 h-12" />
           </a>
         </div>
       </div>
