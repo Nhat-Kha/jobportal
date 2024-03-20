@@ -83,15 +83,6 @@ export default function PrivacyPolicy() {
           >
             https://vercel.com/
           </a>{" "}
-          {/* ,{" "}
-          <a
-            rel="noreferrer"
-            className="text-blue-400"
-            href="https://www.emailjs.com/"
-            target="_blank"
-          >
-            https://www.emailjs.com/
-          </a>{" "} */}
           and{" "}
           <a
             rel="noreferrer"

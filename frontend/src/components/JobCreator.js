@@ -10,7 +10,6 @@ import { MuiChipsInput } from "mui-chips-input";
 import { SetPopupContext } from "App";
 import apiList from "../libs/apiList";
 import axios from "axios";
-import { userType } from "libs/isAuth";
 import isAuth from "libs/isAuth";
 
 function WaitingBtn() {
@@ -21,7 +20,7 @@ function WaitingBtn() {
   );
 }
 
-export default function JobCreator({ jobToEdit, props }) {
+export default function JobCreator({ jobToEdit }) {
   const setPopup = useContext(SetPopupContext);
 
   const [tags, setTags] = useState([]);
@@ -92,13 +91,6 @@ export default function JobCreator({ jobToEdit, props }) {
       [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
     ],
-  };
-
-  const handleInput = (key, value) => {
-    setJob({
-      ...job,
-      [key]: value,
-    });
   };
 
   const handleUpdate = () => {
@@ -284,14 +276,6 @@ export default function JobCreator({ jobToEdit, props }) {
           ) : (
             <WaitingBtn />
           )}
-
-          {/* <button
-            className="text-center transform hover:-translate-y-1 hover:shadow-lg 
-          cursor-pointer font-bold text-md px-8 py-3 bg-primary rounded-xl text-black"
-            onClick={() => handleUpdate()}
-          >
-            Save
-          </button> */}
           <Link
             to="/admin"
             className="ml-2 font-semibold mr-2 cursor-pointer border-b-2 border-black bg-light px-8 py-3 rounded-xl border-none"

@@ -132,7 +132,7 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
-            <img src={instagram} className="w-12 h-12" />
+            <img src={instagram} alt="Instagram logo" className="w-12 h-12" />
           </a>
           <a
             className="w-28 opacity-80 hover:opacity-100 font-semibold text-lg"
@@ -140,7 +140,7 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
-            <img src={LinkedIn} className="w-12 h-12" />
+            <img src={LinkedIn} alt="LinkedIn logo" className="w-12 h-12" />
           </a>
         </div>
       </div>

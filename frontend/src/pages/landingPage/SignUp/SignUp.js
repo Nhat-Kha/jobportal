@@ -7,9 +7,6 @@ import axios from "axios";
 import isAuth from "libs/isAuth";
 import apiList from "../../../libs/apiList";
 import { MuiChipsInput } from "mui-chips-input";
-import FileUploadInput from "libs/FileUploadInput";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { apiUploadImages } from "libs/uploadImage";
 import { useNavigate } from "react-router-dom";
 
@@ -83,11 +80,6 @@ export default function SignUp() {
     const phoneRegex = /^\+\d{1,4}\d{6,}$/;
 
     return phoneRegex.test(phoneNumber);
-  };
-  const removePhoneNumberPrefix = (phoneNumber) => {
-    const prefixRegex = /^\+\d{1,4}/;
-
-    return phoneNumber.replace(prefixRegex, "");
   };
 
   let allFieldsCheckedApplicant = false;
@@ -196,7 +188,7 @@ export default function SignUp() {
             icon: "success",
             message: "Logged in successfully",
           });
-          history("/");
+          history("/referrals");
           console.log("export" + response);
           console.log(response?.data.type);
         })
@@ -278,7 +270,7 @@ export default function SignUp() {
             message: "Logged in successfully",
           });
           console.log(response);
-          history("/");
+          history("/admin");
         })
         .catch((err) => {
           setPopup({

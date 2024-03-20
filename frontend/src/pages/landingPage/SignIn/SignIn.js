@@ -18,11 +18,6 @@ export default function SignIn({ login }) {
 
   let allFieldsChecked =
     loginDetails.email.length > 0 && loginDetails.password.length > 0;
-  // setPopup({
-  //   open: true,
-  //   icon: "warn",
-  //   message: "Please fill in all required fields.",
-  // });
 
   const [inputErrorHandler, setInputErrorHandler] = useState({
     email: {
@@ -156,18 +151,6 @@ export default function SignIn({ login }) {
                 ? "bg-primary text-gray-500 hover:bg-[#F2994A] hover:text-black border-yellow-100 cursor-pointer"
                 : "bg-yellow-100 text-yellow-800 cursor-not-allowed border-yellow-100"
             }`}
-            // onClick={() => {
-            //   if (allFieldsChecked) {
-            //     handleLogin();
-            //     console.log("Input valid on button:", loginDetails);
-            //   } else {
-            //     setPopup({
-            //       open: true,
-            //       icon: "warn",
-            //       message: "Please fill in all required fields",
-            //     });
-            //   }
-            // }}
           >
             Sign in
           </button>

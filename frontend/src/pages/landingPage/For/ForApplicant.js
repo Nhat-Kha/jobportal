@@ -2,12 +2,10 @@ import FAQ from "components/FAQ";
 import Banner from "components/Banner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-// import greeters from "assets/images/greeters.png";
-import icon from "assets/icon.jpg";
+import icon from "assets/images/help.jpg";
 
 import {
   faHandPeace,
-  faArrowRight,
   faSearch,
   faMoneyBillWave,
 } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +20,7 @@ export default function ForApplicant() {
         </h1>
         <div
           className="grid lg:grid-cols-3 grid-cols-1 gap-14 md:py-32 py-12
-        md:text-left text-center md:w-10/12 w-11/12 mx-auto "
+          md:text-left text-center md:w-10/12 w-11/12 mx-auto "
         >
           <div>
             <FontAwesomeIcon

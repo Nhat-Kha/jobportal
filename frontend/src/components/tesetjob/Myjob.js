@@ -65,7 +65,6 @@ const Myjob = ({ job }, index) => {
         }
       )
       .then((response) => {
-        // history(`/jobs/${job._id}/refer`);
         setPopup({
           open: true,
           icon: "success",

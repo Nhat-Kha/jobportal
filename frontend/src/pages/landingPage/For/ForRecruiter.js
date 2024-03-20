@@ -1,9 +1,8 @@
 import FAQ from "components/FAQ";
 import Banner from "components/Banner";
-import chart from "assets/images/chart.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import companies from "assets/images/companies.png";
+import companies from "assets/images/companies1.png";
 
 import {
   faCopy,
@@ -40,7 +39,7 @@ export default function ForRecruiter() {
 
           <img
             alt="pricing example chart"
-            className="mt-20 w-11/12 mx-auto"
+            className="mt-20 w-11/12 mx-auto bg-light"
             src={companies}
           />
         </div>

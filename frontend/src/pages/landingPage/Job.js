@@ -55,7 +55,6 @@ export default function Job(props) {
         }
       )
       .then((response) => {
-        // history(`/jobs/${job._id}/refer`);
         setPopup({
           open: true,
           icon: "success",

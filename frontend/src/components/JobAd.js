@@ -5,18 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import apiList from "libs/apiList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faCircleCheck,
-  faClipboardCheck,
-  faFlag,
-  faHourglassHalf,
-  faLocationDot,
-  faSackDollar,
-  faShield,
-  faSuitcase,
-  faUsers,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { getId } from "libs/isAuth";
 export default function JobAd({ job, tags, about, edit }) {
@@ -51,11 +40,6 @@ export default function JobAd({ job, tags, about, edit }) {
   }, [job]);
 
   console.log("recruiter:", recruiter);
-
-  const deadline =
-    about && about.deadline
-      ? new Date(about.deadline).toLocaleDateString()
-      : "";
 
   const handleReadMoreClick = () => {
     setIsExpanded(!isExpanded);

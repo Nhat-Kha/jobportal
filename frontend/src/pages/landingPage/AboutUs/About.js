@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 function About() {
   return (
     <div className="bg-[#f8e5d4]">
