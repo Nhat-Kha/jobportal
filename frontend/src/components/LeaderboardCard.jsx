@@ -53,6 +53,7 @@ export default function LeaderboardCard({ user }) {
                 </div>
                 <div className="text-sm text-gray-500">
                   <Rating
+                    className="cursor-default"
                     value={User.rating !== -1 ? User.rating : null}
                     readonly
                   />

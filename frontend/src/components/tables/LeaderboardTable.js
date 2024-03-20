@@ -61,7 +61,7 @@ export default function LeaderboardTable({ user }) {
                     <Link to={`/jobs/${User._id}`}>
                       <div className="flex items-center ">
                         <div>
-                          <div className="text-sm font-bold text-gray-900">
+                          <div className="text-sm font-bold cursor-default text-gray-900">
                             {User.title}
                           </div>
                         </div>
@@ -69,7 +69,7 @@ export default function LeaderboardTable({ user }) {
                     </Link>
                   </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap cursor-default text-sm text-gray-500">
                     <Rating
                       className="cursor-default"
                       value={User.rating !== -1 ? User.rating : null}
