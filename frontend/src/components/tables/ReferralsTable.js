@@ -1,11 +1,12 @@
 import { SetPopupContext } from "App";
 import axios from "axios";
 import apiList from "../../libs/apiList";
-import React, { useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Rating, Typography } from "@material-tailwind/react";
-import { Button, Modal } from "flowbite-react";
+import { Button, Modal, ModalBody } from "flowbite-react";
 import { getId } from "libs/isAuth";
+import { Dialog, Transition } from "@headlessui/react";
 
 const th = [
   "Title",
@@ -249,7 +250,7 @@ export default function ReferralsTable(props) {
         </div>
       </div>
 
-      <Modal
+      {/* <Modal
         show={open}
         onClose={handleClose}
         className={`transition-opacity ${
@@ -294,7 +295,83 @@ export default function ReferralsTable(props) {
             </Modal.Footer>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
+      <Transition appear show={open} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          onClose={handleClose}
+        >
+          <div className="min-h-screen px-4 text-center">
+            <Transition.Child>
+              <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
+            </Transition.Child>
+
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div className="inline-block w-full max-w-lg md:p-6 p-3 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <h1 className="text-center text-3xl font-semibold">Select</h1>
+                <div className="relative bg-white p-2 mt-6">
+                  <div className="bg-gray-100 p-5 outline-none flex flex-col justify-center min-w-[30%] items-center gap-4">
+                    <div>
+                      <span className="font-bold">Job name</span>:
+                      <span className="font-semibold">
+                        {" "}
+                        {selectedReferral?.job?.title}
+                      </span>
+                    </div>
+                    <Rating
+                      name="simple-controlled"
+                      value={rating === -1 ? null : rating}
+                      onChange={(newValue) => {
+                        setRating(newValue);
+                      }}
+                      className="text-yellow-300 mb-[10px]"
+                    />
+                  </div>
+                  <div className="bg-gray-100 flex justify-center rounded-b-2xl pb-6 gap-2">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "10px 50px" }}
+                      onClick={() => {
+                        changeRating(selectedReferral?.jobId);
+                      }}
+                      className="bg-yellow-200 text-gray-500 hover:bg-yellow-300 hover:text-black border-yellow-100 cursor-pointer"
+                    >
+                      <span className="font-semibold">Submit</span>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "10px 50px" }}
+                      onClick={() => {
+                        handleClose();
+                      }}
+                      className="bg-gray-200 hover:bg-slate-300 transition duration-300"
+                    >
+                      <span className="font-semibold">Cancel</span>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
     </>
   );
 }

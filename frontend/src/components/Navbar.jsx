@@ -18,7 +18,7 @@ export default function Navbar() {
             <div className="flex">
               <Link className="flex pt-1" to="/">
                 <img className="md:pl-5 pl-2" src={logo} alt="logo" />
-                <h1 className="md:pl-2 pl-2 text-3xl text-[#F2994A] font-medium hover:opacity-60">
+                <h1 className="md:pl-2 pl-2 text-2xl sm:text-2xl md:text-3xl text-[#F2994A] font-medium hover:opacity-60">
                   JobPortal
                 </h1>
               </Link>
@@ -55,7 +55,7 @@ export default function Navbar() {
                   {userType() === "recruiter" ? (
                     <Link
                       to="/create-new-job"
-                      className="hover:opacity-80 flex cursor-pointer items-center font-semibold text-sm justify-center px-6 bg-black rounded-lg mr-8 text-white"
+                      className="hidden sm:flex md:flex lg:flex xl:flex 2xl:flex  hover:opacity-80 cursor-pointer items-center font-semibold text-sm justify-center px-6 bg-black rounded-lg mr-8 text-white"
                     >
                       <FontAwesomeIcon icon={faPlus} className="mr-3" />
                       Create new job
@@ -63,6 +63,7 @@ export default function Navbar() {
                   ) : (
                     ""
                   )}
+
                   <ProfileMenu type={userType} />
                 </>
               ) : (

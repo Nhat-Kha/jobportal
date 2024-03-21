@@ -16,7 +16,7 @@ export default function LeaderboardCard({ user }) {
       return (
         <FontAwesomeIcon icon={faAward} className="text-yellow-600 text-4xl" />
       );
-    } else return <h1>{index}.</h1>;
+    } else return <>{index}.</>;
   }
 
   const sortedJobs =

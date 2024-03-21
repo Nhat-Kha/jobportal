@@ -60,7 +60,6 @@ export default function ProfileMenu() {
                 />
               </div>
             )}
-            {/* <img src={icon} className="h-12 w-12 rounded-full" /> */}
             <FontAwesomeIcon
               icon={faCaretDown}
               className="ml-1 bottom-0 mt-5"

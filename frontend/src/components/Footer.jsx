@@ -6,8 +6,8 @@ import instagram from "assets/Instagram.webp";
 export default function Footer() {
   return (
     <div className="bg-[#FFF5EC] text-whblackite text-left">
-      <div className="w-10/12 mx-auto pt-20 pb-8 flex flex-col sm:flex-row space-y-2 justify-start">
-        <div className="w-full sm:w-2/5 pr-6 flex flex-col space-y-2 pb-6 cursor-default">
+      <div className="w-10/12 mx-auto pt-20 pb-8 flex flex-col md:flex-row sm:flex-row space-y-2 justify-start">
+        <div className="w-full sm:w-2/5 md:w-3/5 pr-6 flex flex-col space-y-2 pb-6 cursor-default">
           <Link className="flex pt-1" to="/">
             <img className="h-12 pb-2 " src={logo} alt="logo" />
             <h1 className="md:pl-2 pl-2 text-4xl text-black font-medium hover:opacity-60">
@@ -29,7 +29,7 @@ export default function Footer() {
             Design.
           </span>
         </div>
-        <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6 cursor-default">
+        <div className="w-full sm:w-1/5 md:w-2/5 flex flex-col space-y-2 pb-6 cursor-default">
           <h1 className="text-2xl font-semibold">Welcome</h1>
           <Link
             className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
@@ -67,7 +67,7 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6">
+        <div className="w-full sm:w-1/5 md:w-2/5 flex flex-col space-y-2 pb-6">
           <h1 className="text-2xl font-semibold">Companies</h1>
 
           <Link
@@ -99,7 +99,7 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6">
+        <div className="w-full sm:w-1/5 md:w-2/5 flex flex-col space-y-2 pb-6">
           <h1 className="text-2xl font-semibold">JobPortal</h1>
 
           <Link
@@ -124,7 +124,7 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="w-full sm:w-1/5 flex flex-col space-y-2 pb-6">
+        <div className="w-full sm:w-1/5 md:w-2/5 flex flex-col space-y-2 pb-6">
           <h1 className="text-2xl font-semibold">Follow us</h1>
           <a
             className="w-28 font-semibold text-lg"

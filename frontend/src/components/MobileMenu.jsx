@@ -1,12 +1,16 @@
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
+import { userType } from "libs/isAuth";
 
 export default function MobileMenu() {
   const buttonRef = useRef();
+  const type = userType();
+
+  console.log("type:", type);
   return (
     <div className="px-4">
       <Popover className="relative">
@@ -57,21 +61,35 @@ export default function MobileMenu() {
                       Leaderboard
                     </Link>
 
-                    <Link
-                      onClick={() => buttonRef.current?.click()}
-                      to="/sign-in"
-                      className="flex items-center text-left p-2 mx-1 my-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                    >
-                      Sign in
-                    </Link>
+                    {type === null ? (
+                      <>
+                        <Link
+                          onClick={() => buttonRef.current?.click()}
+                          to="/sign-in"
+                          className="flex items-center text-left p-2 mx-1 my-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                        >
+                          Sign in
+                        </Link>
 
-                    <Link
-                      onClick={() => buttonRef.current?.click()}
-                      to="/sign-up"
-                      className="flex items-center text-left p-2 mx-1 my-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
-                    >
-                      Sign up
-                    </Link>
+                        <Link
+                          onClick={() => buttonRef.current?.click()}
+                          to="/sign-up"
+                          className="flex items-center text-left p-2 mx-1 my-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 text-lg font-semibold text-gray-900"
+                        >
+                          Sign up
+                        </Link>
+                      </>
+                    ) : type === "recruiter" ? (
+                      <div className="h-12">
+                        <Link
+                          to="/create-new-job"
+                          className="h-full hover:opacity-80 flex cursor-pointer items-center font-semibold text-sm justify-center px-6 bg-black rounded-lg mr-8 text-white"
+                        >
+                          <FontAwesomeIcon icon={faPlus} className="mr-3" />
+                          Create new job
+                        </Link>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </Popover.Panel>

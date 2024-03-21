@@ -100,18 +100,22 @@ export default function Jumbotron() {
               <img
                 src={billThree}
                 className="w-32 absolute -top-12 -right-20 md:block hidden"
+                alt=""
               />
               <img
                 src={billOne}
                 className="w-32 absolute md:-top-20 md:-left-20 left-4 top-96"
+                alt=""
               />
               <img
                 src={billTwo}
                 className="w-32 absolute bottom-0 top-52 -left-20 md:block hidden"
+                alt=""
               />
               <img
                 src={billFour}
                 className="w-32 absolute md:bottom-0 md:top-40 md:-right-20 top-96 right-6"
+                alt=""
               />
             </div>
             <h1 className="text-black text-6xl md:w-11/12 w-12/12 mx-auto sm:mt-5 font-bold md:mt-5 px-5">

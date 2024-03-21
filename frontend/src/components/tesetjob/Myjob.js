@@ -247,7 +247,7 @@ const Myjob = ({ job }, index) => {
             </span>
           </span>
         </p>
-        <div className="flex items-baseline">
+        <div className="flex items-baseline flex-wrap">
           {job.skillsets && job.skillsets.length >= 0 ? (
             <>
               <FontAwesomeIcon

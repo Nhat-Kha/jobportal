@@ -88,7 +88,16 @@ export default function JobBoard({ title, props }) {
     return new Date(b.dateOfPosting) - new Date(a.dateOfPosting);
   });
 
-  const limitedJobs = sortedJob.slice(0, maxJobsToShow);
+  const currentDate = new Date();
+
+  const limitedJobs = sortedJob
+    .filter((job) => {
+      const postingDate = new Date(job.dateOfPosting);
+      const differenceInDays =
+        (currentDate - postingDate) / (1000 * 60 * 60 * 24);
+      return differenceInDays <= 7;
+    })
+    .slice(0, maxJobsToShow);
 
   useEffect(() => {
     getData();
@@ -288,7 +297,7 @@ export default function JobBoard({ title, props }) {
               )}
             </div>
           ) : (
-            <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 mx-2 ">
+            <div className="grid lg:grid-cols-3 gap-6 grid-cols-1 sm:w-full mx-2 ">
               {jobs.length > 0 ? (
                 jobs.map((job, index) => {
                   return (

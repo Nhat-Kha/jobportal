@@ -79,7 +79,11 @@ export default function LeaderboardTable({ user }) {
                 </tr>
               ))
           ) : (
-            <p>No data available</p>
+            <tr>
+              <td>
+                <span>No data available</span>
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
