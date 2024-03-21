@@ -163,7 +163,7 @@ const ApplicationTile = (props) => {
     ),
     accepted: (
       <div className="w-[5.75rem] py-4 whitespace-nowrap text-sm text-gray-500 flex flex-col gap-2">
-        <div item xs>
+        <div>
           <button
             className="w-full h-full flex items-center justify-center uppercase font-semibold rounded-md"
             style={{

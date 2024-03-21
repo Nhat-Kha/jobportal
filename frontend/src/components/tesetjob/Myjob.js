@@ -280,9 +280,11 @@ const Myjob = ({ job }, index) => {
                 <>
                   {job.maxPositions - job.acceptedCandidates > 0 ? (
                     <Link
-                      className={`hover:opacity-80 ease-out duration-300 flex cursor-pointer items-center font-semibold 
+                      className={`hover:opacity-80 ease-out duration-300 flex items-center font-semibold 
                         text-md justify-center px-8 py-3 bg-primary rounded-xl text-black ${
-                          hasAcceptedJob ? "opacity-50 cursor-not-allowed" : ""
+                          hasAcceptedJob
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-pointer"
                         }`}
                       onClick={() => handleApply()}
                       title={

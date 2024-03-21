@@ -128,7 +128,7 @@ export default function ProfileMenu() {
                   <Menu.Item>
                     <div className="flex items-center justify-center gap-1">
                       <div
-                        class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                        className="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
                       >
                         <span>Recruiter</span>
@@ -182,7 +182,7 @@ export default function ProfileMenu() {
                   <Menu.Item>
                     <div className="flex items-center justify-center gap-1">
                       <div
-                        class="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                        className="relative grid select-none items-center whitespace-nowrap rounded-lg 
                           bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
                       >
                         <span>Admin</span>
