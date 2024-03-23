@@ -114,41 +114,33 @@ const updateUser = async (req, res) => {
     console.log("Update Data:", data);
 
     if (user.type == "recruiter") {
-      Recruiter.findOne({ userId: user._id })
-        .then((recruiter) => {
-          if (recruiter == null) {
-            res.status(404).json({
-              message: "User does not exist",
-            });
-            return;
-          }
+      const recruiter = await Recruiter.findOne({ userId: user._id });
 
-          if (data.name) {
-            recruiter.name = data.name;
-          }
-          if (data.contactNumber) {
-            recruiter.contactNumber = data.contactNumber;
-          }
-          if (data.profile) {
-            recruiter.profile = data.profile;
-          }
-          if (data.bio) {
-            recruiter.bio = data.bio;
-          }
-          if (data.banner) {
-            recruiter.banner = data.banner;
-          }
-
-          return recruiter.save();
-        })
-        .then(() => {
-          console.log("Recruiter Updated Successfully");
-          // If there is additional processing, you can perform it here
-        })
-        .catch((err) => {
-          console.error("Error updating recruiter:", err);
-          res.status(400).json(err);
+      if (!recruiter) {
+        return res.status(404).json({
+          message: "User does not exist",
         });
+      }
+
+      if (data.contactNumber) {
+        recruiter.contactNumber = data.contactNumber;
+      }
+
+      if (data.profile) {
+        recruiter.profile = data.profile;
+      }
+
+      if (data.bio) {
+        recruiter.bio = data.bio;
+      }
+
+      if (data.banner) {
+        recruiter.banner = data.banner;
+      }
+
+      await recruiter.save();
+
+      console.log("Recruiter Updated Successfully");
     } else {
       JobApplicant.findOne({ userId: user._id })
         .then((jobApplicant) => {
@@ -179,7 +171,6 @@ const updateUser = async (req, res) => {
         })
         .then(() => {
           console.log("Job Applicant Updated Successfully");
-          // If there is additional processing, you can perform it here
         })
         .catch((err) => {
           console.error("Error updating job applicant:", err);
