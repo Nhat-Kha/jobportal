@@ -1,4 +1,3 @@
-import ReferralCount from "../ReferralCount";
 import { useEffect, useState } from "react";
 import Select from "components/Select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

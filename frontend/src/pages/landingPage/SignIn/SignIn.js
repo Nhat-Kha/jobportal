@@ -111,9 +111,7 @@ export default function SignIn({ login }) {
     }
   }, [type, history]);
 
-  return loggedin ? (
-    <Navigate to="/" />
-  ) : (
+  return (
     <form onSubmit={handleSubmit}>
       <div className="min-h-screen bg-[#f8e5d4] md:pt-24 pt-12">
         <div className="bg-white rounded-2xl pt-10 md:px-8 px-6 pb-8 text-left md:w-4/12 w-11/12 mx-auto">

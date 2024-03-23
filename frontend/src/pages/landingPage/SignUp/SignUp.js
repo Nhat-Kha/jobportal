@@ -33,6 +33,7 @@ export default function SignUp() {
     education: [],
     skills: [],
     resume: "",
+    dateOfBirth: new Date(),
     profile: "",
     news: false,
     bio: "",

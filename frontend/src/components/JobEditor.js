@@ -41,8 +41,8 @@ export default function JobEditor({ jobToEdit, props }) {
     jobToEdit || {
       name: isAuth(),
       title: "",
-      maxApplicants: "",
-      maxPositions: "",
+      maxApplicants: 0,
+      maxPositions: 0,
       salary: 0,
       deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
         .toISOString()
