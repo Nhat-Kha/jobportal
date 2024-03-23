@@ -58,7 +58,6 @@ let schema = new mongoose.Schema(
     },
     dateOfBirth: {
       type: Date,
-      required: true,
     },
   },
   { collation: { locale: "en" } }
