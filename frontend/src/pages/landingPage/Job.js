@@ -12,10 +12,14 @@ export default function Job(props) {
   const setPopup = useContext(SetPopupContext);
   const { id } = useParams();
   const [job, setJob] = useState();
-  const [allJob, setAllJob] = useState();
+  const [allJob, setAllJob] = useState([]);
   const [hasAcceptedJob, setHasAcceptedJob] = useState(false);
   const [open, setOpen] = useState(false);
   const [sop, setSop] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [selectedPage, setSelectedPage] = useState(1);
 
   const handleClose = () => {
     setOpen(false);
@@ -72,9 +76,9 @@ export default function Job(props) {
       });
   };
 
-  const handleClickJob = () => {
-    history.go(0);
-  };
+  /* const handleClickJob = () => {
+    history(`/${}`);
+  }; */
 
   useEffect(() => {
     const checkAcceptedJob = async () => {
@@ -136,6 +140,15 @@ export default function Job(props) {
     }
   }
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = allJob.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setSelectedPage(pageNumber);
+  };
+
   return (
     <>
       <div className="flex">
@@ -178,14 +191,10 @@ export default function Job(props) {
           <p className="text-gray-500 font-semibold">Similar Job Post</p>
 
           <div className="w-full flex flex-wrap gap-4">
-            {allJob?.slice(0, 6).map(
+            {currentItems.map(
               (job, index) =>
                 job._id !== id && (
-                  <Link
-                    to={`/jobs/${job._id}`}
-                    key={index}
-                    onClick={handleClickJob}
-                  >
+                  <a href={`/jobs/${job._id}`} key={index}>
                     <div
                       className="w-full h-[30rem] md:w-[20rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
                       rounded-md px-3 py-5 text-wrap"
@@ -244,8 +253,26 @@ export default function Job(props) {
                         </div>
                       </div>
                     </div>
-                  </Link>
+                  </a>
                 )
+            )}
+          </div>
+          <div className="mt-4">
+            {Array.from(
+              { length: Math.ceil(allJob.length / itemsPerPage) },
+              (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => paginate(i + 1)}
+                  className={`mx-1 px-3 py-1 bg-${
+                    selectedPage === i + 1 ? "yellow" : "white"
+                  } text-black border hover:border-yellow-300 rounded ${
+                    selectedPage === i + 1 ? "bg-yellow-200" : ""
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              )
             )}
           </div>
         </div>

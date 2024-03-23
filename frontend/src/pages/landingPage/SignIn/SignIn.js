@@ -15,7 +15,7 @@ export default function SignIn({ login }) {
     email: "",
     password: "",
   });
-  
+
   let allFieldsChecked =
     loginDetails.email.length > 0 && loginDetails.password.length > 0;
 
@@ -106,6 +106,8 @@ export default function SignIn({ login }) {
       history("/referrals");
     } else if (type === "recruiter") {
       history("/admin");
+    } else if (type === "admin") {
+      history("/dashboard/*");
     }
   }, [type, history]);
 

@@ -18,6 +18,10 @@ export default function Job() {
   let [isOpen, setIsOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [selectedPage, setSelectedPage] = useState(1);
+
   useEffect(() => {
     const allJob = apiList.jobs;
     console.log(allJob);
@@ -82,6 +86,16 @@ export default function Job() {
         });
       });
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = job.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setSelectedPage(pageNumber);
+  };
+
   return (
     <>
       <div className="mt-12 overflow-x-auto bg-white rounded-md">
@@ -99,9 +113,9 @@ export default function Job() {
             </tr>
           </thead>
 
-          {job.length !== 0 ? (
+          {currentItems.length !== 0 ? (
             <tbody className="divide-y divide-gray-300 divide-dashed">
-              {job.map((currentJob, index) => (
+              {currentItems.map((currentJob, index) => (
                 <tr
                   key={index}
                   className="hover:bg-light divide-x divide-gray-300 divide-dashed"
@@ -163,6 +177,24 @@ export default function Job() {
           <h3 className="mt-20 text-center">No jobs matched your search...</h3>
         ) : (
           " "
+        )}
+      </div>
+      <div className="flex justify-center mt-4">
+        {Array.from(
+          { length: Math.ceil(job.length / itemsPerPage) },
+          (_, i) => (
+            <button
+              key={i}
+              onClick={() => paginate(i + 1)}
+              className={`mx-1 px-3 py-1 bg-${
+                selectedPage === i + 1 ? "yellow" : "white"
+              } text-black border hover:border-yellow-300 rounded ${
+                selectedPage === i + 1 ? "bg-yellow-200" : ""
+              }`}
+            >
+              {i + 1}
+            </button>
+          )
         )}
       </div>
 
