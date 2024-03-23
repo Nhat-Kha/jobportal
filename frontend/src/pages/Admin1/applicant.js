@@ -10,7 +10,7 @@ export default function Applicant() {
   const setPopup = useContext(SetPopupContext);
   const [all, setAll] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [selectedPage, setSelectedPage] = useState(1);
 
   useEffect(() => {
@@ -40,7 +40,6 @@ export default function Applicant() {
     setSelectedPage(pageNumber);
   };
 
-  // const users = currentItems.
   return (
     <div className="min-h-screen pt-10">
       <div className="pb-4">
@@ -50,7 +49,10 @@ export default function Applicant() {
       <>
         {currentItems.map((applicant, index) => (
           <>
-            <div key={index} className="flex items-center bg-white rounded-md">
+            <div
+              key={index}
+              className="flex items-center bg-white rounded-md hover:bg-slate-100"
+            >
               <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex-1 w-[30rem]">
                 <img
                   src={`${applicant.profile}`}
@@ -65,31 +67,55 @@ export default function Applicant() {
                 <div>
                   Education:{" "}
                   <span className="font-semibold">
-                    {applicant.education
-                      .map(
-                        (edu) =>
-                          `${edu.institutionName} (${edu.startYear}-${
-                            edu.endYear ? edu.endYear : "Ongoing"
-                          })`
-                      )
-                      .join(", ")}
+                    {applicant.education && applicant.education.length > 0 ? (
+                      applicant.education
+                        .map(
+                          (edu) =>
+                            `${edu.institutionName} (${edu.startYear}-${
+                              edu.endYear ? edu.endYear : "Ongoing"
+                            })`
+                        )
+                        .join(", ")
+                    ) : (
+                      <span className="font-semibold text-red-500">
+                        Not updated
+                      </span>
+                    )}
                   </span>
                 </div>
-                <div className="mt-2">
+                <div className="mt-2 flex gap-2">
                   <div className="text-bold">Skills:</div>
                   <div className="text-right">
-                    <div className="flex flex-row-reverse gap-1">
-                      {applicant?.skills.map((tag, index) => (
-                        <div
-                          key={index}
-                          className="relative grid select-none items-center whitespace-nowrap rounded-lg 
-                              bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
-                        >
-                          <span>{tag}</span>
-                        </div>
-                      ))}
+                    <div className="flex flex-row gap-1">
+                      {applicant?.skills && applicant?.skills.length > 0 ? (
+                        applicant?.skills.map((tag, index) => (
+                          <div
+                            key={index}
+                            className="relative grid select-none items-center whitespace-nowrap rounded-lg 
+                          bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                          >
+                            <span>{tag}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <span className="font-semibold text-red-500">
+                          Not updated
+                        </span>
+                      )}
                     </div>
                   </div>
+                </div>
+                <div className="mt-2">
+                  <span>Date of birth: </span>
+                  {applicant.dateOfBirth ? (
+                    <span className="font-semibold">
+                      {new Date(applicant.dateOfBirth).toLocaleDateString()}
+                    </span>
+                  ) : (
+                    <span className="font-semibold text-red-500">
+                      Not updated
+                    </span>
+                  )}
                 </div>
                 <hr className="my-8 border-gray-300" />
               </div>

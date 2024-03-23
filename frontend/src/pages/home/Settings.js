@@ -32,6 +32,7 @@ export default function Settings() {
         endYear: "",
       },
     ],
+    dateOfBirth: new Date(),
   });
 
   useEffect(() => {
@@ -162,6 +163,8 @@ export default function Settings() {
     setChips(newChips);
   };
 
+  // const deadline = new Date(job.deadline).toLocaleDateString();
+
   return (
     <div className="bg-light py-28">
       <div className="bg-white rounded-xl p-6 pb-10 overflow-x-auto mx-auto md:w-5/12 w-11/12 relative z-0">
@@ -178,6 +181,19 @@ export default function Settings() {
           onChange={(e) =>
             setProfileDetails({ ...profileDetails, name: e.target.value })
           }
+        />
+        <InputField
+          className="mt-8 hover:border-black"
+          type="datetime-local"
+          label="Application Deadline"
+          placeholder="dd/mm/yy"
+          value={profileDetails.dateOfBirth}
+          onChange={(e) => {
+            setProfileDetails({
+              ...profileDetails,
+              dateOfBirth: e.target.value,
+            });
+          }}
         />
         {profileDetails.education.map((edu, index) => (
           <div className="flex justify-between" key={index}>

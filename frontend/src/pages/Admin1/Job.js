@@ -118,15 +118,15 @@ export default function Job() {
               {currentItems.map((currentJob, index) => (
                 <tr
                   key={index}
-                  className="hover:bg-light divide-x divide-gray-300 divide-dashed"
+                  className="hover:bg-light divide-x divide-gray-300 divide-dashed cursor-default"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {currentJob.title}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {currentJob.jobType}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex gap-1">
                       {currentJob.skillsets.map((tag, index) => (
                         <div
@@ -139,12 +139,12 @@ export default function Job() {
                       ))}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {calculateDays(new Date(currentJob.dateOfPosting))}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <button
-                      className="w-[50%] border border-red-400 bg-red-400 rounded-md hover:bg-red-500"
+                      className="w-[50%] border border-red-400 bg-red-400 rounded-md hover:bg-red-500 cursor-pointer"
                       onClick={() => {
                         if (userType() === "admin") {
                           setSelectedJobId(currentJob._id);
