@@ -176,12 +176,12 @@ export default function CompanySettings({ profile, user }) {
           label="Name"
           type="text"
           value={profileDetails?.name}
-          onChange={(e) => {
+          onChange={(e) =>
             setProfileDetails({
-              ...tmpProfile,
-              founded: e.target.value,
-            });
-          }}
+              ...profileDetails,
+              name: e.target.value,
+            })
+          }
           placeholder="Enter name recruiter"
         />
 
@@ -190,12 +190,12 @@ export default function CompanySettings({ profile, user }) {
           label="Contact number"
           type="number"
           value={profileDetails?.contactNumber}
-          onChange={(e) => {
+          onChange={(e) =>
             setProfileDetails({
               ...profileDetails,
               contactNumber: e.target.value,
-            });
-          }}
+            })
+          }
           placeholder="Number phone"
         />
       </div>

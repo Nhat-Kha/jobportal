@@ -83,6 +83,9 @@ export default function JobSettings({ props }) {
         >
           Delete job
         </button>
+        <div className="pt-2">
+          <span className="text-gray-400">You can remove the job here.</span>
+        </div>
       </div>
 
       <Transition show={isOpen} as={Fragment}>
