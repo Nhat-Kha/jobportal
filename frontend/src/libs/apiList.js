@@ -16,6 +16,7 @@ const apiList = {
   updateApplications: `${server}/applications/:id`,
   rating: `${server}/rating`,
   updateUser: `${server}/user`,
+  deleteUser: `${server}/user/deleteUser/:id`,
   user: `${server}/user`,
   users: `${server}/user/all`,
   userId: `${server}/user/:id`,

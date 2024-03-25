@@ -17,6 +17,7 @@ export default function Job() {
   const [job, setJob] = useState([]);
   let [isOpen, setIsOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null);
+  const [reloadContent, setReloadContent] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -40,7 +41,7 @@ export default function Job() {
           message: "Error",
         });
       });
-  }, []);
+  }, [reloadContent]);
 
   function calculateDays(date) {
     let daysAgo = Math.floor((new Date() - date) / (1000 * 3600 * 24));
@@ -75,7 +76,8 @@ export default function Job() {
           icon: "success",
           message: response.data.message,
         });
-        window.location.reload();
+        setReloadContent(!reloadContent);
+        setIsOpen(false);
       })
       .catch((err) => {
         console.log(err.response);

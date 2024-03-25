@@ -1,17 +1,23 @@
+import { faInfo, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dialog, Transition } from "@headlessui/react";
 import { Typography } from "@material-tailwind/react";
 import { SetPopupContext } from "App";
 import axios from "axios";
+import { Button } from "flowbite-react";
 import apiList from "libs/apiList";
 import { userType } from "libs/isAuth";
-import React, { useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 
 export default function Applicant() {
-  const type = userType();
   const setPopup = useContext(SetPopupContext);
   const [all, setAll] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [selectedPage, setSelectedPage] = useState(1);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [reloadContent, setReloadContent] = useState(false);
 
   useEffect(() => {
     const user = apiList.allApplicants;
@@ -29,7 +35,17 @@ export default function Applicant() {
           message: "Error",
         });
       });
-  }, []);
+  }, [reloadContent, setPopup]);
+
+  const openModal = (user) => {
+    setIsOpen(true);
+    setSelectedUser(user);
+    console.log(user.userId);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -39,6 +55,34 @@ export default function Applicant() {
     setCurrentPage(pageNumber);
     setSelectedPage(pageNumber);
   };
+
+  const handleDelete = (user) => {
+    axios
+      .delete(`${apiList.user}/${user}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setPopup({
+          open: true,
+          icon: "success",
+          message: response.data.message,
+        });
+        setReloadContent(!reloadContent);
+        setIsOpen(false);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: err.response.data.message,
+        });
+      });
+  };
+
+  console.log("select user: ", all);
 
   return (
     <div className="min-h-screen pt-10">
@@ -57,7 +101,7 @@ export default function Applicant() {
                 <img
                   src={`${applicant.profile}`}
                   alt={`${applicant.name}'s profile`}
-                  className="w-[10rem] h-[10rem] rounded-xl"
+                  className="w-[10rem] h-[10rem] rounded-xl hidden sm:block"
                 />
               </div>
               <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex-1 w-[30rem]">
@@ -66,33 +110,35 @@ export default function Applicant() {
                 </div>
                 <div>
                   Education:{" "}
-                  <span className="font-semibold">
+                  <span className="font-semibold flex md:flex-1 flex-wrap">
                     {applicant.education && applicant.education.length > 0 ? (
-                      applicant.education
-                        .map(
-                          (edu) =>
-                            `${edu.institutionName} (${edu.startYear}-${
-                              edu.endYear ? edu.endYear : "Ongoing"
-                            })`
-                        )
-                        .join(", ")
+                      applicant.education.map((edu, index) => (
+                        <span key={index} className="">
+                          <span>{edu.institutionName}</span>
+                          <span>
+                            ({edu.startYear}-
+                            {edu.endYear ? edu.endYear : "Ongoing"})
+                          </span>
+                          {index !== applicant.education.length - 1 && (
+                            <span>, </span>
+                          )}
+                        </span>
+                      ))
                     ) : (
-                      <span className="font-semibold text-red-500">
-                        Not updated
-                      </span>
+                      <span className="text-red-500">Not updated</span>
                     )}
                   </span>
                 </div>
                 <div className="mt-2 flex gap-2">
                   <div className="text-bold">Skills:</div>
                   <div className="text-right">
-                    <div className="flex flex-row gap-1">
+                    <div className="flex flex-row gap-1 flex-wrap">
                       {applicant?.skills && applicant?.skills.length > 0 ? (
                         applicant?.skills.map((tag, index) => (
                           <div
                             key={index}
                             className="relative grid select-none items-center whitespace-nowrap rounded-lg 
-                          bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
+                            bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white"
                           >
                             <span>{tag}</span>
                           </div>
@@ -119,6 +165,22 @@ export default function Applicant() {
                 </div>
                 <hr className="my-8 border-gray-300" />
               </div>
+              <div className="px-6 py-4 whitespace-nowrap flex justify-center items-center text-sm text-gray-500 flex-1 w-2">
+                <div className="w-[100px] flex gap-2">
+                  <Button
+                    className="rounded-full bg-red-100 w-10 h-10 hover:opacity-50"
+                    onClick={() => {
+                      setSelectedUser(applicant._id);
+                      openModal(applicant);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTrashCan}
+                      className="w-6 h-6 text-red-600"
+                    />
+                  </Button>
+                </div>
+              </div>
             </div>
           </>
         ))}
@@ -140,6 +202,71 @@ export default function Applicant() {
             )
           )}
         </div>
+
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 z-10 overflow-y-auto"
+            onClose={closeModal}
+          >
+            <div className="min-h-screen px-4 text-center">
+              <Transition.Child>
+                <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
+              </Transition.Child>
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="inline-block w-full max-w-lg md:p-6 p-3 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Are you sure?
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Are you sure you want to delete this {selectedUser?.name}?
+                      All of the candidates that has been referred will be
+                      deleted as well.
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-300 border border-transparent rounded-md hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => {
+                        handleDelete(selectedUser?.userId);
+                        console.log(selectedUser?.userId);
+                      }}
+                    >
+                      Delete
+                    </button>
+
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
       </>
     </div>
   );
