@@ -18,7 +18,7 @@ export default function Job(props) {
   const [sop, setSop] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
   const [selectedPage, setSelectedPage] = useState(1);
 
   const handleClose = () => {
@@ -142,7 +142,9 @@ export default function Job(props) {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = allJob.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = allJob
+    .filter((job) => job._id !== id)
+    .slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -152,6 +154,7 @@ export default function Job(props) {
   return (
     <>
       <div className="flex">
+        {/* LEFT */}
         <div className="lg:w-6/12 w-11/12 h-full ml-44 mr-20 md:mt-20 mt-10 pb-10">
           <JobAd about={job} />
           <div className="text-center mx-auto mt-12 mb-10">

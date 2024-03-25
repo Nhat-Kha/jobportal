@@ -15,6 +15,7 @@ export default function CompanyBoard() {
       .get(recruiter)
       .then((response) => {
         setCompanies(response?.data.allUser);
+        console.log("companie:", response?.data.allUser);
       })
       .catch((err) => {
         console.log(err.message);

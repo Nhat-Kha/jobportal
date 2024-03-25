@@ -14,9 +14,17 @@ import { Link } from "react-router-dom";
 import { Button } from "flowbite-react";
 
 export default function TalentPool() {
+  const [users, setUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [applicant, setApplicant] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [filterUser, setFilterUser] = useState(null);
+
+  useEffect(() => {
+    axios.get(apiList.users).then((response) => {
+      setUsers(response.data.allUser);
+    });
+  }, []);
 
   useEffect(() => {
     axios.get(apiList.allApplicants).then((response) => {
@@ -24,18 +32,21 @@ export default function TalentPool() {
       const filteredApplicants = response.data.allUser.filter((user) => {
         return user.skills.length >= 2 && user.education.length >= 1;
       });
-      console.log("filteredApplicants: ", filteredApplicants);
       setApplicant(filteredApplicants);
     });
   }, []);
 
   const openModal = (user) => {
-    setSelectedUser(user);
-    setIsOpen(true);
+    const found = users.find((u) => u._id === user.userId);
+    if (found) {
+      setSelectedUser({ ...found, ...user });
+      setIsOpen(true);
+    }
+
+    console.log("found: ", found);
   };
 
   const closeModal = () => {
-    setSelectedUser(null);
     setIsOpen(false);
   };
 
@@ -48,7 +59,7 @@ export default function TalentPool() {
 
         <div>
           <section>
-            <div className="container w-4/5 mx-auto mt-8 p-8 bg-light">
+            <div className="container lg:w-4/5 mx-auto mt-8 p-8 bg-light shadow-xl rounded-2xl">
               <div>
                 <h2 className="text-indigo-500 text-2xl font font-medium">
                   Top Players
@@ -58,23 +69,26 @@ export default function TalentPool() {
                     <div
                       onClick={() => openModal(user)}
                       key={index}
-                      className="flex items-center cursor-pointer"
+                      className="flex items-center cursor-pointer rounded-xl"
                     >
                       <img
-                        className="h-16 w-16 mr-4 rounded-full"
+                        className="h-16 w-16 mr-4 rounded-xl bg-cover"
                         src={user.profile}
                         alt=""
                       />
                       <h3 className="text-gray-900 font-medium text-xl">
                         {user.name}
                       </h3>
+                      <span className="text-[#64748b] text-sm">
+                        {user.email}
+                      </span>
                     </div>
                   ))}
                 </div>
                 <hr className="border-t border-slate-300 rounded-3xl my-8" />
                 <div>
                   <h2 className="text-indigo-500 text-2xl font font-medium">
-                    Top Blogs
+                    Top reference blog
                   </h2>
                   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
                     <div class="flex flex-col lg:flex-row gap-4 hover:bg-slate-200 rounded-lg">
@@ -182,8 +196,8 @@ export default function TalentPool() {
                         <h1 className="text-left text-3xl font-semibold">
                           {selectedUser.name}
                         </h1>
-                        <span className="text-gray-300 text-sm">
-                          Information {selectedUser.name}
+                        <span className="text-[#64748b] text-sm">
+                          Personal Information of {selectedUser.email}
                         </span>
                         <div className="relative bg-white p-2 mt-6">
                           <div className="flex items-center gap-4 py-2">
