@@ -6,10 +6,7 @@ import {
   faCog,
   faCogs,
   faPoll,
-  faSwimmer,
   faSwimmingPool,
-  faTrophy,
-  faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,6 +14,7 @@ import { userType } from "libs/isAuth";
 import axios from "axios";
 import { getId } from "libs/isAuth";
 import apiList from "libs/apiList";
+import logoadmin from "assets/logo_admin.jpg";
 
 export default function ProfileMenu() {
   const type = userType();
@@ -51,14 +49,16 @@ export default function ProfileMenu() {
                 src={user.profile}
                 alt=""
               />
-            ) : (
+            ) : type === "admin" ? (
               <div className="h-10 w-10 rounded-full bg-secondary">
                 <img
                   className="h-10 w-10 rounded-full"
-                  src={user.profile}
+                  src={logoadmin}
                   alt=""
                 />
               </div>
+            ) : (
+              ""
             )}
             <FontAwesomeIcon
               icon={faCaretDown}
