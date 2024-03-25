@@ -81,7 +81,7 @@ const getUserId = async (req, res) => {
           .catch((err) => {
             res.status(400).json(err);
           });
-      } else {
+      } else if (userData.type === "applicant") {
         JobApplicant.findOne({ userId: userData._id })
           .then((jobApplicant) => {
             if (jobApplicant === null) {
@@ -95,6 +95,8 @@ const getUserId = async (req, res) => {
           .catch((err) => {
             res.status(400).json(err);
           });
+      } else {
+        res.json({ message: "Admin" });
       }
     })
     .catch((err) => {
@@ -361,6 +363,40 @@ const getAList = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const user = req.user;
+  if (user.type !== "admin") {
+    return res.status(401).json({
+      message: "You don't have permissions to delete users",
+    });
+  }
+
+  try {
+    const deletedUser = await User.findOneAndDelete({ _id: req.params.id });
+    console.log("Deleted user from UserAuth:", deletedUser);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    const deletedJobApplicant = await JobApplicant.findOneAndDelete({
+      userId: deletedUser._id,
+    });
+    console.log("Deleted job applicant:", deletedJobApplicant);
+
+    res.json({
+      message: "User deleted successfully",
+    });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   getUser,
   getAList,
@@ -369,6 +405,7 @@ module.exports = {
   getIdRecruiter,
   getIdApplicant,
   updateUser,
+  deleteUser,
   getAllUserApplicant,
   getAllUserRecruiter,
 };
