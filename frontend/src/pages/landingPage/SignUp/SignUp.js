@@ -33,7 +33,6 @@ export default function SignUp() {
     education: [],
     skills: [],
     resume: "",
-    dateOfBirth: new Date(),
     profile: "",
     news: false,
     bio: "",
@@ -197,9 +196,9 @@ export default function SignUp() {
           setPopup({
             open: true,
             icon: "warn",
-            message: err.response.data.message,
+            message: err.response,
           });
-          console.log(err.response.data.message);
+          console.log(err.response);
         });
     } else {
       setInputErrorHandler(tmpErrorHandler);

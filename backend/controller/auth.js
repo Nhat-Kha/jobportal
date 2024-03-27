@@ -62,7 +62,6 @@ const SignUp = async (req, res) => {
                 rating: data.rating,
                 resume: data.resume,
                 profile: data.profile,
-                dateOfBirth: data.dateOfBirth,
               });
 
         userDetails
