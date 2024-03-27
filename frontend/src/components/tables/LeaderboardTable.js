@@ -24,8 +24,10 @@ export default function LeaderboardTable({ user }) {
     } else return index;
   }
 
+  console.log("recruiter: ", user);
+
   return (
-    <div className="bg-white rounded-xl p-5 overflow-x-auto mx-auto md:w-5/12 w-11/12">
+    <div className="bg-white rounded-xl p-5 overflow-x-auto mx-auto md:w-6/12 w-11/12">
       <h2 className="text-4xl font-semibold text-gray-900 leading-none text-center mt-4">
         Leaderboard
       </h2>
@@ -66,6 +68,10 @@ export default function LeaderboardTable({ user }) {
                           </div>
                         </div>
                       </div>
+
+                      <span className="text-base text-blue-600">
+                        {User.recruiter.name}
+                      </span>
                     </Link>
                   </td>
 

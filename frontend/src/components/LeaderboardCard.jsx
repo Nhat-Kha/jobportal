@@ -41,7 +41,7 @@ export default function LeaderboardCard({ user }) {
         sortedJobs.map((User, id) => (
           <div
             key={id}
-            className="px-3 py-5 relative border-b border-gray items-center text-left "
+            className="px-3 py-5 relative border-b border-gray items-center text-left"
           >
             <div className="flex items-center text-left">
               <h1 className="text-4xl font-bold mt-2">
@@ -58,6 +58,11 @@ export default function LeaderboardCard({ user }) {
                     readonly
                   />
                 </div>
+              </div>
+              <div className="ml-auto">
+                <span className="text-base text-blue-600">
+                  {User.recruiter.name}
+                </span>
               </div>
             </div>
           </div>
