@@ -126,18 +126,34 @@ export default function SignIn({ login }) {
             type="email"
             label="Email"
             value={loginDetails.email}
+            error={inputErrorHandler.email.message}
             onChange={(e) => handleInput("email", e.target.value)}
             inputErrorHandler={inputErrorHandler}
             handleInputError={handleInputError}
             placeholder="email@example.com"
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                handleInputError("email", true, "Email is required!");
+              } else {
+                handleInputError("email", false, "");
+              }
+            }}
           />
 
           <InputField
             type="password"
             label="Password"
             value={loginDetails.password}
+            error={inputErrorHandler.password.message}
             onChange={(e) => handleInput("password", e.target.value)}
             placeholder="**********"
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                handleInputError("password", true, "Password is required!");
+              } else {
+                handleInputError("password", false, "");
+              }
+            }}
           />
 
           <p className="text-xs text-center mt-6 mb-3 text-red-500">

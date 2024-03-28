@@ -9,6 +9,7 @@ import apiList from "../../../libs/apiList";
 import { MuiChipsInput } from "mui-chips-input";
 import { apiUploadImages } from "libs/uploadImage";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const history = useNavigate();
@@ -32,6 +33,7 @@ export default function SignUp() {
     name: "",
     education: [],
     skills: [],
+    dateOfBirth: new Date(),
     resume: "",
     profile: "",
     news: false,
@@ -74,7 +76,33 @@ export default function SignUp() {
       error: false,
       message: "",
     },
+    education: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
+    skills: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
+    bio: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
+    contactNumber: {
+      untouched: true,
+      required: true,
+      error: false,
+      message: "",
+    },
   });
+
+  console.log("inputErrorHandler: ", inputErrorHandler);
 
   const isValidPhoneNumber = (phoneNumber) => {
     const phoneRegex = /^\+\d{1,4}\d{6,}$/;
@@ -96,21 +124,6 @@ export default function SignUp() {
       ) &&
       signupDetails.profile.trim().length > 0 &&
       typeof signupDetails.news === "boolean";
-
-    console.log("Name:", signupDetails.name.trim().length > 0);
-    console.log("Email:", signupDetails.email.trim().length > 0);
-    console.log("Password:", signupDetails.password.trim().length > 0);
-    console.log(
-      "Chip:",
-      chips.some((item) => item.trim() !== "")
-    );
-    console.log(
-      "Education:",
-      signupDetails.education.every(
-        (item) => item.institutionName.trim() !== ""
-      )
-    );
-    console.log("profile:", signupDetails.profile.trim().length > 0);
   } else {
     allFieldsCheckedRecruiter =
       signupDetails.name.trim().length > 0 &&
@@ -121,18 +134,6 @@ export default function SignUp() {
         isValidPhoneNumber(signupDetails.contactNumber)) &&
       signupDetails.profile.trim().length > 0 &&
       typeof signupDetails.news === "boolean";
-
-    console.log("Name:", signupDetails.name.trim().length > 0);
-    console.log("Email:", signupDetails.email.trim().length > 0);
-    console.log("Password:", signupDetails.password.trim().length > 0);
-    console.log("Bio:", signupDetails.bio.trim().length > 0);
-    console.log(
-      "Contact Number:",
-      signupDetails.contactNumber.trim().length === 0 ||
-        isValidPhoneNumber(signupDetails.contactNumber)
-    );
-    console.log("Profile:", signupDetails.profile.trim().length > 0);
-    console.log("News:", typeof signupDetails.news === "boolean");
   }
 
   const handleInput = (key, value) => {
@@ -144,68 +145,104 @@ export default function SignUp() {
   };
 
   const handleLogin = () => {
-    const tmpErrorHandler = {};
-    Object.keys(inputErrorHandler).forEach((obj) => {
-      if (inputErrorHandler[obj].required && inputErrorHandler[obj].untouched) {
-        tmpErrorHandler[obj] = {
-          required: true,
-          untouched: false,
-          error: true,
-          message: `${obj[0].toUpperCase() + obj.substr(1)} is required`,
-        };
+    // if (signupDetails.name === "") {
+    //   setInputErrorHandler((prev) => ({
+    //     ...prev,
+    //     name: {
+    //       message: "name is required",
+    //     },
+    //   }));
+    //   return;
+    // } else if (signupDetails.email === "") {
+    //   setInputErrorHandler((prev) => ({
+    //     ...prev,
+    //     email: {
+    //       message: "email is required",
+    //     },
+    //   }));
+    //   return;
+    // } else if (signupDetails.password === "") {
+    //   setInputErrorHandler((prev) => ({
+    //     ...prev,
+    //     password: {
+    //       message: "password is required",
+    //     },
+    //   }));
+    //   return;
+    // }
+    try {
+      const tmpErrorHandler = {};
+      Object.keys(inputErrorHandler).forEach((obj) => {
+        if (
+          inputErrorHandler[obj].required &&
+          inputErrorHandler[obj].untouched
+        ) {
+          tmpErrorHandler[obj] = {
+            required: true,
+            untouched: false,
+            error: true,
+            message: `${obj[0].toUpperCase() + obj.substr(1)} is required`,
+          };
+        } else {
+          tmpErrorHandler[obj] = inputErrorHandler[obj];
+        }
+      });
+
+      let updatedDetails = {
+        ...signupDetails,
+        skills: chips.filter((item) => item.trim() !== ""),
+        education: education
+          .filter((edu) => edu.institutionName.trim() !== "")
+          .map((edu) => ({
+            institutionName: edu.institutionName,
+            startYear: edu.startYear,
+            endYear: edu.endYear,
+          })),
+      };
+      setSignupDetails(updatedDetails);
+
+      const verified = !Object.keys(tmpErrorHandler).some((obj) => {
+        return tmpErrorHandler[obj].error;
+      });
+
+      if (!verified) {
+        axios
+          .post(apiList.signup, updatedDetails)
+          .then((response) => {
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("type", response.data.type);
+            localStorage.setItem("id", response.data._id);
+            setLoggedin(isAuth());
+            setPopup({
+              open: true,
+              icon: "success",
+              message: "Logged in successfully",
+            });
+            history("/referrals");
+            console.log("export" + response);
+            console.log(response?.data.type);
+          })
+          .catch((err) => {
+            setPopup({
+              open: true,
+              icon: "warn",
+              message: err.response.data.message,
+            });
+            console.log(err.response.data.message);
+          });
       } else {
-        tmpErrorHandler[obj] = inputErrorHandler[obj];
-      }
-    });
-
-    let updatedDetails = {
-      ...signupDetails,
-      skills: chips.filter((item) => item.trim() !== ""),
-      education: education
-        .filter((edu) => edu.institutionName.trim() !== "")
-        .map((edu) => ({
-          institutionName: edu.institutionName,
-          startYear: edu.startYear,
-          endYear: edu.endYear,
-        })),
-    };
-    setSignupDetails(updatedDetails);
-
-    const verified = !Object.keys(tmpErrorHandler).some((obj) => {
-      return tmpErrorHandler[obj].error;
-    });
-
-    if (!verified) {
-      axios
-        .post(apiList.signup, updatedDetails)
-        .then((response) => {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("type", response.data.type);
-          localStorage.setItem("id", response.data._id);
-          setLoggedin(isAuth());
-          setPopup({
-            open: true,
-            icon: "success",
-            message: "Logged in successfully",
-          });
-          history("/referrals");
-          console.log("export" + response);
-          console.log(response?.data.type);
-        })
-        .catch((err) => {
-          setPopup({
-            open: true,
-            icon: "warn",
-            message: err.response,
-          });
-          console.log(err.response);
+        setInputErrorHandler(tmpErrorHandler);
+        setPopup({
+          open: true,
+          icon: "error",
+          message: "Incorrect Input",
         });
-    } else {
-      setInputErrorHandler(tmpErrorHandler);
+      }
+    } catch (error) {
       setPopup({
         open: true,
         icon: "error",
-        message: "Incorrect Input",
+        message: error.data.message,
       });
     }
   };
@@ -302,7 +339,11 @@ export default function SignUp() {
         formData.append("file", i);
         formData.append("upload_preset", "jobportal");
         formData.append("folder", "jobportal");
-        let response = await apiUploadImages(formData);
+        let response = await toast.promise(apiUploadImages(formData), {
+          pending: "Uploading images...",
+          success: "Images uploaded successfully 👌",
+          error: "Error uploading images 🤯",
+        });
         if (response.status === 200) images = response.data?.secure_url;
         console.log(images);
       }
@@ -361,73 +402,108 @@ export default function SignUp() {
           type="text"
           label="Name"
           value={signupDetails.name}
-          error={inputErrorHandler.name.error}
-          helperText={inputErrorHandler.name.message}
+          error={inputErrorHandler.name.message}
           onChange={(e) => handleInput("name", e.target.value)}
           placeholder="Firstname Lastname"
+          onBlur={(e) => {
+            if (e.target.value === "") {
+              handleInputError("name", true, "Name is required!");
+            } else {
+              handleInputError("name", false, "");
+            }
+          }}
+          className="mb-4"
         />
         <InputField
           type="email"
           label="Email"
           value={signupDetails.email}
+          error={inputErrorHandler.email.message}
           onChange={(e) => handleInput("email", e.target.value)}
-          inputErrorHandler={inputErrorHandler}
-          handleInputError={handleInputError}
           placeholder="email@example.com"
+          onBlur={(e) => {
+            if (e.target.value === "") {
+              handleInputError("email", true, "Email is required!");
+            } else {
+              handleInputError("email", false, "");
+            }
+          }}
+          className="mb-4"
         />
         <InputField
           type="password"
           label="Password"
           value={signupDetails.password}
-          error={inputErrorHandler.password.error}
-          helperText={inputErrorHandler.password.message}
+          error={inputErrorHandler.password.message}
           onChange={(e) => handleInput("password", e.target.value)}
           placeholder="Your password"
           onBlur={(e) => {
             if (e.target.value === "") {
-              handleInputError("password", true, "Password id required");
+              handleInputError("password", true, "Password is required!");
             } else {
               handleInputError("password", false, "");
             }
           }}
+          className="mb-4"
         />
         {signupDetails.type === "applicant" ? (
           <>
             {education.map((edu, index) => (
-              <div className="flex justify-between" key={index}>
-                <InputField
-                  type="text"
-                  label={`Institution Name ${index + 1}`}
-                  value={edu.institutionName}
-                  onChange={(e) => {
-                    const newEducation = [...education];
-                    newEducation[index].institutionName = e.target.value;
-                    setEducation(newEducation);
-                  }}
-                  placeholder="Institution name"
-                />
-                <InputField
-                  type="number"
-                  label={`Start Year ${index + 1}`}
-                  value={edu.startYear}
-                  onChange={(e) => {
-                    const newEducation = [...education];
-                    newEducation[index].startYear = e.target.value;
-                    setEducation(newEducation);
-                  }}
-                  placeholder="Start year"
-                />
-                <InputField
-                  type="number"
-                  label={`End Year ${index + 1}`}
-                  value={edu.endYear}
-                  onChange={(e) => {
-                    const newEducation = [...education];
-                    newEducation[index].endYear = e.target.value;
-                    setEducation(newEducation);
-                  }}
-                  placeholder="End year"
-                />
+              <div
+                className="mb-2"
+                onBlur={(e) => {
+                  if (e.target.value === "") {
+                    handleInputError(
+                      "education",
+                      true,
+                      "Education is required!"
+                    );
+                  } else {
+                    handleInputError("education", false, "");
+                  }
+                }}
+              >
+                <div className="flex justify-between" key={index}>
+                  <InputField
+                    type="text"
+                    label={`Institution Name ${index + 1}`}
+                    value={edu.institutionName}
+                    onChange={(e) => {
+                      const newEducation = [...education];
+                      newEducation[index].institutionName = e.target.value;
+                      setEducation(newEducation);
+                    }}
+                    placeholder="Institution name"
+                    className="mb-1"
+                  />
+                  <InputField
+                    type="number"
+                    label={`Start Year ${index + 1}`}
+                    value={edu.startYear}
+                    onChange={(e) => {
+                      const newEducation = [...education];
+                      newEducation[index].startYear = e.target.value;
+                      setEducation(newEducation);
+                    }}
+                    placeholder="Start year"
+                    className="mb-1"
+                  />
+                  <InputField
+                    type="number"
+                    label={`End Year ${index + 1}`}
+                    value={edu.endYear}
+                    onChange={(e) => {
+                      const newEducation = [...education];
+                      newEducation[index].endYear = e.target.value;
+                      setEducation(newEducation);
+                    }}
+                    placeholder="End year"
+                    className="mb-1"
+                  />
+                </div>
+                <span className="text-[#ff3131] text-sm font-semibold">
+                  {inputErrorHandler.education.message}
+                </span>
               </div>
             ))}
             <div>
@@ -448,13 +524,25 @@ export default function SignUp() {
               </button>
             </div>
 
-            <MuiChipsInput
-              label="Skill *"
-              helperText="Please enter to add skill"
-              value={chips}
-              onChange={handleChip}
-              className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
-            />
+            <>
+              <span className="text-[#ff3131] text-sm font-semibold mb-4">
+                {inputErrorHandler.skills.message}
+              </span>
+              <MuiChipsInput
+                label="Skill *"
+                helperText="Please enter to add skill"
+                value={chips}
+                onChange={handleChip}
+                className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
+                onBlur={(e) => {
+                  if (e.target.value === "") {
+                    handleInputError("skills", true, "Skills is required!");
+                  } else {
+                    handleInputError("skills", false, "");
+                  }
+                }}
+              />
+            </>
           </>
         ) : (
           <>
@@ -465,19 +553,45 @@ export default function SignUp() {
               onChange={(e) => {
                 if (
                   e.target.value.split(" ").filter(function (n) {
-                    return n != "";
+                    return n !== "";
                   }).length <= 250
                 ) {
                   handleInput("bio", e.target.value);
                 }
               }}
+              error={inputErrorHandler.bio.message}
+              onBlur={(e) => {
+                if (e.target.value === "") {
+                  handleInputError("bio", true, "Bio is required!");
+                } else {
+                  handleInputError("bio", false, "");
+                }
+              }}
+              className="mb-4"
             />
-            <div>
-              <PhoneInput
-                country={"vn"}
-                value={phone}
-                onChange={(phone) => setPhone(phone)}
-              />
+            <div
+              onBlur={(e) => {
+                if (e.target.value === "") {
+                  handleInputError(
+                    "contactNumber",
+                    true,
+                    "Contact Number is required!"
+                  );
+                } else {
+                  handleInputError("contactNumber", false, "");
+                }
+              }}
+            >
+              <div>
+                <PhoneInput
+                  country={"vn"}
+                  value={phone}
+                  onChange={(phone) => setPhone(phone)}
+                />
+              </div>
+              <span className="text-[#ff3131] text-sm font-semibold">
+                {inputErrorHandler.contactNumber.message}
+              </span>
             </div>
           </>
         )}

@@ -140,6 +140,8 @@ export default function InfoRecruiter() {
     }
   }, [jobs]);
 
+  const filterjob = jobs.filter((obj) => obj.userId === id);
+
   return (
     <>
       <div className="md:pt-32 pt-12 pb-20">
@@ -185,7 +187,7 @@ export default function InfoRecruiter() {
         <div className="md:w-10/12 w-11/12 mx-auto h-full md:pb-28 pb-12 pt-20 ">
           <div className="block pt-4">
             <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12">
-              Jobs at {company?.name}
+              Jobs at {company?.name} <span>({filterjob.length})</span>
             </h1>
           </div>
 
