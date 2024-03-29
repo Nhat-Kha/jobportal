@@ -184,6 +184,7 @@ const updateUser = async (req, res) => {
     }
 
     console.log("User Updated Successfully");
+    console.log(data.resume);
 
     res.json({
       message: "User information updated successfully",

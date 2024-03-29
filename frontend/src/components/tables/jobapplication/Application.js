@@ -27,7 +27,7 @@ const ApplicationTile = (props) => {
       application.jobApplicant.resume &&
       application.jobApplicant.resume !== ""
     ) {
-      const address = `${server}${application.jobApplicant.resume}`;
+      const address = `${apiList.downloadResume}/${application.jobApplicant._id}`;
       console.log(address);
       axios(address, {
         method: "GET",
@@ -37,6 +37,11 @@ const ApplicationTile = (props) => {
           const file = new Blob([response.data], { type: "application/pdf" });
           const fileURL = URL.createObjectURL(file);
           window.open(fileURL);
+          setPopup({
+            open: true,
+            icon: "success",
+            message: "Download file PDF successfully",
+          });
         })
         .catch((error) => {
           console.log(error);

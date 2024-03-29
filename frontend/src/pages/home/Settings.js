@@ -16,6 +16,7 @@ export default function Settings() {
   const [isLoading, setIsLoading] = useState(false);
   const [imagesPreview, setImagesPreview] = useState("");
   const [userData, setUserData] = useState();
+  const [fileResume, setFileResume] = useState("");
   const [open, setOpen] = useState(false);
   const [chips, setChips] = useState([]);
 
@@ -157,6 +158,20 @@ export default function Settings() {
         message: "Error",
       });
     }
+  };
+  console.log("profileDetails", profileDetails);
+
+  const uploadResume = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("resume", fileResume);
+    formData.append("userId", profileDetails.userId);
+    formData.append("name", profileDetails.name);
+    console.log("select file: ", fileResume);
+    const result = await axios.post(apiList.uploadResume, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    console.log(result);
   };
 
   const handleChip = (newChips) => {
@@ -306,6 +321,27 @@ export default function Settings() {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="w-full mb-6">
+            <h2 className="font-semibold text-xl py-4">
+              Resume <span className="text-red-500">*</span>
+            </h2>
+            <form onSubmit={uploadResume}>
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={(e) => setFileResume(e.target.files[0])}
+              />
+              <button
+                type="submit"
+                className="hover:opacity-80  cursor-pointer items-center font-semibold text-md justify-center px-8 py-3 bg-primary rounded-xl text-black"
+              >
+                Upload
+              </button>
+            </form>
           </div>
         </div>
 
