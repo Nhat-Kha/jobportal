@@ -66,8 +66,6 @@ export default function JobAd({ job, tags, about, edit }) {
     }
   }
 
-  console.log(about);
-
   return (
     <>
       {job && (

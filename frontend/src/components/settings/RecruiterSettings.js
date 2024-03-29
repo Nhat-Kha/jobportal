@@ -5,6 +5,7 @@ import apiList from "libs/apiList";
 import { getId } from "libs/isAuth";
 import { apiUploadImages } from "libs/uploadImage";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function CompanySettings({ profile, user }) {
   const setPopup = useContext(SetPopupContext);
@@ -71,7 +72,11 @@ export default function CompanySettings({ profile, user }) {
         formData.append("file", i);
         formData.append("upload_preset", "jobportal");
         formData.append("folder", "jobportal");
-        let response = await apiUploadImages(formData);
+        let response = await toast.promise(apiUploadImages(formData), {
+          pending: "Uploading images...",
+          success: "Images uploaded successfully 👌",
+          error: "Error uploading images 🤯",
+        });
         if (response.status === 200) images = response.data?.secure_url;
         console.log(images);
       }

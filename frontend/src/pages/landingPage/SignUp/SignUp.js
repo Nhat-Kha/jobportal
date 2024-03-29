@@ -525,22 +525,12 @@ export default function SignUp() {
             </div>
 
             <>
-              <span className="text-[#ff3131] text-sm font-semibold mb-4">
-                {inputErrorHandler.skills.message}
-              </span>
               <MuiChipsInput
                 label="Skill *"
                 helperText="Please enter to add skill"
                 value={chips}
                 onChange={handleChip}
                 className="block border border-grey-light w-full p-3 rounded mb-4 focus:ring-primary focus:border-primary"
-                onBlur={(e) => {
-                  if (e.target.value === "") {
-                    handleInputError("skills", true, "Skills is required!");
-                  } else {
-                    handleInputError("skills", false, "");
-                  }
-                }}
               />
             </>
           </>

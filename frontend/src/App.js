@@ -135,7 +135,10 @@ export default function App() {
         </Routes>
         <Footer />
       </Router>
-      <ToastContainer limit={2} />
+      <Router>
+        
+      </Router>
+      <ToastContainer limit={2} autoClose={2000} />
     </SetPopupContext.Provider>
   );
 }

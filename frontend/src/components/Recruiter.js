@@ -1,5 +1,3 @@
-import { faClipboardCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import apiList from "libs/apiList";
 import { useEffect, useState } from "react";
@@ -8,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function Recruiter(props) {
   const { recruiter } = props;
   const [jobs, setJobs] = useState([]);
-  console.log(recruiter);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -28,7 +26,9 @@ export default function Recruiter(props) {
     fetchJobs();
   }, []);
 
-  console.log(jobs);
+  const handleReadMoreClick = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   const filteredReferrals = jobs.filter(
     (obj) => obj.userId === recruiter.userId
@@ -55,9 +55,31 @@ export default function Recruiter(props) {
             </div>
           </div>
           <p className="pl-1 pb-1">
-            <span className="text-lg text-gray-600 font-semibold">
-              {recruiter.banner}
-            </span>
+            {recruiter && recruiter.banner ? (
+              <>
+                {isExpanded ? (
+                  <span className="text-lg text-gray-600 font-semibold">
+                    {recruiter.banner}
+                  </span>
+                ) : (
+                  <span className="text-lg text-gray-600 font-semibold">
+                    {recruiter.banner.slice(0, 60) + "..."}
+                  </span>
+                )}
+                <span
+                  className="text-blue-500 hover:opacity-60 ease-in-out duration-150 cursor-pointer ml-1"
+                  onClick={handleReadMoreClick}
+                >
+                  {isExpanded ? "Read less" : "Read more"}
+                </span>
+              </>
+            ) : (
+              <div className="pb-4">
+                <span className="font-bold text-lg text-red-500">
+                  Banner is not available!
+                </span>
+              </div>
+            )}
           </p>
           <div className="flex items-center pt-6 justify-between w-auto h-auto">
             <Link
@@ -70,10 +92,6 @@ export default function Recruiter(props) {
             </Link>
             <span className="flex justify-center items-center gap-2">
               <div className="w-6 h-6 bg-green-100 shadow-inner flex justify-center items-center rounded-3xl">
-                {/* <FontAwesomeIcon
-                  icon={faClipboardCheck}
-                  className="bg-green-100 text-green-400 w-4 h-4"
-                /> */}
                 <div className="w-4 h-4 rounded-3xl bg-green-200 shadow-inner flex justify-center items-center">
                   <div className="w-2 h-2 rounded-3xl bg-green-300 shadow-inner"></div>
                 </div>

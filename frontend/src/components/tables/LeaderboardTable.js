@@ -32,7 +32,8 @@ export default function LeaderboardTable({ user }) {
         Leaderboard
       </h2>
       <p className="text-md text-gray-600 pb-8 text-center pt-2">
-        Helping your friends land their dream job deserves recognition 🎉
+        Categorized list of highly esteemed job positions based on performance
+        and evaluations 🎉
       </p>
       <table className="w-full mt-12">
         <thead className="border-b border-gray-500">

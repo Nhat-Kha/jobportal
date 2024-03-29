@@ -10,7 +10,7 @@ export default function Recruiter() {
   const setPopup = useContext(SetPopupContext);
   const [all, setAll] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [selectedPage, setSelectedPage] = useState(1);
 
   useEffect(() => {

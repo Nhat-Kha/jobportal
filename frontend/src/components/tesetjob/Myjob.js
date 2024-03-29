@@ -30,8 +30,6 @@ const Myjob = ({ job }, index) => {
     setSop("");
   };
 
-  console.log(job);
-
   const userApply = () => {
     return (
       (job && job.status === "accepted") || (job && job.status === "finished")
@@ -73,7 +71,6 @@ const Myjob = ({ job }, index) => {
         handleClose();
       })
       .catch((err) => {
-        console.log(err.response);
         setPopup({
           open: true,
           icon: "error",
@@ -84,27 +81,26 @@ const Myjob = ({ job }, index) => {
   };
 
   useEffect(() => {
-    const checkAcceptedJob = async () => {
-      try {
-        const response = await axios.get(
-          `${apiList.jobs}/${job._id}/check-accepted`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setHasAcceptedJob(response.data.hasAcceptedJob);
-        console.log("response data: ", response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    if (userType() === "applicant") {
+      const checkAcceptedJob = async () => {
+        try {
+          const response = await axios.get(
+            `${apiList.jobs}/${job._id}/check-accepted`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          setHasAcceptedJob(response.data.hasAcceptedJob);
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
-    checkAcceptedJob();
+      checkAcceptedJob();
+    }
   }, []);
-
-  console.log("job:", job);
 
   useEffect(() => {
     if (job) {
@@ -117,8 +113,6 @@ const Myjob = ({ job }, index) => {
       });
     }
   }, [job]);
-
-  console.log(recruiters);
 
   // const deadline = new Date(job.deadline).toLocaleDateString();
 

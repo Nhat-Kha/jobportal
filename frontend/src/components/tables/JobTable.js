@@ -43,7 +43,6 @@ export default function JobTable({ jobs }) {
 
         // const ApplicantCount = response.data.map((job) => ({...job, }))
 
-        console.log(response.data);
         setOriginalData(response.data);
         setDisplayedJobs(response.data);
 
@@ -100,8 +99,6 @@ export default function JobTable({ jobs }) {
   }
 
   function time(input) {
-    console.log("Sorting by:", input);
-
     setSelectedTime(input);
 
     setDisplayedJobs((prevDisplayedJobs) => {

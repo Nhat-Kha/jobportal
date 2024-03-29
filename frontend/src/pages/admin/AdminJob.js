@@ -118,13 +118,26 @@ export default function AdminJob() {
       });
   };
 
+  console.log("name job: ", jobs);
+
   return (
     <div className="bg-white">
       <div className="pt-32 pb-56 w-10/12 mx-auto min-h-screen">
-        <Link to="/admin" className="text-4xl">
-          <FontAwesomeIcon icon={faChevronLeft} className="mr-3 text-xl mb-1" />
-          {jobs.title}
-        </Link>
+        {jobs
+          ? jobs
+              .filter((job) => job._id === id)
+              .map((job, index) => (
+                <Link to="/admin" className="text-2xl" key={index}>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className="mr-3 text-sm mb-[0.20rem] text-slate-600"
+                  />
+                  <span className="font-normal text-slate-600">
+                    {job.title}
+                  </span>
+                </Link>
+              ))
+          : null}
         <div className="flex mt-6 gap-4 border-b border-gray-300 ">
           <button
             className={`${

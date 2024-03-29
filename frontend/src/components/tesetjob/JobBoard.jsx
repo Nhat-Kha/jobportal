@@ -180,7 +180,6 @@ export default function JobBoard({ title, props }) {
           return normalizedTitle.includes(normalizedQuery);
         });
         setJobs(response.data);
-        console.log("Response data: ", response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -204,7 +203,7 @@ export default function JobBoard({ title, props }) {
           {title === false ? (
             <div className="block pt-4">
               <h1 className="md:text-6xl text-4xl font-bold text-gray-900 text-center md:pb-16 pb-12 pt-10">
-                Trending jobs
+                Trending jobs ({limitedJobs.length})
               </h1>
             </div>
           ) : (
@@ -237,7 +236,7 @@ export default function JobBoard({ title, props }) {
                     type="search"
                     id="search"
                     className="block w-full p-4 ps-10 text-sm text-black border border-gray-300 bg-gray-100
-                    rounded-lg focus:ring-blue-500 focus:bg-white transition-all duration-150 ease-out hover:ease-in
+                    rounded-lg focus:ring-blue-500 focus:bg-white outline-none transition-all duration-150 ease-out hover:ease-in
                     hover:border-blue-500"
                     placeholder={placeholderText}
                     value={searchOptions.query}
