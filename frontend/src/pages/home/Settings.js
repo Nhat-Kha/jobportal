@@ -58,6 +58,7 @@ export default function Settings() {
             endYear: edu.endYear ? edu.endYear : "",
           })),
         });
+        setChips(response.data.skills || []);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -178,6 +179,22 @@ export default function Settings() {
     setChips(newChips);
   };
 
+  function toLocalTime(utcDateTime) {
+    const utcDate = new Date(utcDateTime);
+    const localDate = new Date(
+      utcDate.getTime() + utcDate.getTimezoneOffset() * 60000
+    );
+    return localDate.toISOString().slice(0, 16);
+  }
+
+  function toUTC(localDateTime) {
+    const localDate = new Date(localDateTime);
+    const utcDate = new Date(
+      localDate.getTime() - localDate.getTimezoneOffset() * 60000
+    );
+    return utcDate.toISOString();
+  }
+
   // const deadline = new Date(job.deadline).toLocaleDateString();
 
   return (
@@ -202,11 +219,13 @@ export default function Settings() {
           type="datetime-local"
           label="Application Deadline"
           placeholder="dd/mm/yy"
-          value={profileDetails.dateOfBirth}
+          value={toLocalTime(profileDetails.dateOfBirth)}
           onChange={(e) => {
+            const localTime = e.target.value;
+            const utcTime = toUTC(localTime);
             setProfileDetails({
               ...profileDetails,
-              dateOfBirth: e.target.value,
+              dateOfBirth: utcTime,
             });
           }}
         />
@@ -344,6 +363,7 @@ export default function Settings() {
             </form>
           </div>
         </div>
+        <div> {new Date(profileDetails.dateOfBirth).toLocaleDateString()}</div>
 
         <div className="flex items-center justify-center pt-6">
           <button
