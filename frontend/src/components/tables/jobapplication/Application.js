@@ -34,9 +34,13 @@ const ApplicationTile = (props) => {
         responseType: "blob",
       })
         .then((response) => {
-          const file = new Blob([response.data], { type: "application/pdf" });
-          const fileURL = URL.createObjectURL(file);
-          window.open(fileURL);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "resume.pdf");
+          document.body.appendChild(link);
+          link.click();
+          window.URL.revokeObjectURL(url);
           setPopup({
             open: true,
             icon: "success",
