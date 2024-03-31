@@ -17,7 +17,6 @@ import apiList from "../../libs/apiList";
 import FilterPopup from "../filterPopup";
 import Myjob from "./Myjob";
 import unorm from "unorm";
-import Loader from "components/Loader";
 
 export default function JobBoard({ title, props }) {
   const searchRef = useRef(null);
@@ -96,7 +95,7 @@ export default function JobBoard({ title, props }) {
       const postingDate = new Date(job.dateOfPosting);
       const differenceInDays =
         (currentDate - postingDate) / (1000 * 60 * 60 * 24);
-      return differenceInDays <= 14;
+      return differenceInDays <= 7;
     })
     .slice(0, maxJobsToShow);
 
@@ -197,10 +196,6 @@ export default function JobBoard({ title, props }) {
     });
   };
 
-  if (!jobs) {
-    return <Loader />;
-  }
-
   return (
     <>
       <div className="bg-light">
@@ -297,7 +292,7 @@ export default function JobBoard({ title, props }) {
                   );
                 })
               ) : (
-                <div style={{ textAlign: "center" }}>No jobs found</div>
+                <h5 style={{ textAlign: "center" }}>No jobs found</h5>
               )}
             </div>
           ) : (
@@ -313,9 +308,7 @@ export default function JobBoard({ title, props }) {
                   );
                 })
               ) : (
-                <h5 className="text-center flex justify-center items-center">
-                  No jobs found
-                </h5>
+                <h5 style={{ textAlign: "center" }}>No jobs found</h5>
               )}
             </div>
           )}
