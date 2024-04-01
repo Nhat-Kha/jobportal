@@ -37,7 +37,10 @@ const ApplicationTile = (props) => {
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement("a");
           link.href = url;
-          link.setAttribute("download", "resume.pdf");
+          link.setAttribute(
+            "download",
+            `resume-${application.jobApplicant.name}.pdf`
+          );
           document.body.appendChild(link);
           link.click();
           window.URL.revokeObjectURL(url);
