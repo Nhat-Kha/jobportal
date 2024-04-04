@@ -101,7 +101,7 @@ export default function Applicant() {
                 <img
                   src={`${applicant.profile}`}
                   alt={`${applicant.name}'s profile`}
-                  className="w-[10rem] h-[10rem] rounded-xl hidden sm:block"
+                  className="w-[10rem] h-[10rem] rounded-xl hidden sm:block object-cover"
                 />
               </div>
               <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex-1 w-[30rem]">

@@ -45,7 +45,7 @@ export default function ProfileMenu() {
           <Menu.Button className="flex relative">
             {user?.profile ? (
               <img
-                className="h-10 w-10 rounded-full"
+                className="h-10 w-10 rounded-full object-cover"
                 src={user.profile}
                 alt=""
               />
