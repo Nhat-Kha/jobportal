@@ -7,25 +7,47 @@ import axios from "axios";
 import { Button } from "flowbite-react";
 import apiList from "libs/apiList";
 import { userType } from "libs/isAuth";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import unorm from "unorm";
 
 export default function Applicant() {
   const setPopup = useContext(SetPopupContext);
+  const searchRef = useRef(null);
   const [all, setAll] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [selectedPage, setSelectedPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [reloadContent, setReloadContent] = useState(false);
+  const [placeholderText, setPlaceholderText] = useState("Type (/) search");
+
+  console.log("user before: ", all);
 
   useEffect(() => {
     const user = apiList.allApplicants;
+    const normalizeText = (text) => {
+      return unorm
+        .nfkd(text)
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+    };
     axios
       .get(user)
       .then((response) => {
         console.log(response.data.allUser);
-        setAll(response.data.allUser);
+        const newData = response.data.allUser.filter((user) => {
+          const normalizedTitle = normalizeText(user.name);
+          return normalizedTitle.includes(normalizeText(searchQuery));
+        });
+        setAll(newData);
       })
       .catch((err) => {
         console.log(err);
@@ -35,7 +57,9 @@ export default function Applicant() {
           message: "Error",
         });
       });
-  }, [reloadContent, setPopup]);
+  }, [reloadContent, setPopup, searchQuery]);
+
+  console.log("user after: ", all);
 
   const openModal = (user) => {
     setIsOpen(true);
@@ -54,6 +78,33 @@ export default function Applicant() {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     setSelectedPage(pageNumber);
+    setSearchQuery("");
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "/") {
+        event.preventDefault();
+        if (searchRef.current) {
+          searchRef.current.focus();
+        }
+      }
+      if (event.key === "Escape") {
+        setSearchQuery("");
+        if (searchRef.current) {
+          searchRef.current.blur();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
   };
 
   const handleDelete = (user) => {
@@ -82,13 +133,45 @@ export default function Applicant() {
       });
   };
 
-  console.log("select user: ", all);
-
   return (
     <div className="min-h-screen pt-10">
-      <div className="pb-4">
-        <span className="font-semibold text-slate-500">ALL APPLICANT</span>
-        <span className="font-bold">({all.length})</span>
+      <div className="flex justify-between">
+        <div className="pb-4 flex justify-center items-center">
+          <span className="font-semibold text-slate-500">ALL APPLICANT</span>
+          <span className="font-bold">({all.length})</span>
+        </div>
+        <div className="pb-4">
+          <div className="relative bg-slate-50">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg
+                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="search"
+              placeholder={placeholderText}
+              className="block w-full p-4 ps-10 text-sm text-gray-600 border-b border-l border-b-gray-300 border-l-gray-300
+              rounded-bl-md outline-none bg-slate-50 focus:placeholder:text-black focus:text-black"
+              onFocus={() => setPlaceholderText("Search name user")}
+              onBlur={() => setPlaceholderText("Type (/) search")}
+              onChange={handleSearchInputChange}
+              ref={searchRef}
+            />
+          </div>
+        </div>
       </div>
       <>
         {currentItems.map((applicant, index) => (
