@@ -180,11 +180,15 @@ export default function Settings() {
   };
 
   function toLocalTime(utcDateTime) {
-    const utcDate = new Date(utcDateTime);
-    const localDate = new Date(
-      utcDate.getTime() + utcDate.getTimezoneOffset() * 60000
-    );
-    return localDate.toISOString().slice(0, 16);
+    if (utcDateTime) {
+      const utcDate = new Date(utcDateTime);
+      const localDate = new Date(
+        utcDate.getTime() + utcDate.getTimezoneOffset() * 60000
+      );
+      return localDate.toISOString().slice(0, 16);
+    } else {
+      return "";
+    }
   }
 
   function toUTC(localDateTime) {
