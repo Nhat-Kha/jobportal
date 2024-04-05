@@ -33,6 +33,10 @@ import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InfoRecruiter from "pages/landingPage/InfoRecruiter";
 import { Dashboard } from "pages/Admin1/Dashboard";
+import BlogHome from "components/blog/home-blog";
+import NavbarBlog from "components/blog/navbar-blog/navbar";
+import Footerblog from "components/blog/footer-blog/footer";
+import DetailsNews from "components/blog/body-news/DetailsNews";
 
 export const SetPopupContext = createContext();
 
@@ -132,11 +136,13 @@ export default function App() {
           <Route exact path="/applicant/settings" element={<Settings />} />
           <Route exact path="/admin/settings" element={<AdminSettings />} />
           <Route exact path="/logout" element={<Logout />} />
+
+          <Route exact path="/blog/*" element={<BlogHome />} />
+          <Route exact path="/blog/news" />
+          <Route exact path="/blog/news/:id" element={<DetailsNews />} />
+          <Route exact path="/blog/programming-language" />
         </Routes>
         <Footer />
-      </Router>
-      <Router>
-        
       </Router>
       <ToastContainer limit={2} autoClose={2000} />
     </SetPopupContext.Provider>
