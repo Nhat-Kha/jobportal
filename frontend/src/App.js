@@ -34,8 +34,6 @@ import "react-toastify/dist/ReactToastify.css";
 import InfoRecruiter from "pages/landingPage/InfoRecruiter";
 import { Dashboard } from "pages/Admin1/Dashboard";
 import BlogHome from "components/blog/home-blog";
-import NavbarBlog from "components/blog/navbar-blog/navbar";
-import Footerblog from "components/blog/footer-blog/footer";
 import DetailsNews from "components/blog/body-news/DetailsNews";
 
 export const SetPopupContext = createContext();
