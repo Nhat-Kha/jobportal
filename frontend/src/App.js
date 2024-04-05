@@ -34,7 +34,6 @@ import "react-toastify/dist/ReactToastify.css";
 import InfoRecruiter from "pages/landingPage/InfoRecruiter";
 import { Dashboard } from "pages/Admin1/Dashboard";
 import BlogHome from "components/blog/home-blog";
-import DetailsNews from "components/blog/body-news/DetailsNews";
 
 export const SetPopupContext = createContext();
 
@@ -137,7 +136,7 @@ export default function App() {
 
           <Route exact path="/blog/*" element={<BlogHome />} />
           <Route exact path="/blog/news" />
-          <Route exact path="/blog/news/:id" element={<DetailsNews />} />
+          <Route exact path="/blog/news/:id" />
           <Route exact path="/blog/programming-language" />
         </Routes>
         <Footer />
