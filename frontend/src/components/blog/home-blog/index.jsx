@@ -26,7 +26,7 @@ export default function BlogHome() {
                 Search
               </Link>
             </div>
-            <div className="w-auto p-4 mt-4 sm:mt-8 sm:flex sm:justify-center lg:justify-start gap-3 bg-amber-50 rounded-lg shadow-2xl">
+            <div className="w-2/4 p-4 mt-4 sm:mt-8 sm:flex sm:justify-center lg:justify-start gap-3 bg-amber-50 rounded-lg shadow-2xl">
               <span className="font-semibold">Key Word:</span>
               {tags.map((data, index) => (
                 <div key={index} className="flex gap-2">
