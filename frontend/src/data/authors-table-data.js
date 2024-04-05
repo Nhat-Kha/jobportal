@@ -1,52 +1,41 @@
-export const authorsTableData = [
+import ide from "../assets/ide.jpeg";
+import coder from "../assets/coder-programmer-developer.png";
+import html from "../assets/html.jpg";
+// import coder from "../assets/coder-programmer-developer.png";
+
+export const news = [
   {
-    img: "/img/team-2.jpeg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: ["Manager", "Organization"],
-    online: true,
-    date: "23/04/18",
+    id: 1,
+    title: "The difference between CODER, PROGRAMMER, and DEVELOPER?",
+    img: coder,
+    description: `People often use three terms: "Developer," "Programmer," and "Coder" to refer to individuals working in the software development industry. But have we ever wondered how they differ? And how do we distinguish between these titles: Developer, Programmer, or Coder?
+
+    Below is the answer, let's explore with Hybrid Technologies:`,
+    tags: ["IT"],
   },
   {
-    img: "/img/team-1.jpeg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: ["Programator", "Developer"],
-    online: false,
-    date: "11/01/19",
+    id: 2,
+    title: "The 12 Best IDEs for Programming",
+    img: ide,
+    description:
+      "IDEs are essential tools for software development. Here is a list of the top IDEs for programming.",
+    tags: ["IDEs"],
   },
   {
-    img: "/img/team-4.jpeg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: ["Executive", "Projects"],
-    online: true,
-    date: "19/09/17",
+    id: 3,
+    title: "The HTML tags",
+    img: html,
+    description:
+      "In HTML, there are various types of elements, each serving different purposes and having different attributes. Some elements are used to represent an entire document, while others describe smaller components. So, how do HTML tags function, and which types of tags are commonly used in programming tasks?",
+    tags: ["html"],
   },
   {
-    img: "/img/team-3.jpeg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: ["Programator", "Developer"],
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "/img/bruce-mars.jpeg",
-    name: "Bruce Mars",
-    email: "bruce@creative-tim.com",
-    job: ["Manager", "Executive"],
-    online: false,
-    date: "04/10/21",
-  },
-  {
-    img: "/img/team-2.jpeg",
-    name: "Alexander",
-    email: "alexander@creative-tim.com",
-    job: ["Programator", "Developer"],
-    online: false,
-    date: "14/09/20",
+    id: 4,
+    title: "The difference between CODER, PROGRAMMER, and DEVELOPER?",
+    img: "/assets/coder-programmer-developer.png",
+    description: "test",
+    tags: ["tags"],
   },
 ];
 
-export default authorsTableData;
+export default news;
