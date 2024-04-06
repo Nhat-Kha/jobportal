@@ -14,10 +14,12 @@
   - middleware/
   - Controller/
   - model/
+  - utils/
   - server.js
 - Frontend/
   - components/
   - assets/
+  - hooks/
   - pages/
     - admin/
     - home/
