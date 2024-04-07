@@ -1,11 +1,10 @@
 import { Disclosure } from "@headlessui/react";
 import logo from "assets/images/logo.png";
 import HowIt from "./HowIt";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBlog, faPlus } from "@fortawesome/free-solid-svg-icons";
-import news from "data/authors-table-data";
 import ProfileMenu from "./ProfileMenu";
 import { userType } from "libs/isAuth";
 import isAuth from "libs/isAuth";
@@ -20,9 +19,7 @@ export default function Navbar() {
     <Disclosure as="nav" className="bg-[#FFF5EC]  w-full">
       <>
         <div className="flex justify-between h-24 py-6 md:w-10/12 w-11/12 mx-auto">
-          {linkUrl.pathname === "/blog" ||
-          linkUrl.pathname === "/blog/news" ||
-          linkUrl.pathname === "/blog/programming-language" ? (
+          {linkUrl.pathname.startsWith("/blog") && (
             <div className="flex">
               <Link className="flex pt-1" to="/blog">
                 <img className="md:pl-5 pl-2" src={logo} alt="logo" />
@@ -52,7 +49,9 @@ export default function Navbar() {
                 </Link>
               </div>
             </div>
-          ) : (
+          )}
+
+          {!linkUrl.pathname.startsWith("/blog") && (
             <div className="flex">
               <Link className="flex pt-1" to="/">
                 <img className="md:pl-5 pl-2" src={logo} alt="logo" />
@@ -89,9 +88,7 @@ export default function Navbar() {
           )}
 
           <div className="flex">
-            {linkUrl.pathname === "/blog" ||
-            linkUrl.pathname === "/blog/news" ||
-            linkUrl.pathname === "/blog/programming-language" ? null : (
+            {!linkUrl.pathname.startsWith("/blog") && (
               <>
                 <MobileMenu />
                 {isAuth() ? (
