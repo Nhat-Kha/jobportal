@@ -12,6 +12,7 @@ import blog4 from "assets/blogs/blog-4.png";
 import { Dialog, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { Button } from "flowbite-react";
+import news from "data/authors-table-data";
 
 export default function TalentPool() {
   const [users, setUsers] = useState([]);
@@ -59,7 +60,7 @@ export default function TalentPool() {
 
         <div>
           <section>
-            <div className="container lg:w-4/5 mx-auto mt-8 p-8 bg-light shadow-xl rounded-2xl">
+            <div className="container lg:w-4/5 h-auto mx-auto mt-8 p-8 bg-light shadow-xl rounded-2xl">
               <div>
                 <h2 className="text-indigo-500 text-2xl font font-medium">
                   Top Players
@@ -91,74 +92,31 @@ export default function TalentPool() {
                     Top reference blog
                   </h2>
                   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-                    <div class="flex flex-col lg:flex-row gap-4 hover:bg-slate-200 rounded-lg">
-                      <img
-                        src={blog1}
-                        alt=""
-                        className="w-full lg:h-32 lg:w-auto mr-4"
-                      />
-                      <div>
-                        <h3 className="text-gray-900 text-xl font-medium leading-8">
-                          13 of My Favorite UI/UX Goodies
-                        </h3>
-                        <p className="text-gray-500 text-lg mt-4">
-                          By
-                          <span className="text-indigo-600">Danny Sapio</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col lg:flex-row gap-4 hover:bg-slate-200 rounded-lg">
-                      <img
-                        src={blog2}
-                        alt=""
-                        className="w-full lg:h-32 lg:w-auto mr-4"
-                      />
-                      <div>
-                        <h3 className="text-gray-900 text-xl font-medium leading-8">
-                          cheat sheet: list vs grids
-                        </h3>
-                        <p className="text-gray-500 text-lg mt-4">
-                          By
-                          <span className="text-indigo-600">Tess Gadd</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col lg:flex-row gap-4 hover:bg-slate-200 rounded-lg">
-                      <img
-                        src={blog3}
-                        alt=""
-                        className="w-full lg:h-32 lg:w-auto mr-4"
-                      />
-                      <div>
-                        <h3 className="text-gray-900 text-xl font-medium leading-8">
-                          7 typography tips for interface design
-                        </h3>
-                        <p className="text-lg mt-4text-gray-500">
-                          By
-                          <span className="text-indigo-600">
-                            By Jeremiah Lam
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col lg:flex-row gap-4 hover:bg-slate-200 rounded-lg">
-                      <img
-                        src={blog4}
-                        alt=""
-                        className="w-full lg:h-32 lg:w-auto mr-4"
-                      />
-                      <div>
-                        <h3 className="text-gray-900 text-xl font-medium leading-8">
-                          Your logo is copied
-                        </h3>
-                        <p className="text-gray-500 text-lg mt-4">
-                          By
-                          <span className="text-indigo-600">
-                            Ferdinand Vogler
-                          </span>
-                        </p>
-                      </div>
-                    </div>
+                    {news.map((data) => (
+                      <Link to={`/blog/news/${data.id}`}>
+                        <div
+                          class="flex flex-col lg:flex-row gap-4 hover:bg-slate-200 rounded-lg"
+                          key={data.id}
+                        >
+                          <img
+                            src={data.img}
+                            alt=""
+                            className="lg:h-32 lg:w-[12rem] mr-4 rounded-md"
+                          />
+                          <div>
+                            <h3 className="text-gray-900 text-xl font-medium leading-8">
+                              {data.title.slice(0, 30) + "..."}
+                            </h3>
+                            <p className="text-gray-500 text-lg mt-4">
+                              By{" "}
+                              <span className="text-indigo-600">
+                                {data.dateUpload}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>

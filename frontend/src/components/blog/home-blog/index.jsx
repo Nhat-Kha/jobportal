@@ -33,7 +33,8 @@ export default function BlogHome() {
                   {data.tag.map((tag, tagIndex) => (
                     <div
                       key={tagIndex}
-                      className="py-1.5 px-3 bg-gray-900 text-white rounded-lg font-sans text-xs font-bold uppercase cursor-pointer"
+                      className="relative grid select-none items-center whitespace-nowrap rounded-lg bg-gray-900/10 py-1.5 px-3 font-sans text-xs font-bold uppercase text-gray-900
+                      hover:bg-gray-900 hover:text-white transition duration-300 hover:border-none"
                     >
                       {tag}
                     </div>

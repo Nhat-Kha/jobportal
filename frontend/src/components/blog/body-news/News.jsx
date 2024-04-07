@@ -19,11 +19,13 @@ export default function News() {
             border"
               key={data.id}
             >
-              <img
-                src={data.img}
-                alt=""
-                className="h-40 w-full object-cover rounded-t-2xl hover:opacity-70"
-              />
+              <Link to={`/blog/news/${data.id}`}>
+                <img
+                  src={data.img}
+                  alt=""
+                  className="h-40 w-full object-cover rounded-t-2xl hover:opacity-70"
+                />
+              </Link>
               <h3 className="w-full h-20 p-4 font-semibold">
                 <Link
                   className="hover:text-red-400 cursor-pointer"
@@ -33,23 +35,26 @@ export default function News() {
                 </Link>
               </h3>
               <p className="p-4">{data.description.slice(0, 80) + "..."}</p>
-              <div className="flex flex-wrap mt-3 gap-2 py-4 px-4 justify-between">
+              <div className="flex flex-wrap mt-3 gap-2 py-4 px-4">
                 <>
                   {data.tags
                     ? data.tags.map((skill, index) => (
                         <div
                           key={index}
-                          className="py-1.5 px-3 bg-gray-900 text-white rounded-lg font-sans text-xs font-bold uppercase"
+                          className="relative grid select-none items-center whitespace-nowrap rounded-lg bg-gray-900/10 py-1.5 px-3 font-sans text-xs font-bold uppercase text-gray-900
+                        hover:bg-gray-900 hover:text-white transition duration-300 hover:border-none"
                         >
                           <span>{skill}</span>
                         </div>
                       ))
                     : null}
-                  <div className="hover:text-blue-500 cursor-pointer transition duration-300 font-medium">
-                    <a>Start reading</a>
-                    <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
-                  </div>
                 </>
+              </div>
+              <div className="hover:text-blue-500 flex justify-end m-4 cursor-pointer transition duration-300 font-medium">
+                <Link to={`/blog/news/${data.id}`}>
+                  <a>Start reading</a>
+                  <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           ))}
