@@ -1,7 +1,6 @@
 import ide from "../assets/ide.jpeg";
 import coder from "../assets/coder-programmer-developer.png";
 import html from "../assets/html.jpg";
-import coder1 from "../assets/CODER-768x768.png";
 import blog4 from "assets/blogs/blog-4.png";
 
 export const news = [
