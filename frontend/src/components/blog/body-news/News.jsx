@@ -62,7 +62,7 @@ export default function News() {
       </div>
       <span className="pb-10 px-20 w-full text-lg font-medium flex justify-end">
         <Link
-          className="border-b-2 border-b-yellow-200 hover:text-yellow-400 hover:border-b-yellow-400 cursor-pointer transition duration-100 text-yellow-300"
+          className="border-b-2 border-b-yellow-200 hover:text-yellow-600 hover:border-b-yellow-400 cursor-pointer transition duration-100 text-yellow-400"
           to="/blog/news"
         >
           view all
