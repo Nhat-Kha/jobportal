@@ -31,7 +31,10 @@ export default function DetailNews() {
                     {data.title}
                   </h1>
                   <span className="text-base text-gray-400">
-                    By : {data.dateUpload}
+                    By : {data.useUpload}
+                  </span>
+                  <span className="text-base text-gray-400">
+                    Published : {data.dateUpload}
                   </span>
                 </div>
               </div>
@@ -81,7 +84,7 @@ export default function DetailNews() {
                             return (
                               <a
                                 href={`#${id}`}
-                                className="block font-sans text-base font-light leading-relaxed text-inherit antialiased"
+                                className="block font-sans text-base font-light leading-relaxed text-inherit antialiased hover:underline hover:text-blue-400 transition duration-200"
                                 key={aboutItem}
                               >
                                 {aboutItem.split("- ")[0]}

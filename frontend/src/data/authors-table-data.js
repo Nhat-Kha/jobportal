@@ -12,43 +12,44 @@ export const news = [
 
     Below is the answer, let's explore with Hybrid Technologies:`,
     tags: ["IT"],
-    dateUpload: "hybrid-technologies",
+    useUpload: "hybrid-technologies",
+    dateUpload: "04/01/2020",
     about: [
       `1. Coder - 
       <img src="https://jobs.hybrid-technologies.vn/wp-content/uploads/2019/01/CODER.png" alt="" width="300" height="300">
-      Nếu bạn có 1 vấn đề rõ ràng và 1 giải pháp rõ ràng được mô tả bằng ngôn ngữ tự nhiên hoặc giải mã, bạn cần 1 <strong>Coder</strong> để chuyển chúng sang ngôn ngữ của máy tính (Chỉ code).
+      If you have a clear problem and a clear solution described in natural language or pseudocode, you need a <strong>Coder</strong> to translate them into machine language (Just code).
       <br/>
       <br/>
-      <strong>Coder</strong> – (hay thợ code), khi được giao việc code một chương trình nào đó thường cần phải kèm theo một bản mô tả chi tiết chương trình, rất thạo việc viết mã, viết nhanh và làm cho chương trình chạy đúng như mô tả, nhưng hầu hết trường hợp là sản phẩm không gọn gàng lắm nếu nhìn vô code.
+      <strong>Coder</strong> – (or coder), when tasked with coding a program, often needs to be accompanied by a detailed program description, proficient in writing code, writing quickly and making the program run correctly as described, but in most cases, the product is not very tidy when looking into the code.
       <br/>
       <br/>
-      Bất cứ ai khi viết code thường được người không rành công nghệ gọi là một coder. Tuy nhiên, thuật ngữ này có thể xem xét và sử dụng cho những ai sống bằng viết chương trình ứng dụng mỗi ngày. Coder thường được sử dụng cho những programmer có ít kinh nghiệm và được đào tạo ít nhất. Họ thường không có đủ kiến thức về các thuật toán như programmer hay developer, cũng như thường là cách gọi cho người mới bắt đầu vào nghề, và chỉ biết một ngôn ngữ lập trình duy nhất như là ngôn ngữ C, Java, PHP,… Coder thường được giao các công việc viết các đoạn mã đơn giản do các developer phân công. Trong một số trường hợp, coder còn được thay thế bằng “Junior Programmer” hoặc “Junior Developer”.`,
+      Anyone who writes code is often called a coder by non-tech savvy individuals. However, this term can be considered and used for those who make a living by writing application programs every day. Coders are often used for less experienced programmers and require minimal training. They usually lack knowledge of algorithms like programmers or developers, as well as being a term used for newcomers to the profession, and only know a single programming language such as C, Java, PHP,... Coders are often assigned simple code snippets by developers. In some cases, coders may also be referred to as "Junior Programmers" or "Junior Developers".`,
       `2. Programmer - 
       <img src="https://jobs.hybrid-technologies.vn/wp-content/uploads/2019/01/PROGRAMMER.png" alt="" width="300" height="300">
 
-      Nếu bạn có 1 vấn đề rõ ràng nhưng không có giải pháp rõ ràng, bạn cần một <strong>Programer</strong> để giải quyết vấn đề, sau đó code. <strong>(Giải quyết vấn đề + code)</strong>.
+      If you have a clear problem but no clear solution, you need a <strong>Programmer</strong> to solve the problem and then code it. <strong>(Problem-solving + coding)</strong>.      <br/>
+      <br/>
+      <strong>Programmer</strong> They are slightly more specialized. They can create computer software in any basic programming language such as Java, Python, Lisp, etc. Programmers are considered to surpass Coders, as they can specialize in a particular field or even write guides for various types of systems.
       <br/>
       <br/>
-      <strong>Programmer</strong> là người có chuyên môn hơn một chút. Họ có thể tạo ra phần mềm máy tính ở bất kỳ ngôn ngữ lập trình máy tính cơ bản nào, như Java, Python, Lisp,… Programmer được cho là vượt xa Coder, họ có thể chỉ chuyên môn trong một lĩnh vực hay thậm chí là viết hướng dẫn cho nhiều loại hệ thống khác nhau.
-      <br/>
-      <br/>
-      Programmer cũng am hiểu khá tốt về thuật toán. Họ cũng khá giống với Developer nhưng khác ở chỗ là Programmer chủ yếu chỉ triển khai hệ thống, trong khi Developer có thể thiết kế hoặc xây dựng một cấu trúc dữ liệu tốt trong phần mềm. Ngoài ra, Programmer sẽ quan tâm nhiều hơn vào chi tiết.`,
+      Programmers also have a good understanding of algorithms. They are quite similar to Developers, but the main difference is that Programmers mainly implement systems, while Developers can design or build a good data structure within software. Additionally, Programmers will pay more attention to details.`,
       `3. Developer - 
       <img src="https://jobs.hybrid-technologies.vn/wp-content/uploads/2019/01/DEVELOPER.png" alt="" width="300" height="300">
 
-      Nếu bạn cảm thấy mình có vấn đề cần giải quyết nhưng không thể định nghĩa rõ ràng được, bạn cần 1 <strong>Developer</strong> để giúp bạn tìm ra vấn đề trước, sau đó xử lý nó. <strong>(Phân tích + Giải quyết Vấn Đề + Code)</strong>.
+      If you feel you have a problem that needs solving but cannot define it clearly, you need a <strong>Developer</strong> to help you identify the problem first, then address it. <strong>(Analysis + Problem-solving + Coding)</strong>.
       <br/>
       <br/>
-      Developer – Có tầm nhìn khái quát vấn đề, có khả năng sử dụng nhiều hệ thống khác nhau, nhiều ngôn ngữ lập trình, phối hợp chúng với nhau để giải quyết vấn đề. Những người này thường không chỉ làm việc chỉ với code mà cả với con người, thường là giao tiếp tốt, tiếp nhận vấn đề, phân tích và xây dựng giải pháp, rồi anh ta sẽ đưa ra thiết kế của các chương trình, cũng như cung cấp các mô tả chi tiết cho programmer và coder.
+      Developer – These individuals have a broad vision of the problem, with the ability to utilize various systems and programming languages, integrating them to solve the problem. They often don't just work with code but also with people, typically exhibiting good communication skills, problem reception, analysis, and solution development. They will then provide program designs as well as detailed descriptions for programmers and coders.
       <br/>
       <br/>
-      Vì vậy chúng ta có thể đúc kết được cơ sở để phân biệt các thuật ngữ này là dựa vào kĩ năng như am hiểu về công nghệ, kĩ thuật, thiết kế, về thuật toán, kĩ năng viết code…, dựa trên kinh nghiệm code thực tế (có thể quy bằng số năm như 1 năm hay 2 năm, hoặc bằng các ứng dụng đã tạo ra…), và cũng có thể dựa trên vị trí công việc của mỗi người tại một công ty.`,
+      Therefore, we can summarize the basis for distinguishing these terms based on skills such as understanding of technology, engineering, design, algorithms, coding skills, etc. It can also be based on practical coding experience (which can be quantified by years, such as 1 year or 2 years, or by applications created), and it can also be based on each person's position within a company.`,
     ],
   },
   {
     id: 2,
     title: "The 12 Best IDEs for Programming",
-    dateUpload: "Franklin Okeke - techrepublic",
+    useUpload: "Franklin Okeke - techrepublic",
+    dateUpload: "07/07/2022",
     img: ide,
     description:
       "IDEs are essential tools for software development. Here is a list of the top IDEs for programming.",
@@ -85,15 +86,112 @@ export const news = [
     id: 3,
     title: "The HTML tags",
     img: html,
+    useUpload: "itviec",
+    dateUpload: "01/04/2024",
     description:
       "In HTML, there are various types of elements, each serving different purposes and having different attributes. Some elements are used to represent an entire document, while others describe smaller components. So, how do HTML tags function, and which types of tags are commonly used in programming tasks?",
     tags: ["html"],
-    about: [""],
+    about: [
+      `1. Consulted on technical information by - 
+      <img src="https://itviec.com/blog/wp-content/uploads/2024/03/Pham-Huu-Ngoc-technical-content-reviewer-300x225.jpg" alt="" width="300" height="300">
+      Phạm Hữu Ngọc( Web Developer )
+      <br/>
+      <br/>
+      Ngọc Phạm, a software engineer with over 3 years of experience in web development, has participated in projects with various clients from Vietnam, the United States, and Japan. As someone who loves creativity, Ngọc always enjoys exploring new things. Ngọc sets high standards for their code, constantly striving to improve its quality.
+      <br/>
+      <br/>
+      Currently, Ngọc works as a Web Developer at Voyager Inc.. Here, Ngọc aims to deliver high-quality, useful products that bring value to both the company and its customers.
+    `,
+      `2. What are HTML tags? - 
+      <br/>
+      HTML tags are keywords used to format different structures on a web page. The syntax of an HTML tag consists of two parts: the opening tag and the closing tag, enclosed in angle brackets with a forward slash (/) added before the tag name in the closing tag. For example, the opening tag &lt;html&gt; and the closing tag &lt;/html&gt;.
+      <br/>
+      <br/>
+      Currently, there are nearly 100 types of HTML tags with various functions and attributes such as formatting tables, text paragraphs, inserting links, images, annotations,...
+    `,
+      `3. Top 70+ basic and commonly used HTML tags - 
+      <br/>
+      The basic types of tags in HTML are commonly used to format the structure of web pages. For example, the &lt;a&gt; tag in HTML is used to insert links, the &lt;div&gt;, &lt;p&gt; tags are used to format text,...
+      <br/>
+      <br/>
+      In addition, there are other commonly used HTML tags such as:
+      <br/>
+      <br/>
+      <strong>The basic tags of an HTML structure</strong>
+      <br/>
+      The data file includes information about the website such as structure, style, title,... to display the website on search engines (SEO, Google, Bing,..).
+      <br/>
+      <br/>
+      The basic and familiar HTML tags used to create the foundation for a website include:
+      <br/>
+      <br/>
+      <table style="border: 1px solid black; border-collapse: collapse;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px;">HTML Tag</th>
+          <th style="border: 1px solid black; padding: 8px;">Description</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;html&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">This is the root element in the document and contains all other tags in the code (except !DOCTYPE).</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;base&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies the base URL for all relative URLs in a document. And there can only be one such element in a document.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;head&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">The first child element of the &lt;html&gt; tag and includes other child tags containing information about the website.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;style&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Used to format elements of the website such as colors, background colors, borders, etc., of any element within an HTML page.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;title&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Often used inside the &lt;head&gt; tag and is used to determine the title of the website when displayed in the browser.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;meta&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Often placed inside the &lt;head&gt; element and used to provide metadata for browsers and search engines. This information is typically not displayed on the website but can be understood and read by browsers or search engines.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;link&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Placed within the &lt;head&gt; element and used to define a link on the website to an external link outside of the website.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;body&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Used as the second child element of the &lt;html&gt; tag and is used to contain the content you want to display on the website.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;h1&gt; – &lt;h6&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Defines main headings in a piece of text. The &lt;h1&gt; to &lt;h6&gt; tags default to bold and large font size.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;hr&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Often used to insert a horizontal rule separator line and does not have a closing tag.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;p&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies a paragraph of text within HTML.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;br&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Used to break to a new line because in HTML, you cannot use Enter to create new lines as in conventional text editors.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;">&lt;!--&nbsp--&gt;</td>
+          <td style="border: 1px solid black; padding: 8px;">Used to insert a comment, and this section will not be displayed on the website.</td>
+        </tr>
+      </table>
+
+      `,
+    ],
   },
   {
     id: 4,
     title: "Your logo is copied",
-    dateUpload: "Ferdinand Vogler - ferdinandvogler",
+    useUpload: "Ferdinand Vogler - ferdinandvogler",
+    dateUpload: "25/08/2017",
     img: blog4,
     description: "Admit it, everything has been done before.",
     tags: ["Graphic Design", "Branding"],

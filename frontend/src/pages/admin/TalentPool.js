@@ -110,7 +110,7 @@ export default function TalentPool() {
                             <p className="text-gray-500 text-lg mt-4">
                               By{" "}
                               <span className="text-indigo-600">
-                                {data.dateUpload}
+                                {data.useUpload}
                               </span>
                             </p>
                           </div>
