@@ -33,7 +33,8 @@
  - Create post, search post
  - Changed profile, changed password
  - Apply job
- - Leaderboard, rating job
+ - Leaderboard, rating job, blog
+ - Dashboard admin
 
 # Usage, Installation
 
