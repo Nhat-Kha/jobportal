@@ -183,7 +183,30 @@ export const news = [
           <td style="border: 1px solid black; padding: 8px;">Used to insert a comment, and this section will not be displayed on the website.</td>
         </tr>
       </table>
-
+      <br/>
+      <br/>
+      Examples of basic HTML tags for formatting the structure of a web page:
+      <br/>
+      <pre style="font-family: Monaco, monospace; background-color: #f9f9f9; color:#555; border: 1px solid #ddd; border-radius: 3px; height:300px;overflow:auto">
+        <span>&lt;!doctype html&gt;</span>
+        <span>&lt;html lang="en-US"&gt;</span>
+        <br/>
+        <span>&nbsp;&nbsp;&lt;head&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="utf-8" /</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width" /&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Itviec blog&lt;/title&gt;</span>
+        <span>&nbsp;&nbsp;&lt;/head&gt;</span>
+        <br/>
+        <span>&nbsp;&nbsp;&lt;body&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;4 heading levels:&nbsp;--&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Công việc IT&lt;/h1&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Sự nghiệp IT&lt;/h2&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Chuyên môn IT&lt;/h3&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Chuyện IT&lt;/h4&gt;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Ý tưởng phát triển sự nghiệp IT của bạn&lt;/p&gt;</span>
+        <span>&nbsp;&nbsp;&lt;/body&gt;</span>
+        <span>&lt;/html&gt;</span>
+      </pre>
       `,
     ],
   },
