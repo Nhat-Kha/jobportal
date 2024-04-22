@@ -249,6 +249,15 @@ export default function ReferralsTable(props) {
           </table>
         </div>
       </div>
+      <div>
+        <span className="font-normal text-slate-500">
+          <span className="text-red-500">*</span>If the job is{" "}
+          <span className="font-semibold uppercase">accepted</span>, click on
+          the <span className="font-semibold uppercase">'Rate Job'</span> line
+          to evaluate it.
+          <span className="text-red-500">*</span>
+        </span>
+      </div>
 
       {/* <Modal
         show={open}
