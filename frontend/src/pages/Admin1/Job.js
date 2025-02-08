@@ -146,7 +146,7 @@ export default function Job() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
-                      className="w-[50%] border border-red-400 bg-red-400 rounded-md hover:bg-red-500 cursor-pointer"
+                      className="w-[50%] border border-blue-400 bg-blue-400 rounded-md hover:bg-blue-500 cursor-pointer"
                       onClick={() => {
                         if (userType() === "admin") {
                           setSelectedJobId(currentJob._id);
@@ -190,8 +190,8 @@ export default function Job() {
               onClick={() => paginate(i + 1)}
               className={`mx-1 px-3 py-1 bg-${
                 selectedPage === i + 1 ? "yellow" : "white"
-              } text-black border hover:border-yellow-300 rounded ${
-                selectedPage === i + 1 ? "bg-yellow-200" : ""
+              } text-black border hover:border-blue-200 rounded ${
+                selectedPage === i + 1 ? "bg-blue-100" : ""
               }`}
             >
               {i + 1}
@@ -251,7 +251,7 @@ export default function Job() {
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-300 border border-transparent rounded-md hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-300 border border-transparent rounded-md hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={() => handleDelete()}
                   >
                     Delete

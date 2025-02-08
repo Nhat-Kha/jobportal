@@ -14,7 +14,7 @@ export default function SocialMedia() {
         Follow us on{" "}
         <a
           className="font-bold border-black hover:text-secondary"
-          href="https://www.instagram.com/kha_martin/"
+          href="https://www.instagram.com/ravindu chandrarathna/"
           target="_blank"
           rel="noreferrer"
         >
@@ -23,7 +23,7 @@ export default function SocialMedia() {
         and{" "}
         <a
           className="font-bold  border-black hover:text-secondary"
-          href="https://www.facebook.com/profile.php?id=100011056752898"
+          href="https://www.facebook.com/ravindu chandrarathna"
           target="_blank"
           rel="noreferrer"
         >
@@ -34,7 +34,7 @@ export default function SocialMedia() {
       <div className="w-10/12 mx-auto grid md:grid-cols-5 grid-cols-2 gap-5 ">
         <a
           className="transform ease-in duration-100 hover:-translate-y-2 "
-          href="https://www.facebook.com/profile.php?id=100011056752898"
+          href="https://www.facebook.com/ravindu chandrarathna"
           target="_blank"
           rel="noreferrer"
         >
@@ -47,7 +47,7 @@ export default function SocialMedia() {
 
         <a
           className="md:block hidden transform ease-in duration-100 hover:-translate-y-2"
-          href="https://www.instagram.com/kha_martin/"
+          href="https://www.instagram.com/ravindu chandraRATHNA/"
           target="_blank"
           rel="noreferrer"
         >
@@ -60,7 +60,7 @@ export default function SocialMedia() {
 
         <a
           className="transform ease-in duration-100 hover:-translate-y-2"
-          href="https://www.instagram.com/kha_martin/"
+          href="https://www.instagram.com/ravindu chandrarathna/"
           target="_blank"
           rel="noreferrer"
         >
@@ -72,7 +72,7 @@ export default function SocialMedia() {
         </a>
         <a
           className="transform ease-in duration-100 hover:-translate-y-2"
-          href="https://www.instagram.com/kha_martin/"
+          href="https://www.instagram.com/ravindu chandrarathna/"
           target="_blank"
           rel="noreferrer"
         >
@@ -85,7 +85,7 @@ export default function SocialMedia() {
 
         <a
           className="transform ease-in duration-100 hover:-translate-y-2 "
-          href="https://www.instagram.com/kha_martin/"
+          href="https://www.instagram.com/ravindu chnadrarathna/"
           target="_blank"
           rel="noreferrer"
         >

@@ -18,7 +18,7 @@ export default function HowItWorks() {
       {type === "recruiter" ? (
         <>
           <h1 className="md:text-6xl text-4xl font-bold text-center text-gray-900 ">
-            How <strong>JobPortal</strong> works for <strong>Recruiter</strong>
+            How <strong>Profile2Career</strong> works for <strong>Recruiter</strong>
           </h1>
           <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-14 md:py-40 md:pb-12 py-12   md:text-left text-center md:w-10/12 w-11/12  mx-auto ">
             <div>
@@ -68,14 +68,14 @@ export default function HowItWorks() {
                 Applicant apply
               </h1>
               <p className="text-xl font-light">
-                Our JOBPORTAL community allows users to discover and apply for
+                Our Profile2Carrer community allows users to discover and apply for
                 jobs.
               </p>
             </div>
 
             <div>
               <FontAwesomeIcon
-                className="text-5xl mb-6  text-yellow-400"
+                className="text-5xl mb-6  text-blue-400"
                 icon={faHandsHelping}
               />
               <div className="text-gray-900 text-md tracking-wide pb-2 uppercase font-semibold">
@@ -94,7 +94,7 @@ export default function HowItWorks() {
       ) : type === "applicant" ? (
         <>
           <h1 className="md:text-6xl text-4xl font-bold text-center text-gray-900 ">
-            How <strong>JobPortal</strong> works for <strong>Applicants</strong>
+            How <strong>Profile2Career</strong> works for <strong>Applicants</strong>
           </h1>
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-12 md:py-32 py-12  text-center md:w-10/12 w-11/12  mx-auto ">
             <div>
@@ -116,7 +116,7 @@ export default function HowItWorks() {
 
             <div>
               <FontAwesomeIcon
-                className="text-5xl mb-6 text-yellow-400"
+                className="text-5xl mb-6 text-blue-400"
                 icon={faHandPeace}
               />
               <div className="text-gray-900 text-md tracking-wide pb-2 uppercase font-semibold">
@@ -149,7 +149,7 @@ export default function HowItWorks() {
       ) : (
         <>
           <h1 className="md:text-6xl text-4xl font-bold text-center text-gray-900 ">
-            How <strong>JobPortal</strong> works
+            How <strong>Prrofile2Career</strong> works
           </h1>
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-12 md:py-32 py-12  text-center md:w-10/12 w-11/12  mx-auto ">
             <div>
@@ -171,7 +171,7 @@ export default function HowItWorks() {
 
             <div>
               <FontAwesomeIcon
-                className="text-5xl mb-6 text-yellow-400"
+                className="text-5xl mb-6 text-blue-400"
                 icon={faHandPeace}
               />
               <div className="text-gray-900 text-md tracking-wide pb-2 uppercase font-semibold">

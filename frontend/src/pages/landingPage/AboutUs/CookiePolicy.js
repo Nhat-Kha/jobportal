@@ -7,7 +7,7 @@ export default function CookiePolicy() {
         </h1>
 
         <p className="text-xl font-medium mb-10">
-          Last updated: 30 December, 2023
+          Last updated: 2 February, 2025
         </p>
         <p>
           This cookie policy explains what Cookies are and how we use them. This
@@ -150,8 +150,8 @@ export default function CookiePolicy() {
         <h2 className="text-3xl mb-4 mt-10">Contact us</h2>
         <p>
           If you have any questions, please contact{" "}
-          <span className="font-bold">Ricky(Kha)</span> by email at{" "}
-          <span className="font-bold">nhatkha06299@gmail.com</span>
+          <span className="font-bold">Ravindu</span> by email at{" "}
+          <span className="font-bold">ravinduchan15@gmail.com</span>
         </p>
       </div>
     </div>

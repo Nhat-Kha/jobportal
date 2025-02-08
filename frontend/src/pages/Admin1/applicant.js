@@ -208,7 +208,7 @@ export default function Applicant() {
                         </span>
                       ))
                     ) : (
-                      <span className="text-red-500">Not updated</span>
+                      <span className="text-blue-500">Not updated</span>
                     )}
                   </span>
                 </div>
@@ -227,7 +227,7 @@ export default function Applicant() {
                           </div>
                         ))
                       ) : (
-                        <span className="font-semibold text-red-500">
+                        <span className="font-semibold text-blue-500">
                           Not updated
                         </span>
                       )}
@@ -241,7 +241,7 @@ export default function Applicant() {
                       {new Date(applicant.dateOfBirth).toLocaleDateString()}
                     </span>
                   ) : (
-                    <span className="font-semibold text-red-500">
+                    <span className="font-semibold blue-red-500">
                       Not updated
                     </span>
                   )}
@@ -259,7 +259,7 @@ export default function Applicant() {
                   >
                     <FontAwesomeIcon
                       icon={faTrashCan}
-                      className="w-6 h-6 text-red-600"
+                      className="w-6 h-6 text-blue-600"
                     />
                   </Button>
                 </div>
@@ -276,8 +276,8 @@ export default function Applicant() {
                 onClick={() => paginate(i + 1)}
                 className={`mx-1 px-3 py-1 bg-${
                   selectedPage === i + 1 ? "yellow" : "white"
-                } text-black border hover:border-yellow-300 rounded ${
-                  selectedPage === i + 1 ? "bg-yellow-200" : ""
+                } text-black border hover:border-blue-200 rounded ${
+                  selectedPage === i + 1 ? "bg-blue-100" : ""
                 }`}
               >
                 {i + 1}
@@ -328,7 +328,7 @@ export default function Applicant() {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-300 border border-transparent rounded-md hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="mr-3 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-300 border border-transparent rounded-md hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={() => {
                         handleDelete(selectedUser?.userId);
                         console.log(selectedUser?.userId);

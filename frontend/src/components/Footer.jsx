@@ -9,14 +9,14 @@ import InputField from "./InputField";
 export default function Footer() {
   const linkUrl = useLocation();
   return (
-    <div className="bg-[#FFF5EC] text-whblackite text-left">
+    <div className="bg-[#FFFFFF] text-whblackite text-left">
       {!linkUrl.pathname.startsWith("/blog") && (
         <div className="w-10/12 mx-auto pt-20 pb-8 flex flex-col md:flex-row sm:flex-row space-y-2 justify-start">
           <div className="w-full sm:w-2/5 md:w-3/5 pr-6 flex flex-col space-y-2 pb-6 cursor-default">
             <Link className="flex pt-1" to="/">
               <img className="h-12 pb-2 " src={logo} alt="logo" />
               <h1 className="md:pl-2 pl-2 text-4xl text-black font-medium hover:opacity-60">
-                JobPortal
+                Profile2Career
               </h1>
             </Link>
             <p className="md:w-80 w-full text-lg font-medium -mt-2 ">
@@ -25,12 +25,12 @@ export default function Footer() {
 
             <a
               className="w-[220px] text-lg font-medium border-b-2 border-black hover:opacity-60"
-              href="mailto:nhatkha06299@gmail.com"
+              href="mailto:ravinduchan15@gmail.com"
             >
-              nhatkha06299@gmail.com
+              ravinduchan15@gmail.com
             </a>
             <span className="font-light">
-              Copyright © 2023 <span className="font-normal"> Nhat kha</span>{" "}
+              Copyright © 2024 <span className="font-normal"> Team 01</span>{" "}
               Design.
             </span>
           </div>
@@ -105,7 +105,7 @@ export default function Footer() {
           </div>
 
           <div className="w-full sm:w-1/5 md:w-2/5 flex flex-col space-y-2 pb-6">
-            <h1 className="text-2xl font-semibold">JobPortal</h1>
+            <h1 className="text-2xl font-semibold">Profile2Career</h1>
 
             <Link
               className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"
@@ -133,7 +133,7 @@ export default function Footer() {
             <h1 className="text-2xl font-semibold">Follow us</h1>
             <a
               className="w-28 font-semibold text-lg"
-              href="https://www.instagram.com/kha_martin/"
+              href="https://www.instagram.com/ravindu_chandrarathna/"
               target="_blank"
               rel="noreferrer"
             >
@@ -141,7 +141,7 @@ export default function Footer() {
             </a>
             <a
               className="w-28 opacity-80 hover:opacity-100 font-semibold text-lg"
-              href="https://github.com/Nhat-Kha"
+              href="https://github.com/Ravindu1015/project-group-01.git"
               target="_blank"
               rel="noreferrer"
             >
@@ -156,7 +156,7 @@ export default function Footer() {
             <Link className="flex pt-1" to="/">
               <img className="h-12 pb-2 " src={logo} alt="logo" />
               <h1 className="md:pl-2 pl-2 text-4xl text-black font-medium hover:opacity-60">
-                JobPortal
+                Profile2Career
               </h1>
               <FontAwesomeIcon icon={faBlog} />
             </Link>
@@ -168,8 +168,8 @@ export default function Footer() {
             </div>
             <div>
               <button
-                className="text-center transform hover:bg-yellow-400 transition duration-200
-              cursor-pointer font-bold text-md px-8 py-3 bg-yellow-300 rounded-xl text-black"
+                className="text-center transform hover:bg-blue-400 transition duration-200
+              cursor-pointer font-bold text-md px-8 py-3 bg-blue-300 rounded-xl text-black"
               >
                 Send mail
               </button>
@@ -177,7 +177,7 @@ export default function Footer() {
             <span className="break-all w-3/4">
               By providing your email address, you agree to the{" "}
               <strong>Terms of Service</strong> and{" "}
-              <strong>Privacy Policy</strong> of JobPortal regarding your
+              <strong>Privacy Policy</strong> of Profile2Career regarding your
               privacy information.
             </span>
             <div className="flex gap-4">
@@ -279,7 +279,7 @@ export default function Footer() {
           </div>
 
           <div className="w-full sm:w-1/5 md:w-2/5 flex flex-col space-y-2 pb-6">
-            <h1 className="text-2xl font-semibold">JobPortal</h1>
+            <h1 className="text-2xl font-semibold">Profile2Career</h1>
 
             <Link
               className="w-28 opacity-60 hover:opacity-100 font-semibold text-lg"

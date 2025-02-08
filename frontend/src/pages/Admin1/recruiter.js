@@ -83,8 +83,8 @@ export default function Recruiter() {
                 onClick={() => paginate(i + 1)}
                 className={`mx-1 px-3 py-1 bg-${
                   selectedPage === i + 1 ? "yellow" : "white"
-                } text-black border hover:border-yellow-300 rounded ${
-                  selectedPage === i + 1 ? "bg-yellow-200" : ""
+                } text-black border hover:border-blue-200 rounded ${
+                  selectedPage === i + 1 ? "bg-blue-100" : ""
                 }`}
               >
                 {i + 1}

@@ -75,7 +75,7 @@ export default function Recruiter(props) {
               </>
             ) : (
               <div className="pb-4">
-                <span className="font-bold text-lg text-red-500">
+                <span className="font-bold text-lg text-blue-500">
                   Banner is not available!
                 </span>
               </div>

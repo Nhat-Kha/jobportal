@@ -5,14 +5,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#FFDA5B",
+        primary: "#4598c5",
         // blue: "#EAA317",
-        secondary: "#FE645A",
+        secondary: "#30a9fa",
         bam: "#98ACFF",
-        brownish: "#F1EFE3",
+        brownish: "#afefff",
         light: "#F3F4F6",
-        lightYellow: "#FFF2C8",
-        star: "#FFC828",
+        lightYellow: "#71acbf",
+        star: "#71acbf",
         money: "#10a666",
       },
       backgroundColor: {

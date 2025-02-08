@@ -259,7 +259,7 @@ export default function JobAd({ job, tags, about, edit }) {
                 {" "}
                 <Rating
                   value={about.rating !== -1 ? about.rating : null}
-                  className="text-yellow-300"
+                  className="text-blue-300"
                   readonly
                 />
                 <span className="font-semibold">-</span>

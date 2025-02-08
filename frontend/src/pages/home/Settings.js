@@ -282,7 +282,7 @@ export default function Settings() {
 
         <div>
           <button
-            className="block w-full border p-3 rounded mb-4 bg-yellow-300"
+            className="block w-full border p-3 rounded mb-4 bg-blue-200"
             onClick={() => {
               setProfileDetails((prevDetails) => ({
                 ...prevDetails,
@@ -310,7 +310,7 @@ export default function Settings() {
 
         <div className="w-full mb-6">
           <h2 className="font-semibold text-xl py-4">
-            Avatar <span className="text-red-500">*</span>
+            Avatar <span className="text-blue-900">*</span>
           </h2>
           <div className="w-full">
             <label
@@ -350,7 +350,7 @@ export default function Settings() {
         <div>
           <div className="w-full mb-6">
             <h2 className="font-semibold text-xl py-4">
-              Resume <span className="text-red-500">*</span>
+              Resume <span className="text-blue-900">*</span>
             </h2>
             <form onSubmit={uploadResume}>
               <input

@@ -14,7 +14,7 @@ export default function LeaderboardCard({ user }) {
       );
     } else if (index === 3) {
       return (
-        <FontAwesomeIcon icon={faAward} className="text-yellow-600 text-4xl" />
+        <FontAwesomeIcon icon={faAward} className="text-blue-600 text-4xl" />
       );
     } else return <>{index}.</>;
   }
@@ -22,8 +22,8 @@ export default function LeaderboardCard({ user }) {
   const sortedJobs =
     user && user.length > 0
       ? user.sort(
-          (a, b) => new Date(a.dateOfPosting) - new Date(b.dateOfPosting)
-        )
+        (a, b) => new Date(a.dateOfPosting) - new Date(b.dateOfPosting)
+      )
       : [];
 
   console.log(user);

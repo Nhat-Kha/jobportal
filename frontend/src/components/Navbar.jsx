@@ -13,50 +13,20 @@ import Blog from "./blog/Blog";
 
 export default function Navbar() {
   const linkUrl = useLocation();
-  // const [themeToggleDarkIcon, setThemeToggleDarkIcon] = useState(null);
-  // const [themeToggleLightIcon, setThemeToggleLightIcon] = useState(null);
 
-  // useEffect(() => {
-  //   setThemeToggleDarkIcon(document.getElementById("theme-toggle-dark-icon"));
-  //   setThemeToggleLightIcon(document.getElementById("theme-toggle-light-icon"));
-  // }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     localStorage.getItem("color-theme") === "dark" ||
-  //     (!("color-theme" in localStorage) &&
-  //       window.matchMedia("(prefers-color-scheme: dark)").matches)
-  //   ) {
-  //     themeToggleLightIcon?.classList?.remove("hidden");
-  //   } else {
-  //     themeToggleDarkIcon?.classList?.remove("hidden");
-  //   }
-  // }, [themeToggleDarkIcon, themeToggleLightIcon]);
-
-  // const handleThemeToggle = () => {
-  //   // Toggle icons inside button
-  //   themeToggleDarkIcon?.classList?.toggle("hidden");
-  //   themeToggleLightIcon?.classList?.toggle("hidden");
-
-  //   // Toggle theme
-  //   const currentTheme = localStorage.getItem("color-theme") || "light";
-  //   const newTheme = currentTheme === "light" ? "dark" : "light";
-  //   document.documentElement.classList.toggle("dark", newTheme === "dark");
-  //   localStorage.setItem("color-theme", newTheme);
-  // };
 
   console.log(linkUrl);
 
   return (
-    <Disclosure as="nav" className="bg-[#FFF5EC] w-full">
+    <Disclosure as="nav" className="bg-[#FFFFFF] w-full">
       <>
         <div className="flex justify-between h-24 py-6 md:w-10/12 w-11/12 mx-auto">
           {linkUrl.pathname.startsWith("/blog") && (
             <div className="flex">
               <Link className="flex pt-1" to="/blog">
                 <img className="md:pl-5 pl-2" src={logo} alt="logo" />
-                <h1 className="md:pl-2 pl-2 text-2xl sm:text-2xl md:text-3xl text-[#F2994A] font-medium hover:opacity-60">
-                  JobPortal
+                <h1 className="md:pl-2 pl-2 text-2xl sm:text-2xl md:text-3xl text-[#4598c5] font-medium hover:opacity-60">
+                  Profile2Career
                 </h1>
                 <FontAwesomeIcon icon={faBlog} />
               </Link>
@@ -87,8 +57,8 @@ export default function Navbar() {
             <div className="flex">
               <Link className="flex pt-1" to="/">
                 <img className="md:pl-5 pl-2" src={logo} alt="logo" />
-                <h1 className="md:pl-2 pl-2 text-2xl sm:text-2xl md:text-3xl text-[#F2994A] font-medium hover:opacity-60">
-                  JobPortal
+                <h1 className="md:pl-2 pl-2 text-2xl sm:text-2xl md:text-3xl text-[#4598c5] font-medium hover:opacity-60">
+                  Profile2Career
                 </h1>
               </Link>
 
@@ -148,7 +118,7 @@ export default function Navbar() {
                       Sign in
                     </Link>
                     <Link
-                      className="lg:block hidden text-center transform ease-in duration-100 hover:-translate-y-1 hover:shadow-lg w-32 justify-center px-8 py-2 mb-1 bg-[#F2994A] text-white rounded-full text-lg font-semibold"
+                      className="lg:block hidden text-center transform ease-in duration-100 hover:-translate-y-1 hover:shadow-lg w-32 justify-center px-8 py-2 mb-1 bg-[#3d6ea9] text-white rounded-full text-lg font-semibold"
                       to="/sign-up"
                     >
                       Sign up
